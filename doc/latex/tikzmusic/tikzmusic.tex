@@ -974,7 +974,7 @@ You can also draw fermata:
 \end{tmsinglestaff}
 \end{dispExample}
 \section{Other in-line stuffs}\label{sec:inline}
-\subsection{Clefs}
+\subsection{Clefs}\label{sec:inline:clef}
 You can add a clef in-line using the following commands:
 \begin{docCommand}{tmgclef}{\oarg{shift}\marg{x-pos}}
   Add a treble clef at position \meta{x-pos}. The clef will be scaled down a bit 
@@ -1023,6 +1023,20 @@ of a staff to its main clef is $2$mm):
   \begin{tmstaff*}[]
     \tmcclef*[2]{.2}
   \end{tmstaff*}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsection{Breaths}\label{sec:inline:breaths}
+\begin{docCommand}{tmbreath}{\marg{x-pos}}
+  Add a breath mark (a comma) to position \meta{x-pos}.
+\end{docCommand}
+\begin{docCommand}{tmcaesura}{\marg{x-pos}}
+  Add a caesura to position \meta{x-pos}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmbreath{5}\tmcaesura{8}
+  \end{tmstaff}
 \end{tmsinglestaff}
 \end{dispExample}
 \section{Customizations}\label{sec:custom}
@@ -1260,6 +1274,75 @@ The pic name is the same with the name of the accidental: |tm-sharp|, |tm-flat|,
   \draw[ultra thin,red] (-.5,0) -- (4.5,0);
   \path (0,0) pic {tm-sharp} (1,0) pic {tm-flat} (2,0) pic {tm-natural} 
         (3,0) pic {tm-double-sharp} (4,0) pic {tm-double-flat};
+\end{tikzpicture}
+\end{dispExample}
+\subsubsection{Articulations}\label{sec:tikz:pic:articulations}
+Only fermata notations are drawn using pics. Other articulations are all drawn 
+using normal \tikzname\ commands. This is how those articulations are drawn 
+internally:
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=2,transform shape]
+  \draw[line width=.1pt,red] (-.5,0) -- (4.5,0);
+  \foreach \i in {0,1,2,3,4} \draw[line width=.1pt,red] (\i,.5) -- (\i,-.5);
+  \fill[shift={(0,0)}] (0,0) circle (.4mm);%staccato
+  \draw[shift={(1,0)}] (-.15,0) -- (.15,0);%tenuto
+  \draw[shift={(2,0)}] (-.18,.075) -- (.18,0) -- (-.18,-.075);%accent above
+  \fill[shift={(3,0)},rounded corners=.5pt] 
+    (0,.1) -- (-.04,-.075) to[out=-90,in=-90,looseness=2] (.04,-.075) -- cycle;%staccatissimo
+  \draw[shift={(4,0)},fill] 
+    (-.1,-.1) -- (0,.1) -- (.1,-.1) -- (.033333,-.1) -- (-.033333,.0333333);%marcato
+\end{tikzpicture}
+\end{dispExample}
+
+For the fermatas, we have |tm-fermata-above| and |tm-fermata-below|:
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=2,transform shape]
+  \draw[line width=.1pt,red] (-.5,0) -- (1.5,0) (0,-.5) -- (0,.5) (1,-.5) -- (1,.5);
+  \path (0,0) pic {tm-fermata-above} (1,0) pic {tm-fermata-below};
+\end{tikzpicture}
+\end{dispExample}
+\subsubsection{Ornaments}\label{sec:tikz:pic:ornaments}
+There are three pics to choose from: |tm-trill|, |tm-turn| and |tm-mordent|.
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=2,transform shape]
+  \draw[line width=.1pt,red] (-.5,0) -- (2.5,0);
+  \foreach \i in {0,1,2} \draw[line width=.1pt,red] (\i,.5) -- (\i,-.5);
+  \path (0,0) pic {tm-trill} (1,0) pic {tm-turn} (2,0) pic {tm-mordent};
+\end{tikzpicture}
+\end{dispExample}
+
+That |tm-mordent| is the `upper' mordent. To have the `lower' version, this is 
+how the package is drawing internally:
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=2,transform shape]
+  \draw[line width=.1pt,red] (-.5,0) -- (.5,0) (0,-.5) -- (0,.5);
+  \path (0,0) pic {tm-mordent};
+  \draw[line width=1pt] (0,-.15) -- (0,.15);
+\end{tikzpicture}
+\end{dispExample}
+\subsubsection{Breath mark}\label{sec:tikz:pic:breath}
+The comma is drawn using pic |tm-breath-mark|:
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=3,transform shape]
+  \draw[ultra thin,red] (-.5,0) -- (.5,0) (0,-.5) -- (0,.5);
+  \pic at (0,0) {tm-breath-mark};
+\end{tikzpicture}
+\end{dispExample}
+
+The caesura is not drawn using a pic, instead it is drawn using normal \tikzname\ 
+commands:
+
+\begin{dispExample}
+\begin{tikzpicture}[scale=2,transform shape]
+  \foreach \i in {-.4,-.2,0,.2,.4} \draw (-.5,\i) -- (.5,\i);
+  \fill[purple] 
+    (-.3,.2) -- (-.2,.2) -- (.1,.6) -- (0,.6) -- cycle
+    (-.1,.2) -- (0,.2) -- (.3,.6) -- (.2,.6) -- cycle;
 \end{tikzpicture}
 \end{dispExample}
 
