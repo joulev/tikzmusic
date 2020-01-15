@@ -1,12 +1,6 @@
 /.vscode
 /download
 /test
-<<<<<<< HEAD
-/fonts
-README
-/doc/_minted-tikzmusic
-=======
 /doc/latex/tikzmusic/_minted-tikzmusic
->>>>>>> Change development directory, switch to TDS format
 *.log
 TODO.md
