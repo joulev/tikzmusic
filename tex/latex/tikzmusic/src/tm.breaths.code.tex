@@ -1,5 +1,5 @@
-\def\tmbreath#1{\pic[color/.expanded=\tmcolor] at (#1,.4) {tm-breath-mark};}
-\def\tmcaesura#1{
-  \fill[color/.expanded=\tmcolor,shift={(#1,0)}] (-.3,.2) -- (-.2,.2) -- (.1,.6) -- (0,.6) -- cycle;
-  \fill[color/.expanded=\tmcolor,shift={(#1,0)}] (-.1,.2) -- (0,.2) -- (.3,.6) -- (.2,.6) -- cycle;
+\newcommand\tmbreath[2][0]{\pic[color/.expanded=\tmcolor,shift={(0,.4)}] at (#2,#1*.1) {tm-breath-mark};}
+\newcommand\tmcaesura[2][0]{
+  \fill[color/.expanded=\tmcolor,shift={(#2,#1*.1)}] (-.3,.2) -- (-.2,.2) -- (.1,.6) -- (0,.6) -- cycle;
+  \fill[color/.expanded=\tmcolor,shift={(#2,#1*.1)}] (-.1,.2) -- (0,.2) -- (.3,.6) -- (.2,.6) -- cycle;
 }

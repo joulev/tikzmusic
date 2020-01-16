@@ -1026,16 +1026,16 @@ of a staff to its main clef is $2$mm):
 \end{tmsinglestaff}
 \end{dispExample}
 \subsection{Breaths}\label{sec:inline:breaths}
-\begin{docCommand}{tmbreath}{\marg{x-pos}}
+\begin{docCommand}{tmbreath}{\oarg{shift}\marg{x-pos}}
   Add a breath mark (a comma) to position \meta{x-pos}.
 \end{docCommand}
-\begin{docCommand}{tmcaesura}{\marg{x-pos}}
+\begin{docCommand}{tmcaesura}{\oarg{shift}\marg{x-pos}}
   Add a caesura to position \meta{x-pos}.
 \end{docCommand}
 \begin{dispExample}
 \begin{tmsinglestaff}
   \begin{tmstaff}{g}
-    \tmbreath{5}\tmcaesura{8}
+    \tmbreath{4}\tmbreath[1]{5}\tmcaesura{8}\tmcaesura[-4]{9}
   \end{tmstaff}
 \end{tmsinglestaff}
 \end{dispExample}
