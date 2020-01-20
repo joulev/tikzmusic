@@ -1,0 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SLUR
+
+\def\tmslur{\@ifstar\tm@@slur\tm@slur}
+% Below
+\NewDocumentCommand\tm@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
+  \tm@note@getnote{#3}\coordinate (tm@slur@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+  \tm@note@getnote{#5}\coordinate (tm@slur@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1,mirror},very thick]
+    ([shift={(#2)}]tm@slur@aux1) -- ([shift={(#4)}]tm@slur@aux2);
+}
+% Above
+\NewDocumentCommand\tm@@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
+  \tm@note@getnote{#3}\coordinate (tm@slur@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+  \tm@note@getnote{#5}\coordinate (tm@slur@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick]
+    ([shift={(#2)}]tm@slur@aux1) -- ([shift={(#4)}]tm@slur@aux2);
+}
