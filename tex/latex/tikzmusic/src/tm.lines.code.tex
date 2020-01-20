@@ -4,15 +4,92 @@
 \def\tmslur{\@ifstar\tm@@slur\tm@slur}
 % Below
 \NewDocumentCommand\tm@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
-  \tm@note@getnote{#3}\coordinate (tm@slur@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-  \tm@note@getnote{#5}\coordinate (tm@slur@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+  \tm@note@getnote{#3}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+  \tm@note@getnote{#5}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
   \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1,mirror},very thick]
-    ([shift={(#2)}]tm@slur@aux1) -- ([shift={(#4)}]tm@slur@aux2);
+    ([shift={(#2)}]tm@line@aux1) -- ([shift={(#4)}]tm@line@aux2);
 }
 % Above
 \NewDocumentCommand\tm@@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
-  \tm@note@getnote{#3}\coordinate (tm@slur@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
-  \tm@note@getnote{#5}\coordinate (tm@slur@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+  \tm@note@getnote{#3}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+  \tm@note@getnote{#5}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
   \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick]
-    ([shift={(#2)}]tm@slur@aux1) -- ([shift={(#4)}]tm@slur@aux2);
+    ([shift={(#2)}]tm@line@aux1) -- ([shift={(#4)}]tm@line@aux2);
+}
+
+
+
+\def\tm@line@init#1#2{
+  \def\tm@note@min{52}
+  \def\tm@note@max{1}
+  \tm@note@getnote{#1}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff)}
+  \let\tm@note@min\pgfmathresult
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff)}
+  \let\tm@note@max\pgfmathresult
+  \pgfmathsetmacro\tm@line@posone{\tm@note@pos}
+  \tm@note@getnote{#2}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff)}
+  \let\tm@note@min\pgfmathresult
+  \pgfmathparse{min(\tm@note@max,\tm@note@max@diff)}
+  \let\tm@note@max\pgfmathresult
+  \pgfmathsetmacro\tm@line@postwo{\tm@note@pos}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CRESCENDO
+
+\def\tmcrescendo{\@ifstar\tm@@crescendo\tm@crescendo}
+% The hairpin
+\NewDocumentCommand\tm@crescendo{ O{0mm} O{3mm} m m }{
+  \tm@line@init{#3}{#4}
+  \coordinate (tm@line@aux1) at ([xshift=-2mm]\tm@line@posone,\tm@note@min*.1-.5);
+  \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+  \draw[yshift=#1] ([yshift={.5*#2}]tm@line@aux2) -- (tm@line@aux1) -- ([yshift={-.5*#2}]tm@line@aux2);
+}
+% The line
+\newcommand\tm@@crescendo[3][0mm]{
+  \tm@line@init{#2}{#3}
+  \coordinate (tm@line@aux1) at ([xshift=-2mm]\tm@line@posone,\tm@note@min*.1-.5);
+  \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+  \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
+  \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
+}
+% Custom coordinates
+\def\tmcrescendoline{\@ifstar\tm@@crescendoline\tm@crescendoline}
+\newcommand\tm@crescendoline[3][3mm]{
+  \draw ([yshift={.5*#1}]#3) -- (#2) -- ([yshift={-.5*#1}]#3);
+}
+\def\tm@@crescendoline#1#2{
+  \path (#1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
+  \draw[dashed] (tm@line@aux@node.base east) -- (#2);
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DIMINUENDO
+
+\def\tmdiminuendo{\@ifstar\tm@@diminuendo\tm@diminuendo}
+% The hairpin
+\NewDocumentCommand\tm@diminuendo{ O{0mm} O{3mm} m m }{
+  \tm@line@init{#3}{#4}
+  \coordinate (tm@line@aux1) at ([xshift=-2mm]\tm@line@posone,\tm@note@min*.1-.5);
+  \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+  \draw[yshift=#1] ([yshift={.5*#2}]tm@line@aux1) -- (tm@line@aux2) -- ([yshift={-.5*#2}]tm@line@aux1);
+}
+% The line
+\newcommand\tm@@diminuendo[3][0mm]{
+  \tm@line@init{#2}{#3}
+  \coordinate (tm@line@aux1) at ([xshift=-2mm]\tm@line@posone,\tm@note@min*.1-.5);
+  \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+  \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
+  \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
+}
+% Custom coordinates
+\def\tmdiminuendoline{\@ifstar\tm@@diminuendoline\tm@diminuendoline}
+\newcommand\tm@diminuendoline[3][3mm]{
+  \draw ([yshift={.5*#1}]#2) -- (#3) -- ([yshift={-.5*#1}]#2);
+}
+\def\tm@@diminuendoline#1#2{
+  \path (#1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
+  \draw[dashed] (tm@line@aux@node.base east) -- (#2);
 }
