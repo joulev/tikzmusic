@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SLUR
 
 \def\tmslur{\@ifstar\tm@@slur\tm@slur}
@@ -18,20 +18,24 @@
 }
 
 
+\newlength\tm@line@tail@x
+\newlength\tm@line@tail@y
 
 \def\tm@line@init#1#2{
-  \def\tm@note@min{52}
-  \def\tm@note@max{1}
+  \def\tm@note@min{-4}
+  \def\tm@note@max{4}
   \tm@note@getnote{#1}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff)}
+  \path (#1-tail); \pgfgetlastxy{\tm@line@tail@x}{\tm@line@tail@y}
+  \pgfmathsetmacro\tm@note@tail@diff{scalar(\tm@line@tail@y/1mm)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@diff)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff)}
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@diff)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@posone{\tm@note@pos}
   \tm@note@getnote{#2}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@diff)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{min(\tm@note@max,\tm@note@max@diff)}
+  \pgfmathparse{min(\tm@note@max,\tm@note@max@diff,\tm@note@tail@diff)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@postwo{\tm@note@pos}
 }

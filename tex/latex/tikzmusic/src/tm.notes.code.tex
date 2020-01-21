@@ -58,6 +58,7 @@
     \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
     \tm@whole[#1]{#2}{\tm@note@diff}
     \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
+    \coordinate (#4-tail) at (#2,.1*\tm@note@diff);
   }
   \coordinate (#4-center) at (#2,0);
 }
