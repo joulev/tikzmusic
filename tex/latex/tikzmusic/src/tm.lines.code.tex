@@ -135,3 +135,92 @@
       (tm@line@auxnode.north west -| tm@line@aux2);
   \end{scope}
 }
+% Custom coordinates
+\def\tmvoltaline{\@ifstar\tm@@voltaline\tm@voltaline}
+% \tm@voltaline{y}{x1}{x2}{n}
+\def\tm@voltaline#1#2#3#4{
+  \coordinate (tm@line@aux1) at (#2,#1);
+  \coordinate (tm@line@aux2) at (#3,#1);
+  \begin{scope}[color/.expanded=\tmcolor]
+    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+      (tm@line@auxnode.north west -| tm@line@aux2) -- 
+      (tm@line@auxnode.south west -| tm@line@aux2);
+  \end{scope}
+}
+\def\tm@@voltaline#1#2#3#4{
+  \coordinate (tm@line@aux1) at (#2,#1);
+  \coordinate (tm@line@aux2) at (#3,#1);
+  \begin{scope}[color/.expanded=\tmcolor]
+    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+      (tm@line@auxnode.north west -| tm@line@aux2);
+  \end{scope}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% OCTAVE LINES
+
+\def\tm@octave#1#2#3{
+  \ifstrequal{#3}{8va}{
+    \coordinate (tm@octave@aux1) at ([xshift=6mm]#1);
+    \coordinate (tm@octave@aux2) at (#2);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-8va};
+      \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
+      \draw (tm@octave@aux2) -- ++ (0,-.3);
+    \end{scope}
+  }{}
+  \ifstrequal{#3}{8vb}{
+    \coordinate (tm@octave@aux1) at ([xshift=2.5mm]#1);
+    \coordinate (tm@octave@aux2) at (#2);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-8vb};
+      \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
+      \draw (tm@octave@aux2) -- ++ (0,.3);
+    \end{scope}
+  }{}
+  \ifstrequal{#3}{15ma}{
+    \coordinate (tm@octave@aux1) at ([xshift=8mm]#1);
+    \coordinate (tm@octave@aux2) at (#2);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-15ma};
+      \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
+      \draw (tm@octave@aux2) -- ++ (0,-.3);
+    \end{scope}
+  }{}
+  \ifstrequal{#3}{15mb}{
+    \coordinate (tm@octave@aux1) at ([xshift=3.5mm]#1);
+    \coordinate (tm@octave@aux2) at (#2);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-15mb};
+      \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
+      \draw (tm@octave@aux2) -- ++ (0,.3);
+    \end{scope}
+  }{}
+}
+\newcommand\tmoctave[4][0mm]{
+  \begin{scope}[yshift=#1]
+    \tm@line@init{#2}{#3}
+    \ifstrequal{#4}{8va}{
+      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@max*.1+.5);
+      \tm@octave{tm@line@aux1}{tm@line@aux2}{8va}
+    }{}
+    \ifstrequal{#4}{8vb}{
+      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+      \tm@octave{tm@line@aux1}{tm@line@aux2}{8vb}
+    }{}
+    \ifstrequal{#4}{15ma}{
+      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@max*.1+.5);
+      \tm@octave{tm@line@aux1}{tm@line@aux2}{15ma}
+    }{}
+    \ifstrequal{#4}{15mb}{
+      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+      \tm@octave{tm@line@aux1}{tm@line@aux2}{15mb}
+    }{}
+  \end{scope}
+}
