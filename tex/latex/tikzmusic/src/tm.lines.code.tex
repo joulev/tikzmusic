@@ -24,18 +24,26 @@
 \def\tm@line@init#1#2{
   \def\tm@note@min{-4}
   \def\tm@note@max{4}
+  \def\tm@note@tail@min{52}
+  \def\tm@note@tail@max{1}
+  %
   \tm@note@getnote{#1}
   \path (#1-tail); \pgfgetlastxy{\tm@line@tail@x}{\tm@line@tail@y}
-  \pgfmathsetmacro\tm@note@tail@diff{scalar(\tm@line@tail@y/1mm)}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@diff)}
+  \pgfmathsetmacro\tm@note@tail@min{min(scalar(\tm@line@tail@y/1mm),\tm@note@tail@min)}
+  \pgfmathsetmacro\tm@note@tail@max{max(scalar(\tm@line@tail@y/1mm),\tm@note@tail@max)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@min)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@diff)}
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@max)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@posone{\tm@note@pos}
+  %
   \tm@note@getnote{#2}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@diff)}
+  \path (#2-tail); \pgfgetlastxy{\tm@line@tail@x}{\tm@line@tail@y}
+  \pgfmathsetmacro\tm@note@tail@min{min(scalar(\tm@line@tail@y/1mm),\tm@note@tail@min)}
+  \pgfmathsetmacro\tm@note@tail@max{max(scalar(\tm@line@tail@y/1mm),\tm@note@tail@max)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@min)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@diff)}
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@max)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@postwo{\tm@note@pos}
 }
