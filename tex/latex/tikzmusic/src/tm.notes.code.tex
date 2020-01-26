@@ -81,10 +81,10 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@max\endcsname{\tm@note@max@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@min\endcsname{\tm@note@min@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@avg\endcsname{\tm@note@average@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@pos\endcsname{#2}
+  \pgfmathparse{\tm@note@max@diff}\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@min@diff}\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@average@diff}\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -348,10 +348,10 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@max\endcsname{\tm@note@max@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@min\endcsname{\tm@note@min@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@avg\endcsname{\tm@note@average@diff}
-  \expandafter\pgfmathsetmacro\csname tm@note@#4@pos\endcsname{#2}
+  \pgfmathparse{\tm@note@max@diff}\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@min@diff}\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@average@diff}\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
 }
 \newcommand\tm@beam@head@max[4][center]{
   \tm@beam@head[#1]{#2}{#3}{#4}
