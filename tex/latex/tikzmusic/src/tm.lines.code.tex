@@ -232,3 +232,8 @@
     }{}
   \end{scope}
 }
+% Custom coordinates
+\def\tmoctaveline#1#2#3{
+  \path (#1) coordinate (tm@line@aux1) (#2) coordinate (tm@line@aux2);
+  \tm@octave{tm@line@aux1}{tm@line@aux2}{#3}
+}
