@@ -427,7 +427,8 @@
   \foreach \tm@i in \tm@beam@array {
     \path (intersection cs:first line={(\tm@i-@aux1) -- (\tm@i-@aux2)},second line={(tm@a)--(tm@b)})
       coordinate (\tm@i-beamintersection);
-    \draw[color/.expanded=\tmcolor] (\tm@i-@aux1) -- (\tm@i-beamintersection);
+    \draw[color/.expanded=\tmcolor] (\tm@i-@aux1) -- (\tm@i-beamintersection) 
+      coordinate (\tm@i-tail);
   }
   \foreach \tm@i [remember=\tm@i as \tm@j (initially \tm@beam@first@index)] in \tm@beam@array {
     \def\tm@beam@j@flags{\expandafter\csname tm@beam@numberofflags@\tm@j\endcsname}
