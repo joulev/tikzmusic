@@ -356,13 +356,13 @@
 \newcommand\tm@beam@head@max[4][center]{
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmax{\tm@note@max}{#4}
-  \coordinate (#4-@aux1) at (#2+\tm@notewidth,\tm@note@max@diff*.1);
+  \coordinate (#4-@aux1) at (#2+\tm@notewidth,\tm@note@min@diff*.1);
   \coordinate (#4-@aux2) at ([yshift=\tmnotelength]#2+\tm@notewidth,\tm@note@max@diff*.1);
 }
 \newcommand\tm@beam@head@min[4][center]{
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmin{\tm@note@min}{#4}
-  \coordinate (#4-@aux1) at (#2-\tm@notewidth,\tm@note@min@diff*.1);
+  \coordinate (#4-@aux1) at (#2-\tm@notewidth,\tm@note@max@diff*.1);
   \coordinate (#4-@aux2) at ([yshift=-\tmnotelength]#2-\tm@notewidth,\tm@note@min@diff*.1);
 }
 
