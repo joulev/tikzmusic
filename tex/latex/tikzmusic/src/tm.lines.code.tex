@@ -237,3 +237,37 @@
   \path (#1) coordinate (tm@line@aux1) (#2) coordinate (tm@line@aux2);
   \tm@octave{tm@line@aux1}{tm@line@aux2}{#3}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PEDAL LINES
+
+\def\tmpedal{\@ifstar\tm@@pedal\tm@pedal}
+% Not starred
+\newcommand\tm@pedal[3][0mm]{
+  \tm@line@init{#2}{#3}
+  \ifstrequal{#2}{#3}{
+    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
+  }{
+    \coordinate (tm@line@aux1) at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
+      \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
+    \end{scope}
+  }
+}
+% Starred
+\newcommand\tm@@pedal[3][0mm]{
+  \tm@line@init{#2}{#3}
+  \ifstrequal{#2}{#3}{
+    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
+    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star}
+  }{
+    \coordinate (tm@line@aux1) at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
+      \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tmcolor] {tm-ped-star};
+    \end{scope}
+  }
+}
