@@ -31,9 +31,9 @@
   \path (#1-tail); \pgfgetlastxy{\tm@line@tail@x}{\tm@line@tail@y}
   \pgfmathsetmacro\tm@note@tail@min{min(scalar(\tm@line@tail@y/1mm),\tm@note@tail@min)}
   \pgfmathsetmacro\tm@note@tail@max{max(scalar(\tm@line@tail@y/1mm),\tm@note@tail@max)}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@min)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff-1,\tm@note@tail@min)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@max)}
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff+1,\tm@note@tail@max)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@posone{\tm@note@pos}
   %
@@ -41,9 +41,9 @@
   \path (#2-tail); \pgfgetlastxy{\tm@line@tail@x}{\tm@line@tail@y}
   \pgfmathsetmacro\tm@note@tail@min{min(scalar(\tm@line@tail@y/1mm),\tm@note@tail@min)}
   \pgfmathsetmacro\tm@note@tail@max{max(scalar(\tm@line@tail@y/1mm),\tm@note@tail@max)}
-  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff,\tm@note@tail@min)}
+  \pgfmathparse{min(\tm@note@min,\tm@note@min@diff-1,\tm@note@tail@min)}
   \let\tm@note@min\pgfmathresult
-  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff,\tm@note@tail@max)}
+  \pgfmathparse{max(\tm@note@max,\tm@note@max@diff+1,\tm@note@tail@max)}
   \let\tm@note@max\pgfmathresult
   \pgfmathsetmacro\tm@line@postwo{\tm@note@pos}
 }
@@ -261,10 +261,35 @@
   \tm@line@init{#2}{#3}
   \ifstrequal{#2}{#3}{
     \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
-    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star}
+    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star};
   }{
     \coordinate (tm@line@aux1) at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
     \coordinate (tm@line@aux2) at ([yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
+      \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tmcolor] {tm-ped-star};
+    \end{scope}
+  }
+}
+% Custom coordinates
+\def\tmpedalline{\@ifstar\tm@@pedalline\tm@pedalline}
+\def\tm@pedalline#1#2{
+  \ifstrequal{#1}{#2}{\pic[color/.expanded=\tmcolor] at (#1) {tm-ped};}{
+    \coordinate (tm@line@aux1) at (#1);
+    \coordinate (tm@line@aux2) at (#2);
+    \begin{scope}[color/.expanded=\tmcolor]
+      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
+      \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
+    \end{scope}
+  }
+}
+\def\tm@@pedalline#1#2{
+  \ifstrequal{#1}{#2}{
+    \pic[color/.expanded=\tmcolor] at (#1) {tm-ped};
+    \pic[color/.expanded=\tmcolor] at (#2) {tm-ped-star};
+  }{
+    \coordinate (tm@line@aux1) at (#1);
+    \coordinate (tm@line@aux2) at (#2);
     \begin{scope}[color/.expanded=\tmcolor]
       \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
       \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tmcolor] {tm-ped-star};
