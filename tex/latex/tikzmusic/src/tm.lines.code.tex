@@ -16,7 +16,20 @@
   \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick,color/.expanded=\tmcolor]
     ([shift={(#2)}]tm@line@aux1) -- ([shift={(#4)}]tm@line@aux2);
 }
-
+% Custom coordinates
+\def\tmslurline{\@ifstar\tm@@slurline\tm@slurline}
+\newcommand\tm@slurline[3][2.5mm]{
+  \coordinate (tm@line@aux1) at (#2);
+  \coordinate (tm@line@aux2) at (#3);
+  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1,mirror},very thick,color/.expanded=\tmcolor]
+    (tm@line@aux1) -- (tm@line@aux2);
+}
+\newcommand\tm@@slurline[3][2.5mm]{
+  \coordinate (tm@line@aux1) at (#2);
+  \coordinate (tm@line@aux2) at (#3);
+  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick,color/.expanded=\tmcolor]
+    (tm@line@aux1) -- (tm@line@aux2);
+}
 
 \newlength\tm@line@tail@x
 \newlength\tm@line@tail@y
