@@ -34,8 +34,6 @@
 }
 
 \usepackage{tikzmusic}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.16}
 
 \usepackage{fancyvrb}
 \DefineShortVerb{\|}
@@ -64,13 +62,9 @@
 
 \title{The \tmname\ package}
 \author{Vũ Văn Dũng}
-\date{Last compiled: \today}
+\date{Manual for version \tmversion\\Last compiled \today}
 \begin{document}
 \maketitle
-\begin{abstract}
-  This package will help you make music scores inside a \LaTeX\ document. All 
-  drawings will be done by the amazing \tikzname\ package.
-\end{abstract}
 \begin{caution}
   This package is still very experimental, uncompleted and lack of many important 
   features. Its syntax can change at any time. Only use it if you have good 
@@ -89,8 +83,8 @@ include the following line
 \end{dispListing}
 inside your document preamble.
 
-This package will automatically load the the packages \pkg{xparse}, \pkg{etoolbox}, 
-\pkg{xstring} and \tikzname, as well as \tikzname\ standard libraries |calc|, 
+This package will automatically load the the packages \pkg{xparse}, \pkg{etoolbox} 
+and \tikzname, as well as \tikzname\ standard libraries |calc|, 
 |intersection|, |decorations.pathreplacing|. The \tikzname\ library |calligraphy| 
 is also loaded. You don't need to load these packages and libraries again in your 
 document.
@@ -619,7 +613,16 @@ use \refCom*{tmappendaccidental} to add the accidentals.
 
 The package will automatically detect which staff you are using, when you use 
 these values.
+\subsubsection{Note names}\label{sec:music-notes:commands:note-names}
+It is very possible that a note will be refered to later in the staff (to add 
+notations to it, etc.). In this package, to refer to notes, we will use note 
+\emph{names}. Just like \tikzname\ node names, etc. -- you can leave the name 
+empty if you want, but you will not be able to communicate with that unnamed note 
+any time later in the document.
 
+However, because of the algorithm behind the scene, you can only use letters to 
+name the notes. Using numbers and non-letter characters will not result in errors, 
+but it will produce unexpectedly weird output.
 \subsubsection{Whole notes}\label{sec:music-notes:commands:whole}
 \begin{docCommand}{tmwhole}{\oarg{relative position}\marg{x-pos}\marg{note value list}\marg{name}}
   Add a set of whole notes at $x$-position \meta{x-pos}. Each value in the 
@@ -962,14 +965,229 @@ You can also draw fermata:
   Alias of \refCom*{tmmordent*}.
 \end{docCommand}
 \begin{dispExample}
-%\usepackage{pgfplots}
-%\pgfplotsset{compat=1.16}
 \begin{tmsinglestaff}
   \begin{tmstaff}{g}
-    \pgfplotsforeachungrouped \i in {2,4,6,8,10,12} {\tmquarter{\i}{C5}{q-\i}}
-    \tmtrill{q-2}\tmturn{q-4}
-    \tmmordent{q-6}\tmuppermordent{q-8}
-    \tmmordent*{q-10}\tmlowermordent{q-12}
+    \tmquarter{2}{C5}{a} \tmquarter{4}{C5}{b} \tmquarter{6}{C5}{c}
+    \tmquarter{8}{C5}{d} \tmquarter{10}{C5}{e}\tmquarter{12}{C5}{f}
+    \tmtrill{a}\tmturn{b}\tmmordent{c}
+    \tmuppermordent{d}\tmmordent*{e}\tmlowermordent{f}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\section{Lines}\label{sec:line}
+\subsection{Slur}\label{sec:line:slur-tie}
+\begin{docCommand}{tmslur}{\oarg{amplitude}\oarg{shift 1}\marg{note 1}\oarg{shift 2}\marg{note 2}}
+  Draw a slur joining \meta{note 1} and \meta{note 2}. The slur will join the 
+  \emph{lowest} notes of the two note set.
+  
+  The starting and ending 
+  coordinates will be automatically calculated, but you can shift it by using 
+  \meta{shift 1} and \meta{shift 2}, which are \tikzname\ coordinates without 
+  parentheses, i.e. |1,2| or |2mm,-1mm|, etc.
+
+  \meta{amplitude} is the ``amplitude'' of the curve. It is set to |2.5mm| by 
+  default.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{3}{C4}{a}\tmquarter{5}{D4}{b}\tmslur{a}{b}
+    \tmquarter{7}{C4}{a}\tmquarter{9}{D4}{b}\tmslur[1.5mm][0,-1mm]{a}[-1mm,-1mm]{b}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmslur*}{\oarg{amplitude}\oarg{shift 1}\marg{note 1}\oarg{shift 2}\marg{note 2}}
+  Identical to \refCom*{tmslur}, only the slur will join the \emph{highest} notes.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{3}{C5}{a}\tmquarter{5}{D5}{b}\tmslur*{a}{b}
+    \tmquarter{7}{C5}{a}\tmquarter{9}{D5}{b}\tmslur*[1.5mm][0,1mm]{a}[-1mm,1mm]{b}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmslurline}{\oarg{amplitude}\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a slur from \meta{coordinate 1} to \meta{coordinate 2}. The slur will go 
+  down and then go up.
+\end{docCommand}
+\begin{docCommand}{tmslurline*}{\oarg{amplitude}\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a slur from \meta{coordinate 1} to \meta{coordinate 2}. The slur will go 
+  up and then go down.\footnote{Not being a native speaker, I can't find an 
+  appropriate English word for this :).}
+\end{docCommand}
+You can use these two commands to tie two notes. It is still quite a pain, though. 
+\colOpt{\textsc{todo}}.
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{4}{C4,E4,G4}{a}\tmquarter{7}{C4,E4,G4}{b}
+    \tmslurline[1.5mm] {[shift={(2mm,-1.5mm)}]a-C4}{[shift={(-2mm,-1.5mm)}]b-C4}
+    \tmslurline[1.5mm] {[shift={(2mm,-1.5mm)}]a-E4}{[shift={(-2mm,-1.5mm)}]b-E4}
+    \tmslurline*[1.5mm]{[shift={(2mm, 1.5mm)}]a-G4}{[shift={(-2mm, 1.5mm)}]b-G4}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsection{Crescendo and Diminuendo}\label{sec:line:cresc-dim}
+\subsubsection{Crescendo}\label{sec:line:cresc-dim:cresc}
+\begin{docCommand}{tmcrescendo}{\oarg{shift}\oarg{spacing}\marg{note 1}\marg{note 2}}
+  Draw a crescendo hairpin between \meta{note 1} and \meta{note 2}. \meta{shift} 
+  and \meta{spacing} work as illustrated in the following example.
+
+  \meta{spacing} is set to |3mm| by default.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{2}{C5}{a} \tmquarter{4}{D5}{b} \tmcrescendo{a}{b}
+    \tmquarter{6}{C5}{a} \tmquarter{8}{D5}{b} \tmcrescendo[-5mm]{a}{b}
+    \tmquarter{10}{C5}{a}\tmquarter{12}{D5}{b}\tmcrescendo[0mm][5mm]{a}{b}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmcrescendo*}{\oarg{shift}\marg{note 1}\marg{note 2}}
+  Draw a crescendo line between \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{2}{C5}{a} \tmquarter{4}{D5}{b} \tmcrescendo*{a}{b}
+    \tmquarter{6}{C5}{a} \tmquarter{8}{D5}{b} \tmcrescendo*[-5mm]{a}{b}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmcrescendoline}{\oarg{spacing}\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a crescendo hairpin between \meta{coordinate 1} and \meta{coordinate 2}. 
+  The coordinates do \emph{not} include parentheses.
+  As in \refCom*{tmcrescendo}, \meta{spacing} is set to |3mm| by default.
+\end{docCommand}
+\begin{docCommand}{tmcrescendoline*}{\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a crescendo line between \meta{coordinate 1} and \meta{coordinate 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmcrescendoline{1.5,-1}{\linewidth-2mm,-1}
+    \tmcrescendoline*{1.5,-1.5}{\linewidth-2mm,-1.5}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsubsection{Diminuendo}\label{sec:line:cresc-dim:dim}
+All commands are just like in crescendo (section \ref{sec:line:cresc-dim:cresc}).
+\begin{docCommand}{tmdiminuendo}{\oarg{shift}\oarg{spacing}\marg{note 1}\marg{note 2}}
+  Add a diminuendo hairpin between \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{docCommand}{tmdiminuendo*}{\oarg{shift}\marg{note 1}\marg{note 2}}
+  Add a diminuendo line between \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{docCommand}{tmdiminuendoline}{\oarg{spacing}\marg{coordinate 1}\marg{coordinate 2}}
+  Add a diminuendo hairpin between \meta{coordinate 1} and \meta{coordinate 2}.
+\end{docCommand}
+\begin{docCommand}{tmdiminuendoline*}{\marg{coordinate 1}\marg{coordinate 2}}
+  Add a diminuendo line between \meta{coordinate 1} and \meta{coordinate 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{2}{C4}{a}\tmquarter{4}{G3}{b}\tmdiminuendo{a}{b}
+    \tmquarter{5}{C4}{a}\tmquarter{7}{G3}{b}\tmdiminuendo*{a}{b}
+    \tmdiminuendoline{8,-1}{10,-1}\tmdiminuendoline*{11,-1}{13,-1}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsection{Volta}\label{sec:line:volta}
+\begin{docCommand}{tmvolta}{\oarg{shift}\marg{note 1}\marg{note 2}\marg{number}}
+  Draw a \emph{closed} volta line between \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{docCommand}{tmvolta*}{\oarg{shift}\marg{note 1}\marg{note 2}\marg{number}}
+  Draw an \emph{unclosed} volta line between \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmbarlineinline{4}
+    \tmquarter{5}{C4}{a}\tmquarter{6}{D4}{}\tmquarter{7}{E4}{b}
+    \tmendrepeatbarlineinline{8}
+    \tmquarter{9}{F4}{c}\tmquarter{10}{G4}{}\tmquarter{11}{A4}{d}
+    \tmvolta{a}{b}{1}\tmvolta*{c}{d}{2}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmvoltaline}{\marg{y-coordinate}\marg{x-coordinate 1}\marg{x-coordinate 2}\marg{number}}
+  Draw a \emph{closed} volta line between coordinate 
+  |(|\meta{x-coordinate 1}|,|\meta{y-coordinate}|)| and coordinate 
+  |(|\meta{x-coordinate 2}|,|\meta{y-coordinate}|)|.
+\end{docCommand}
+\begin{docCommand}{tmvoltaline*}{\marg{y-coordinate}\marg{x-coordinate 1}\marg{x-coordinate 2}\marg{number}}
+  Identical to \refCom*{tmvoltaline}, only the line is unclosed.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmbarlineinline{4}
+    \tmquarter{5}{C4}{}\tmquarter{6}{D4}{}\tmquarter{7}{E4}{}
+    \tmendrepeatbarlineinline{8}
+    \tmquarter{9}{F4}{}\tmquarter{10}{G4}{}\tmquarter{11}{A4}{}
+    \tmvoltaline{1}{4.1}{7.9}{1}\tmvoltaline*{1}{8.1}{10.5}{2}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsection{Octave lines}\label{sec:line:octave}
+\begin{docCommand}{tmoctave}{\oarg{shift}\marg{note 1}\marg{note 2}\marg{type}}
+  Draw an octave line between \meta{note 1} and \meta{note 2}. \meta{type} can 
+  be one of the following values: |8va|, |8vb|, |15ma|, |15mb|.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{4}{C4}{a} \tmquarter{5}{D4}{b} \tmoctave{a}{b}{8va}
+    \tmquarter{6}{E4}{a} \tmquarter{7}{F4}{b} \tmoctave{a}{b}{8vb}
+    \tmquarter{8}{G4}{a} \tmquarter{9}{A4}{b} \tmoctave{a}{b}{15ma}
+    \tmquarter{10}{B4}{a}\tmquarter{11}{C5}{b}\tmoctave{a}{b}{15mb}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmoctaveline}{\marg{coordinate 1}\marg{coordinate 2}\marg{type}}
+  Draw an octave line between \meta{coordinate 1} and \meta{coordinate 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmoctaveline{1,1}{\linewidth-2mm,1}{8va}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\subsection{Pedal lines}\label{sec:line:ped}
+\begin{docCommand}{tmpedal}{\oarg{shift}\marg{note 1}\marg{note 2}}
+  Draw a pedal line not ended with a star (\tikz\pic{tm-ped-star};) between 
+  \meta{note 1} and \meta{note 2}.
+\end{docCommand}
+\begin{docCommand}{tmpedal*}{\oarg{shift}\marg{note 1}\marg{note 2}}
+  Draw a pedal line ended with a star between \meta{note 1} and \meta{note 2}
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmquarter{2}{C4}{a}\tmquarter{4}{D4}{b}\tmpedal{a}{b}
+    \tmquarter{6}{E4}{a}\tmpedal{a}{a}
+    \tmquarter{8}{C4}{a}\tmquarter{10}{D4}{b}\tmpedal*{a}{b}
+    \tmquarter{12}{E4}{a}\tmpedal*{a}{a}
+  \end{tmstaff}
+\end{tmsinglestaff}
+\end{dispExample}
+\begin{docCommand}{tmpedalline}{\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a pedal line not ended with a star between \meta{coordinate 1} and 
+  \meta{coordinate 2}.
+\end{docCommand}
+\begin{docCommand}{tmpedalline*}{\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a pedal line ended with a star between \meta{coordinate 1} and 
+  \meta{coordinate 2}.
+\end{docCommand}
+\begin{dispExample}
+\begin{tmsinglestaff}
+  \begin{tmstaff}{g}
+    \tmpedalline{2,-1}{4,-1}\tmpedalline{6,-1}{6,-1}
+    \tmpedalline*{8,-1}{10,-1}\tmpedalline*{12,-1}{12,-1}
   \end{tmstaff}
 \end{tmsinglestaff}
 \end{dispExample}

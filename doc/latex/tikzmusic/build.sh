@@ -23,6 +23,9 @@ xelatex --shell-escape ${FILENAME}
 echo -e "\n${CYAN}XeLaTeX (4)${NC}\n"
 xelatex --shell-escape ${FILENAME}
 
+echo -e "\n${CYAN}XeLaTeX (5)${NC}\n"
+xelatex --shell-escape ${FILENAME}
+
 echo -e "\n${CYAN}Removing files${NC}\n"
 rm -f \
 	*.aux \
