@@ -81,10 +81,14 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
-  \pgfmathparse{\tm@note@min@diff}\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
-  \pgfmathparse{\tm@note@average@diff}\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
-  \global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
+  \pgfmathparse{\tm@note@max@diff}%\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
+  \pgfmathparse{\tm@note@min@diff}%\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
+  \pgfmathparse{\tm@note@average@diff}%\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
+  %\global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -348,10 +352,13 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
-  \pgfmathparse{\tm@note@min@diff}\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
-  \pgfmathparse{\tm@note@average@diff}\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
-  \global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
+  \pgfmathparse{\tm@note@max@diff}%\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
+  \pgfmathparse{\tm@note@min@diff}%\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
+  \pgfmathparse{\tm@note@average@diff}%\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
 }
 \newcommand\tm@beam@head@max[4][center]{
   \tm@beam@head[#1]{#2}{#3}{#4}
@@ -648,8 +655,15 @@
 % GET NOTES
 
 \def\tm@note@getnote#1{
-  \pgfmathtruncatemacro\tm@note@average@diff{\csname tm@note@#1@avg\endcsname}
-  \pgfmathtruncatemacro\tm@note@min@diff{\csname tm@note@#1@min\endcsname}
-  \pgfmathtruncatemacro\tm@note@max@diff{\csname tm@note@#1@max\endcsname}
-  \pgfmathtruncatemacro\tm@note@pos{\csname tm@note@#1@pos\endcsname}
+  \@ifundefined{tm@note@\detokenize{#1}@avg}{
+    \PackageError{tikzmusic}{No note named `#1' is known}{%
+      You are referring to note `#1', but probably you \MessageBreak
+      haven't defined that note yet. I can't do anything \MessageBreak
+      for now.}
+  }{
+    \pgfmathtruncatemacro\tm@note@average@diff{\@nameuse{tm@note@\detokenize{#1}@avg}}
+    \pgfmathtruncatemacro\tm@note@min@diff{\@nameuse{tm@note@\detokenize{#1}@min}}
+    \pgfmathtruncatemacro\tm@note@max@diff{\@nameuse{tm@note@\detokenize{#1}@max}}
+    \pgfmathtruncatemacro\tm@note@pos{\@nameuse{tm@note@\detokenize{#1}@pos}}
+  }
 }
