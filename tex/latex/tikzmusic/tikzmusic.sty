@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{tikzmusic}[2020-01-28 Drawing sheet musics in LaTeX with TikZ]
+\ProvidesPackage{tikzmusic}[2020/01/28 Drawing sheet musics in LaTeX with TikZ]
 \RequirePackage{xparse}
 \RequirePackage{etoolbox}
 \RequirePackage{tikz}
@@ -7,6 +7,5 @@
 \usetikzlibrary{intersections}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{calligraphy}
-\def\tmversion{0.0}
-\def\tmreleasedate{Not released}
+\input{tm.keys.code.tex}
 \input{tm.code.tex}

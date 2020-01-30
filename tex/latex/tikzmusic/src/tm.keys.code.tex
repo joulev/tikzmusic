@@ -1,0 +1,11 @@
+\def\tmset#1{\pgfkeys{/tm/.is family,#1}}
+\tmset{
+  color/.store in=\tmcolor,
+  color/.initial=black,
+  color/.get=\tmcolor,
+  color/.value required,
+  note length/.store in=\tmnotelength,
+  note length/.initial=6mm,
+  note length/.get=\tmnotelength,
+  note length/.value required
+}
