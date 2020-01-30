@@ -10,7 +10,7 @@
   BoldItalicFont=MesloLGS-BoldItalic.ttf
 ]
 
-\usepackage[colorlinks]{hyperref}
+\usepackage[colorlinks,pdftitle={The tikzmusic package},pdfauthor={Vu Van Dung}]{hyperref}
 
 \usepackage[svgnames,table,hyperref]{xcolor}
 \usepackage{minted}
@@ -619,10 +619,10 @@ notations to it, etc.). In this package, to refer to notes, we will use note
 \emph{names}. Just like \tikzname\ node names, etc. -- you can leave the name 
 empty if you want, but you will not be able to communicate with that unnamed note 
 any time later in the document.
-
-However, because of the algorithm behind the scene, you can only use letters to 
-name the notes. Using numbers and non-letter characters will not result in errors, 
-but it will produce unexpectedly weird output.
+% HURRAH!
+%However, because of the algorithm behind the scene, you can only use letters to 
+%name the notes. Using numbers and non-letter characters will not result in errors, 
+%but it will produce unexpectedly weird output.
 \subsubsection{Whole notes}\label{sec:music-notes:commands:whole}
 \begin{docCommand}{tmwhole}{\oarg{relative position}\marg{x-pos}\marg{note value list}\marg{name}}
   Add a set of whole notes at $x$-position \meta{x-pos}. Each value in the 
