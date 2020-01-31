@@ -7,10 +7,10 @@
 }
 
 \newenvironment{tmsinglestaff}[1][]{%
-  \par\setlength\parindent{0pt}%
+  \par\begingroup\setlength\parindent{0pt}%
   \begin{minipage}{\linewidth}%
     \tmset{#1}%
-}{\end{minipage}\par}
+}{\end{minipage}\endgroup\par}
 
 \newenvironment{tmmultiplestaves}[1][]{%
   \par\begingroup%
