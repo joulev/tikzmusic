@@ -1,22 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NORMAL BAR LINES
 \def\tmbarline{\@ifstar\tm@@barline\tm@barline}
-\def\tm@@barline#1#2#3{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw (x) -- (y);
+\newcommand\tm@@barline[4][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \draw[color/.expanded=\tm@color] (x) -- (y);
   \end{tikzpicture}%
 }
-\def\tm@barline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw (x) -- ++ (0,-4*0.2);
+\newcommand\tm@barline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \draw[color/.expanded=\tm@color] (x) -- ++ (0,-4*0.2);
   \end{tikzpicture}%
 }
-\def\tmbarlineendline#1#2{\tm@@barline{\linewidth-\pgflinewidth}{#1}{#2}}
-\def\tmbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {\draw (\i,2*0.2) -- ++ (0,-4*0.2);}\endscope
+\newcommand\tmbarlineendline[3][]{\tm@@barline[#1]{\linewidth-\pgflinewidth}{#2}{#3}}
+\newcommand\tmbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {\draw[color/.expanded=\tm@color] (\tm@i,2*0.2) -- ++ (0,-4*0.2);}\endgroup
 }
 
 
@@ -24,46 +26,51 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOTTED BAR LINES
 \def\tmdottedbarline{\@ifstar\tm@@dottedbarline\tm@dottedbarline}
-\def\tm@@dottedbarline#1#2#3{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw[dotted] (x) -- (y);
+\newcommand\tm@@dottedbarline[4][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \draw[dotted,color/.expanded=\tm@color] (x) -- (y);
   \end{tikzpicture}%
 }
-\def\tm@dottedbarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw[dotted] (x) -- ++ (0,-4*0.2);
+\newcommand\tm@dottedbarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \draw[dotted,color/.expanded=\tm@color] (x) -- ++ (0,-4*0.2);
   \end{tikzpicture}%
 }
-\def\tmdottedbarlineendline#1#2{\tm@@dottedbarline{\linewidth-\pgflinewidth}{#1}{#2}}
-\def\tmdottedbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {\draw[dotted] (\i,2*0.2) -- ++ (0,-4*0.2);}\endscope
+\newcommand\tmdottedbarlineendline[3][]{\tm@@dottedbarline[#1]{\linewidth-\pgflinewidth}{#2}{#3}}
+\newcommand\tmdottedbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {\draw[dotted,color/.expanded=\tm@color] (\tm@i,2*0.2) -- ++ (0,-4*0.2);}\endgroup
 }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOUBLE BAR LINES
 \def\tmdoublebarline{\@ifstar\tm@@doublebarline\tm@doublebarline}
-\def\tm@@doublebarline#1#2#3{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw ([xshift=-.5mm]x) -- ([xshift=-.5mm]y) ([xshift=.5mm]x) -- ([xshift=.5mm]y);
+\newcommand\tm@@doublebarline[4][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \draw[color/.expanded=\tm@color] ([xshift=-.5mm]x) -- ([xshift=-.5mm]y) ([xshift=.5mm]x) -- ([xshift=.5mm]y);
   \end{tikzpicture}%
 }
-\def\tm@doublebarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw ([xshift=-.5mm]x) -- ++ (0,-4*0.2) ([xshift=.5mm]x) -- ++ (0,-4*0.2);
+\newcommand\tm@doublebarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \draw[color/.expanded=\tm@color] ([xshift=-.5mm]x) -- ++ (0,-4*0.2) ([xshift=.5mm]x) -- ++ (0,-4*0.2);
   \end{tikzpicture}%
 }
-\def\tmdoublebarlineendline#1#2{\tm@@doublebarline{\linewidth-\pgflinewidth-.5mm}{#1}{#2}}
-\def\tmdoublebarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {
-    \draw ([xshift=-.5mm]\i,2*0.2) -- ++ (0,-4*0.2) ([xshift=.5mm] \i,2*0.2) -- ++ (0,-4*0.2);
-  }\endscope
+\newcommand\tmdoublebarlineendline[3][]{\tm@@doublebarline[#1]{\linewidth-\pgflinewidth-.5mm}{#2}{#3}}
+\newcommand\tmdoublebarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {
+    \draw[color/.expanded=\tm@color] 
+      ([xshift=-.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2) ([xshift=.5mm] \tm@i,2*0.2) -- ++ (0,-4*0.2);
+  }\endgroup
 }
 
 
@@ -71,27 +78,35 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FINAL BAR LINES
 \def\tmfinalbarline{\@ifstar\tm@@finalbarline\tm@finalbarline}
-\def\tm@@finalbarline#1#2#3{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
-    \draw[line width=.6mm] ([xshift=.5mm]x) -- ([xshift=.5mm]y);
+\newcommand\tm@@finalbarline[4][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
+      \draw[line width=.6mm] ([xshift=.5mm]x) -- ([xshift=.5mm]y);
+    \endscope
   \end{tikzpicture}%
 }
-\def\tm@finalbarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
-    \draw[line width=.6mm] ([xshift=.5mm]x) -- ++ (0,-4*0.2);
+\newcommand\tm@finalbarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
+      \draw[line width=.6mm] ([xshift=.5mm]x) -- ++ (0,-4*0.2);
+    \endscope
   \end{tikzpicture}%
 }
-\def\tmfinalbarlineendline#1#2{\tm@@finalbarline{\linewidth-\pgflinewidth-.5mm}{#1}{#2}}
-\def\tmfinalbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {
-    \draw ([xshift=-.5mm]\i,2*0.2) -- ++ (0,-4*0.2); 
-    \draw[line width=.6mm] ([xshift=.5mm] \i,2*0.2) -- ++ (0,-4*0.2);
-  }\endscope
+\newcommand\tmfinalbarlineendline[3][]{\tm@@finalbarline[#1]{\linewidth-\pgflinewidth-.5mm}{#2}{#3}}
+\newcommand\tmfinalbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2); 
+      \draw[line width=.6mm] ([xshift=.5mm] \tm@i,2*0.2) -- ++ (0,-4*0.2);
+    \endscope
+  }\endgroup
 }
 
 
@@ -99,36 +114,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % START REPEAT BAR LINES
 \def\tmstartrepeatbarline{\@ifstar\tm@@startrepeatbarline\tm@startrepeatbarline}
-\def\tm@@startrepeatbarline#1#2#3#4{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw[line width=.6mm] ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
-    \draw ([xshift=.5mm]x) -- ([xshift=.5mm]y);
-    \foreach \i in {#4} {
-      \coordinate (x) at ([shift={(#1,0)}]\i-start);
+\newcommand\tm@@startrepeatbarline[5][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \scope[color/.expanded=\tm@color]
+      \draw[line width=.6mm] ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
+      \draw ([xshift=.5mm]x) -- ([xshift=.5mm]y);
+      \foreach \tm@i in {#5} {
+        \coordinate (x) at ([shift={(#2,0)}]\tm@i-start);
+        \fill ([shift={(1.5mm,1mm)}]x) circle (.4mm);
+        \fill ([shift={(1.5mm,-1mm)}]x) circle (.4mm);
+      }
+    \endscope
+  \end{tikzpicture}%
+}
+\newcommand\tm@startrepeatbarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \scope[color/.expanded=\tm@color]
+      \draw[line width=.6mm] ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
+      \draw ([xshift=.5mm]x) -- ++ (0,-4*0.2);
+      \coordinate (x) at ([shift={(#2,0)}]#3-start);
       \fill ([shift={(1.5mm,1mm)}]x) circle (.4mm);
       \fill ([shift={(1.5mm,-1mm)}]x) circle (.4mm);
-    }
+    \endscope
   \end{tikzpicture}%
 }
-\def\tm@startrepeatbarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw[line width=.6mm] ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
-    \draw ([xshift=.5mm]x) -- ++ (0,-4*0.2);
-    \coordinate (x) at ([shift={(#1,0)}]#2-start);
-    \fill ([shift={(1.5mm,1mm)}]x) circle (.4mm);
-    \fill ([shift={(1.5mm,-1mm)}]x) circle (.4mm);
-  \end{tikzpicture}%
-}
-\def\tmstartrepeatbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {
-    \draw[line width=.6mm] ([xshift=-.5mm]\i,2*0.2) -- ++ (0,-4*0.2); 
-    \draw ([xshift=.5mm]\i,2*0.2) -- ++ (0,-4*0.2);
-    \fill ([shift={(1.5mm,1mm)}]\i,0) circle (.4mm);
-    \fill ([shift={(1.5mm,-1mm)}]\i,0) circle (.4mm);
-  }\endscope
+\newcommand\tmstartrepeatbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {
+    \scope[color/.expanded=\tm@color]
+      \draw[line width=.6mm] ([xshift=-.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2); 
+      \draw ([xshift=.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2);
+      \fill ([shift={(1.5mm,1mm)}]\tm@i,0) circle (.4mm);
+      \fill ([shift={(1.5mm,-1mm)}]\tm@i,0) circle (.4mm);
+    \endscope
+  }\endgroup
 }
 
 
@@ -136,37 +159,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % END REPEAT BAR LINES
 \def\tmendrepeatbarline{\@ifstar\tm@@endrepeatbarline\tm@endrepeatbarline}
-\def\tm@@endrepeatbarline#1#2#3#4{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
-    \draw[line width=.6mm] ([xshift=.5mm]x) -- ([xshift=.5mm]y);
-    \foreach \i in {#4} {
-      \coordinate (x) at ([shift={(#1,0)}]\i-start);
+\newcommand\tm@@endrepeatbarline[5][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]x) -- ([xshift=-.5mm]y);
+      \draw[line width=.6mm] ([xshift=.5mm]x) -- ([xshift=.5mm]y);
+      \foreach \tm@i in {#5} {
+        \coordinate (x) at ([shift={(#2,0)}]\tm@i-start);
+        \fill ([shift={(-1.5mm,1mm)}]x) circle (.4mm);
+        \fill ([shift={(-1.5mm,-1mm)}]x) circle (.4mm);
+      }
+    \endscope
+  \end{tikzpicture}%
+}
+\newcommand\tm@endrepeatbarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
+      \draw[line width=.6mm] ([xshift=.5mm]x) -- ++ (0,-4*0.2);
+      \coordinate (x) at ([shift={(#2,0)}]#3-start);
       \fill ([shift={(-1.5mm,1mm)}]x) circle (.4mm);
       \fill ([shift={(-1.5mm,-1mm)}]x) circle (.4mm);
-    }
+    \endscope
   \end{tikzpicture}%
 }
-\def\tm@endrepeatbarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw ([xshift=-.5mm]x) -- ++ (0,-4*0.2);
-    \draw[line width=.6mm] ([xshift=.5mm]x) -- ++ (0,-4*0.2);
-    \coordinate (x) at ([shift={(#1,0)}]#2-start);
-    \fill ([shift={(-1.5mm,1mm)}]x) circle (.4mm);
-    \fill ([shift={(-1.5mm,-1mm)}]x) circle (.4mm);
-  \end{tikzpicture}%
-}
-\def\tmendrepeatbarlineendline#1#2#3{\tm@@endrepeatbarline{\linewidth-\pgflinewidth-.5mm}{#1}{#2}{#3}}
-\def\tmendrepeatbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {
-    \draw ([xshift=-.5mm]\i,2*0.2) -- ++ (0,-4*0.2); 
-    \draw[line width=.6mm] ([xshift=.5mm]\i,2*0.2) -- ++ (0,-4*0.2);
-    \fill ([shift={(-1.5mm,1mm)}]\i,0) circle (.4mm);
-    \fill ([shift={(-1.5mm,-1mm)}]\i,0) circle (.4mm);
-  }\endscope
+\newcommand\tmendrepeatbarlineendline[4][]{\tm@@endrepeatbarline[#1]{\linewidth-\pgflinewidth-.5mm}{#2}{#3}{#4}}
+\newcommand\tmendrepeatbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2); 
+      \draw[line width=.6mm] ([xshift=.5mm]\tm@i,2*0.2) -- ++ (0,-4*0.2);
+      \fill ([shift={(-1.5mm,1mm)}]\tm@i,0) circle (.4mm);
+      \fill ([shift={(-1.5mm,-1mm)}]\tm@i,0) circle (.4mm);
+    \endscope
+  }\endgroup
 }
 
 
@@ -174,42 +205,50 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % END-START REPEAT BAR LINES
 \def\tmendstartrepeatbarline{\@ifstar\tm@@endstartrepeatbarline\tm@endstartrepeatbarline}
-\def\tm@@endstartrepeatbarline#1#2#3#4{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \coordinate (y) at ([shift={(#1,-2*0.2)}]#3-start);
-    \draw ([xshift=-1mm]x) -- ([xshift=-1mm]y) ([xshift=1mm]x) -- ([xshift=1mm]y);
-    \draw[line width=.6mm] (x) -- (y);
-    \foreach \i in {#4} {
-      \coordinate (x) at ([shift={(#1,0)}]\i-start);
+\newcommand\tm@@endstartrepeatbarline[5][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+    \coordinate (y) at ([shift={(#2,-2*0.2)}]#4-start);
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-1mm]x) -- ([xshift=-1mm]y) ([xshift=1mm]x) -- ([xshift=1mm]y);
+      \draw[line width=.6mm] (x) -- (y);
+      \foreach \tm@i in {#5} {
+        \coordinate (x) at ([shift={(#2,0)}]\tm@i-start);
+        \fill ([shift={(-2mm,1mm)}]x) circle (.4mm);
+        \fill ([shift={(-2mm,-1mm)}]x) circle (.4mm);
+        \fill ([shift={(2mm,1mm)}]x) circle (.4mm);
+        \fill ([shift={(2mm,-1mm)}]x) circle (.4mm);
+      }
+    \endscope
+  \end{tikzpicture}%
+}
+\newcommand\tm@endstartrepeatbarline[3][]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \tmset{#1}
+    \scope[color/.expanded=\tm@color]
+      \coordinate (x) at ([shift={(#2,2*0.2)}]#3-start);
+      \draw ([xshift=-1mm]x) -- ++ (0,-4*0.2) ([xshift=1mm]x) -- ++ (0,-4*0.2);
+      \draw[line width=.6mm] (x) -- ++ (0,-4*0.2);
+      \coordinate (x) at ([shift={(#2,0)}]#3-start);
       \fill ([shift={(-2mm,1mm)}]x) circle (.4mm);
       \fill ([shift={(-2mm,-1mm)}]x) circle (.4mm);
       \fill ([shift={(2mm,1mm)}]x) circle (.4mm);
       \fill ([shift={(2mm,-1mm)}]x) circle (.4mm);
-    }
+    \endscope
   \end{tikzpicture}%
 }
-\def\tm@endstartrepeatbarline#1#2{%
-  \begin{tikzpicture}[remember picture,overlay,color/.expanded=\tmcolor]
-    \coordinate (x) at ([shift={(#1,2*0.2)}]#2-start);
-    \draw ([xshift=-1mm]x) -- ++ (0,-4*0.2) ([xshift=1mm]x) -- ++ (0,-4*0.2);
-    \draw[line width=.6mm] (x) -- ++ (0,-4*0.2);
-    \coordinate (x) at ([shift={(#1,0)}]#2-start);
-    \fill ([shift={(-2mm,1mm)}]x) circle (.4mm);
-    \fill ([shift={(-2mm,-1mm)}]x) circle (.4mm);
-    \fill ([shift={(2mm,1mm)}]x) circle (.4mm);
-    \fill ([shift={(2mm,-1mm)}]x) circle (.4mm);
-  \end{tikzpicture}%
-}
-\def\tmendstartrepeatbarlineinline#1{
-  \scope[color/.expanded=\tmcolor]\foreach \i in {#1} {
-    \draw ([xshift=-1mm]\i,2*0.2) -- ++ (0,-4*0.2) ([xshift=1mm]\i,2*0.2) -- ++ (0,-4*0.2);
-    \draw[line width=.6mm] (\i,2*0.2) -- ++ (0,-4*0.2);
-    \fill ([shift={(-2mm,1mm)}]\i,0) circle (.4mm);
-    \fill ([shift={(-2mm,-1mm)}]\i,0) circle (.4mm);
-    \fill ([shift={(2mm,1mm)}]\i,0) circle (.4mm);
-    \fill ([shift={(2mm,-1mm)}]\i,0) circle (.4mm);
-  }\endscope
+\newcommand\tmendstartrepeatbarlineinline[2][]{
+  \begingroup\tmset{#1}\foreach \tm@i in {#2} {
+    \scope[color/.expanded=\tm@color]
+      \draw ([xshift=-1mm]\tm@i,2*0.2) -- ++ (0,-4*0.2) ([xshift=1mm]\tm@i,2*0.2) -- ++ (0,-4*0.2);
+      \draw[line width=.6mm] (\tm@i,2*0.2) -- ++ (0,-4*0.2);
+      \fill ([shift={(-2mm,1mm)}]\tm@i,0) circle (.4mm);
+      \fill ([shift={(-2mm,-1mm)}]\tm@i,0) circle (.4mm);
+      \fill ([shift={(2mm,1mm)}]\tm@i,0) circle (.4mm);
+      \fill ([shift={(2mm,-1mm)}]\tm@i,0) circle (.4mm);
+    \endscope
+  }\endgroup
 }
 
 
@@ -217,5 +256,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ADDITIONAL
 \def\tmbarlineloop{\@ifstar\tm@@barlineloop\tm@barlineloop}
-\def\tm@barlineloop#1#2{\foreach \i in {#1} {\foreach \j in {#2} {\tmbarline{\i}{\j}}}}
-\def\tm@@barlineloop#1#2#3{\foreach \i in {#1} {\tmbarline*{\i}{#2}{#3}}}
+\newcommand\tm@barlineloop[3][]{\foreach \tm@i in {#2} {\foreach \tm@j in {#3} {\tmbarline[#1]{\tm@i}{\tm@j}}}}
+\newcommand\tm@@barlineloop[4][]{\foreach \tm@i in {#2} {\tmbarline*[#1]{\tm@i}{#3}{#4}}}
