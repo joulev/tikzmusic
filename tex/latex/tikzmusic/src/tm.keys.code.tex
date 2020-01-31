@@ -52,6 +52,11 @@
     \pgfkeysalso{xshift=\tm@x,yshift=\tm@y}
   },
   shift/.value required,
+  %
+  line shift/.store in=\tm@lineshift,
+  line shift/.initial=0,
+  line shift/.get=\tm@lineshift,
+  line shift/.value required,
   % STAFF
   staff offset/.store in=\tm@staff@offset,
   staff offset/.initial=2cm,
