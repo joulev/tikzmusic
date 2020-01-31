@@ -2,68 +2,75 @@
 
 \def\tm@createstaff{%
   \foreach \tm@i in {-2,-1,0,1,2}
-    \draw[line cap=rect,color/.expanded=\tmcolor] (0,\tm@i*0.2) -- ++ (\linewidth-\pgflinewidth,0);
-  \draw[color/.expanded=\tmcolor] (0,-2*0.2) -- ++ (0,4*0.2);
+    \draw[line cap=rect,color/.expanded=\tm@color] (0,\tm@i*0.2) -- ++ (\linewidth-\pgflinewidth,0);
+  \draw[color/.expanded=\tm@color] (0,-2*0.2) -- ++ (0,4*0.2);
 }
 
-\newenvironment{tmsinglestaff}{%
+\newenvironment{tmsinglestaff}[1][]{%
   \par\setlength\parindent{0pt}%
   \begin{minipage}{\linewidth}%
+    \tmset{#1}%
 }{\end{minipage}\par}
 
-\newenvironment{tmmultiplestaves}[1][2cm]{%
-  \par\setlength\parindent{0pt}%
-  \setlength\tm@multiplelineswidth{\dimexpr(\linewidth-#1)\relax}%
-  \hfill%
-  \begin{minipage}{\tm@multiplelineswidth}%
-}{\end{minipage}\par}
+\newenvironment{tmmultiplestaves}[1][]{%
+  \par\begingroup%
+    \tmset{#1}%
+    \setlength\parindent{0pt}%
+    \setlength\tm@multiplelineswidth{\dimexpr(\linewidth-\tm@staff@offset)\relax}%
+    \hfill%
+    \begin{minipage}{\tm@multiplelineswidth}%
+}{\end{minipage}\endgroup\par}
 
-\NewDocumentEnvironment{tmstaff}{ m O{@auxiliary} }{%
+\newenvironment{tmstaff}[3][]{%
   \par\begin{tikzpicture}[remember picture]
+    \tmset{#1}
     \tm@createstaff
-    \pic[color/.expanded=\tmcolor] at (0.2,0) {tm-#1-clef};
+    \pic[color/.expanded=\tm@color] at (0.2,0) {tm-#2-clef};
+    \coordinate (#3-nw) at (0,2*0.2);
+    \coordinate (#3-sw) at (0,-2*0.2);
+    \coordinate (#3-start) at (0,0);
+    \ifstrequal{#2}{g}{\pgfmathsetmacro\tm@note@mid@clef{30}}{}
+    \ifstrequal{#2}{c}{\pgfmathsetmacro\tm@note@mid@clef{24}}{}
+    \ifstrequal{#2}{f}{\pgfmathsetmacro\tm@note@mid@clef{18}}{}
+}{\end{tikzpicture}}
+
+\newenvironment{tmstaff*}[2][]{%
+  \par\begin{tikzpicture}[remember picture]
+    \tmset{#1}
+    \tm@createstaff
     \coordinate (#2-nw) at (0,2*0.2);
     \coordinate (#2-sw) at (0,-2*0.2);
     \coordinate (#2-start) at (0,0);
-    \ifstrequal{#1}{g}{\pgfmathsetmacro\tm@note@mid@clef{30}}{}
-    \ifstrequal{#1}{c}{\pgfmathsetmacro\tm@note@mid@clef{24}}{}
-    \ifstrequal{#1}{f}{\pgfmathsetmacro\tm@note@mid@clef{18}}{}
-}{\end{tikzpicture}}
-
-\newenvironment{tmstaff*}[1][@auxiliary]{%
-  \par\begin{tikzpicture}[remember picture]
-    \tm@createstaff
-    \coordinate (#1-nw) at (0,2*0.2);
-    \coordinate (#1-sw) at (0,-2*0.2);
-    \coordinate (#1-start) at (0,0);
     \pgfmathsetmacro\tm@note@mid@clef{30}
 }{\end{tikzpicture}}
 
-\def\tmbrace#1#2#3{%
+\newcommand\tmbrace[4][]{%
   \begin{tikzpicture}[remember picture,overlay]
-    \coordinate (x) at ([xshift=-2mm]#1-nw);
-    \coordinate (y) at ([xshift=-2mm]#2-sw);
-    \coordinate (c) at ([xshift=-2mm]$(x)!.5!(y)$);
+    \tmset{#1}
+    \coordinate (x) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,    yshift=\tm@shift@start@y    ]#2-nw);
+    \coordinate (y) at ([xshift/.evaluated=-2mm+\tm@shift@end@x,      yshift=\tm@shift@end@y      ]#3-sw);
+    \coordinate (c) at ([xshift/.evaluated=-2mm+\tm@staff@mid@shift@x,yshift=\tm@staff@mid@shift@y]$(x)!.5!(y)$);
     \pen (135:.35mm) -- (-45:.35mm);
-    \calligraphy[pen colour/.expanded=\tmcolor] 
+    \calligraphy[pen colour/.expanded=\tm@color] 
       (y) .. controls ([xshift=-3.5mm]$(y)!.25!(c)$) and ([xshift=3.5mm]$(y)!.75!(c)$) .. (c);
-    \draw[color/.expanded=\tmcolor] 
+    \draw[color/.expanded=\tm@color] 
       (y) .. controls ([xshift=-3.5mm]$(y)!.25!(c)$) and ([xshift=3.5mm]$(y)!.75!(c)$) .. (c);
     \pen (-135:.35mm) -- (45:.35mm);
-    \calligraphy[pen colour/.expanded=\tmcolor] 
+    \calligraphy[pen colour/.expanded=\tm@color] 
       (x) .. controls ([xshift=-3.5mm]$(x)!.25!(c)$) and ([xshift=3.5mm]$(x)!.75!(c)$) .. (c);
-    \draw[color/.expanded=\tmcolor] 
+    \draw[color/.expanded=\tm@color] 
       (x) .. controls ([xshift=-3.5mm]$(x)!.25!(c)$) and ([xshift=3.5mm]$(x)!.75!(c)$) .. (c);
-    \path (c) node[left,color/.expanded=\tmcolor] {#3};
+    \path (c) node[left,color/.expanded=\tm@color] {#4};
   \end{tikzpicture}%
 }
 
-\def\tmbracket#1#2{%
+\newcommand\tmbracket[3][]{%
   \begin{tikzpicture}[remember picture,overlay]
-    \coordinate (x) at ([xshift=-1mm,yshift=1mm]#1-nw);
-    \coordinate (y) at ([xshift=-1mm,yshift=-1mm]#2-sw);
-    \draw[line width=.5mm,color/.expanded=\tmcolor] ([yshift=.5mm]x) -- ([yshift=-.5mm]y);
-    \draw[fill,color/.expanded=\tmcolor] 
+    \tmset{#1}
+    \coordinate (x) at ([xshift/.evaluated=-1mm+\tm@shift@start@x,yshift/.evaluated=1mm+\tm@shift@start@y]#2-nw);
+    \coordinate (y) at ([xshift/.evaluated=-1mm+\tm@shift@end@x  ,yshift/.evaluated=-1mm+\tm@shift@end@y ]#3-sw);
+    \draw[line width=.5mm,color/.expanded=\tm@color] ([yshift=.5mm]x) -- ([yshift=-.5mm]y);
+    \draw[fill,color/.expanded=\tm@color] 
       (x) cos ++ (.25,.2) sin ([yshift=.5mm]x) (y) cos ++ (.25,-.2) sin ([yshift=-.5mm]y);
   \end{tikzpicture}%
 }

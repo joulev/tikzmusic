@@ -1,11 +1,79 @@
-\def\tmset#1{\pgfkeys{/tm/.is family,#1}}
+\def\tmset#1{\pgfkeys{/tm/.is family,/tm/.cd,#1}}
 \tmset{
-  color/.store in=\tmcolor,
+  % Color of basically everything
+  color/.store in=\tm@color,
   color/.initial=black,
-  color/.get=\tmcolor,
+  color/.get=\tm@color,
   color/.value required,
-  note length/.store in=\tmnotelength,
+  % Stem length
+  note length/.store in=\tm@notelength,
   note length/.initial=6mm,
-  note length/.get=\tmnotelength,
-  note length/.value required
+  note length/.get=\tm@notelength,
+  note length/.value required,
+  % Shifting
+  start xshift/.store in=\tm@shift@start@x,
+  start xshift/.initial=0pt,
+  start xshift/.get=\tm@shift@start@x,
+  start xshift/.value required,
+  %
+  start yshift/.store in=\tm@shift@start@y,
+  start yshift/.initial=0pt,
+  start yshift/.get=\tm@shift@start@y,
+  start yshift/.value required,
+  %
+  end xshift/.store in=\tm@shift@end@x,
+  end xshift/.initial=0pt,
+  end xshift/.get=\tm@shift@end@x,
+  end xshift/.value required,
+  %
+  end yshift/.store in=\tm@shift@end@y,
+  end yshift/.initial=0pt,
+  end yshift/.get=\tm@shift@end@y,
+  end yshift/.value required,
+  %
+  xshift/.style={start xshift=#1,end xshift=#1},
+  xshift/.value required,
+  yshift/.style={start yshift=#1,end yshift=#1},
+  yshift/.value required,
+  %
+  start shift/.code={
+    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{start xshift=\tm@x,start yshift=\tm@y}
+  },
+  start shift/.value required,
+  end shift/.code={
+    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{end xshift=\tm@x,end yshift=\tm@y}
+  },
+  end shift/.value required,
+  %
+  shift/.code={
+    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{xshift=\tm@x,yshift=\tm@y}
+  },
+  shift/.value required,
+  % STAFF
+  staff offset/.store in=\tm@staff@offset,
+  staff offset/.initial=2cm,
+  staff offset/.get=\tm@staff@offset,
+  staff offset/.value required,
+  %
+  brace middle xshift/.store in=\tm@staff@mid@shift@x,
+  brace middle xshift/.initial=0pt,
+  brace middle xshift/.get=\tm@staff@mid@shift@x,
+  brace middle xshift/.value required,
+  %
+  brace middle yshift/.store in=\tm@staff@mid@shift@y,
+  brace middle yshift/.initial=0pt,
+  brace middle yshift/.get=\tm@staff@mid@shift@y,
+  brace middle yshift/.value required,
+  %
+  brace middle shift/.code={
+    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{brace middle xshift=\tm@x,brace middle yshift=\tm@y}
+  }
 }
+
+% Just for now...
+\let\tmcolor\tm@color
+\let\tmnotelength\tm@notelength
