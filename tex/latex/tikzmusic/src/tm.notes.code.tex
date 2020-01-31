@@ -409,8 +409,6 @@
     \pgfmathsetmacro\tm@beam@slope@min{100}%just take a sufficiently large number
     \foreach \tm@i in \tm@beam@array {
       \coordinate[overlay] (x) at ($(\tm@beam@max@index-@aux2)-(\tm@i-@aux2)$);
-      \newdimen\tm@x
-      \newdimen\tm@y
       \path[overlay] (x);
       \pgfgetlastxy{\tm@x}{\tm@y}
       \ifdim\tm@x=0pt
@@ -538,8 +536,6 @@
     \pgfmathsetmacro\tm@beam@slope@min{100}%just take a sufficiently large number
     \foreach \tm@i in \tm@beam@array {
       \coordinate[overlay] (x) at ($(\tm@beam@min@index-@aux2)-(\tm@i-@aux2)$);
-      \newdimen\tm@x
-      \newdimen\tm@y
       \path[overlay] (x);
       \pgfgetlastxy{\tm@x}{\tm@y}
       \ifdim\tm@x=0pt
