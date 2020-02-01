@@ -1,10 +1,15 @@
 \def\tmset#1{\pgfkeys{/tm/.is family,/tm/.cd,#1}}
 \tmset{
-  % Color of basically everything
+  % Color
   color/.store in=\tm@color,
   color/.initial=black,
   color/.get=\tm@color,
   color/.value required,
+  % Line color
+  line color/.store in=\tm@linecolor,
+  line color/.initial=black,
+  line color/.get=\tm@linecolor,
+  line color/.value required,
   % Stem length
   note length/.store in=\tm@notelength,
   note length/.initial=6mm,
@@ -76,7 +81,12 @@
   brace middle shift/.code={
     \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
     \pgfkeysalso{brace middle xshift=\tm@x,brace middle yshift=\tm@y}
-  }
+  },
+  % NOTES
+  relative/.store in=\tm@note@relativepos,
+  relative/.initial=center,
+  relative/.get=\tm@note@relativepos,
+  relative/.value required
 }
 
 % Just for now...

@@ -8,11 +8,11 @@
   \pgfmathtruncatemacro\tm@extra@lines{div(#2-4,2)}
   \ifnum#2>5
     \foreach \tm@i [parse=true] in {3,...,{2+div(#2-4,2)}} 
-      \draw[color/.expanded=\tmcolor,xshift=#4cm] (#1,\tm@i*.2) ++ (-#3,0) -- ++ (2*#3,0);
+      \draw[color/.expanded=\tm@linecolor,xshift=#4cm] (#1,\tm@i*.2) ++ (-#3,0) -- ++ (2*#3,0);
   \fi
   \ifnum#2<-5
     \foreach \tm@i [parse=true] in {3,...,{2+div(-#2-4,2)}}
-      \draw[color/.expanded=\tmcolor,xshift=#4cm] (#1,-\tm@i*.2) ++ (-#3,0) -- ++ (2*#3,0);
+      \draw[color/.expanded=\tm@linecolor,xshift=#4cm] (#1,-\tm@i*.2) ++ (-#3,0) -- ++ (2*#3,0);
   \fi
 }
 
@@ -32,14 +32,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SOME EXTRA STUFFS
-\newcommand\tmappendaccidental[4][0pt]{\pic[color/.expanded=\tmcolor,xshift=#1] at ([xshift=-3mm]#2-#3) {tm-#4};}
+\newcommand\tmappendaccidental[4][0pt]{\pic[color/.expanded=\tm@color,xshift=#1] at ([xshift=-3mm]#2-#3) {tm-#4};}
 \def\tmadddot{\@ifstar\tm@@adddot\tm@adddot}
 \newcommand\tm@@adddot[4][0pt]{
   \tm@note@getnumber<#3>
   \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@dot@shift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
   \foreach \tm@i in {1,...,#4} {
-    \fill[color/.expanded=\tmcolor,xshift=#1] 
+    \fill[color/.expanded=\tm@color,xshift=#1] 
       ([xshift=2.5mm,yshift=\tm@note@dot@shift]#2-#3) ++ ({(\tm@i-1)*.1},0) circle (.4mm);
   }
 }
@@ -49,14 +49,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % WHOLE NOTE
 \newcommand\tm@whole[3][center]{%
-  \pic[color/.expanded=\tmcolor] at (#2,#3*0.1) {tm-whole-note-#1};
-  \tm@draw@extra@lines{#2}{#3}{.2}{\csname tm@draw@extra@lines@shift@#1\endcsname}
+  \tm@draw@extra@lines{#2}{#3}{.25}{\csname tm@draw@extra@lines@shift@#1\endcsname}
+  \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-whole-note-#1};
 }
-\newcommand\tmwhole[4][center]{
+\newcommand\tmwhole[4][]{
   \foreach \tm@i in {#3} {
     \expandafter\tm@note@getnumber\expandafter<\tm@i>
     \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-    \tm@whole[#1]{#2}{\tm@note@diff}
+    \tmset{#1}
+    \tm@whole[\tm@note@relativepos]{#2}{\tm@note@diff}
     \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
     \coordinate (#4-tail) at (#2,.1*\tm@note@diff);
   }
@@ -81,51 +82,56 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}%\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@max@diff}
   \global\@namedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
-  \pgfmathparse{\tm@note@min@diff}%\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@min@diff}
   \global\@namedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
-  \pgfmathparse{\tm@note@average@diff}%\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@average@diff}
   \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
-  %\global\expandafter\def\csname tm@note@#4@pos\endcsname{#2}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HALF NOTE
 \newcommand\tm@half@head[3][center]{%
-  \pic[color/.expanded=\tmcolor] at (#2,#3*0.1) {tm-half-note-head-#1};
   \tm@draw@extra@lines{#2}{#3}{.2}{\csname tm@draw@extra@lines@shift@#1\endcsname}
+  \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-half-note-head-#1};
 }
 \def\tmhalf{\@ifstar\tm@@half\tm@half}
-\newcommand\tm@half[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{half}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-    \fi
-  }{}
+\newcommand\tm@half[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
-\newcommand\tm@@half[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{half}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);   
-    \fi
-  }{}
+\newcommand\tm@@half[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
 
@@ -133,38 +139,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QUARTER NOTE
 \newcommand\tm@quarter@head[3][center]{%
-  \pic[color/.expanded=\tmcolor] at (#2,#3*0.1) {tm-quarter-note-head-#1};
   \tm@draw@extra@lines{#2}{#3}{.2}{\csname tm@draw@extra@lines@shift@#1\endcsname}
+  \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-quarter-note-head-#1};
 }
 \def\tmquarter{\@ifstar\tm@@quarter\tm@quarter}
-\newcommand\tm@quarter[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-    \fi
-  }{}
+\newcommand\tm@quarter[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
-\newcommand\tm@@quarter[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-    \fi
-  }{}
+\newcommand\tm@@quarter[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
 
@@ -173,38 +185,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EIGHTH NOTE
 \def\tmeighth{\@ifstar\tm@@eighth\tm@eighth}
-\newcommand\tm@eighth[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-      \pic[color/.expanded=\tmcolor] at (#4-tail) {tm-note-flag-up};
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \pic[color/.expanded=\tmcolor] at (#4-tail) {tm-note-flag-down};
-    \fi
-  }{}
+\newcommand\tm@eighth[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
-\newcommand\tm@@eighth[4][center]{
-  \tm@head[#1]{#2}{#3}{#4}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \pic[color/.expanded=\tmcolor] at (#4-tail) {tm-note-flag-down};
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-      \pic[color/.expanded=\tmcolor] at (#4-tail) {tm-note-flag-up};
-    \fi
-  }{}
+\newcommand\tm@@eighth[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
 
@@ -215,50 +233,56 @@
 \def\tm@insert@flag@up#1#2{
   \foreach \tm@i in {1,...,#2} {
     \pgfmathsetmacro\tm@insert@flag@shift@amount{-3mm+1.5mm*\tm@i}
-    \pic[color/.expanded=\tmcolor] 
+    \pic[color/.expanded=\tm@color] 
       at ([yshift=\tm@insert@flag@shift@amount]#1-tail) {tm-note-flag-up};
   }
 }
 \def\tm@insert@flag@down#1#2{
   \foreach \tm@i in {1,...,#2} {
     \pgfmathsetmacro\tm@insert@flag@shift@amount{3mm-1.5mm*\tm@i}
-    \pic[color/.expanded=\tmcolor] 
+    \pic[color/.expanded=\tm@color] 
       at ([yshift=\tm@insert@flag@shift@amount]#1-tail) {tm-note-flag-down};
   }
 }
 \def\tmmorethaneighth{\@ifstar\tm@@morethaneighth\tm@morethaneighth}
-\newcommand\tm@morethaneighth[5][center]{
-  \tm@head[#1]{#2}{#3}{#5}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt<0pt
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
-      \tm@insert@flag@up{#5}{#4}
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
-      \tm@insert@flag@down{#5}{#4}
-    \fi
-  }{}
+\newcommand\tm@morethaneighth[5][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt<0pt
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
+        \tm@insert@flag@up{#5}{#4}
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
+        \tm@insert@flag@down{#5}{#4}
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
-\newcommand\tm@@morethaneighth[5][center]{
-  \tm@head[#1]{#2}{#3}{#5}{quarter}
-  \ifstrequal{#1}{center}{
-    \ifdim\tm@note@average@diff pt>0pt  
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-        ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
-      \tm@insert@flag@down{#5}{#4}
-    \else
-      \draw[xshift=#2cm,color/.expanded=\tmcolor] 
-        (\tm@notewidth,.1*\tm@note@min@diff) -- 
-        ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
-      \tm@insert@flag@up{#5}{#4}
-    \fi
-  }{}
+\newcommand\tm@@morethaneighth[5][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
+    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+      \ifdim\tm@note@average@diff pt>0pt  
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
+        \tm@insert@flag@down{#5}{#4}
+      \else
+        \draw[xshift=#2cm,color/.expanded=\tm@color] 
+          (\tm@notewidth,.1*\tm@note@min@diff) -- 
+          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
+        \tm@insert@flag@up{#5}{#4}
+      \fi
+    }{}
+  \endgroup
   \def\tm@note@average@diff{0}
 }
 
@@ -278,8 +302,9 @@
 \newif\iftm@beam@firstpassed
 \newif\iftm@beam@firstnoteunflagged
 \newif\iftm@beam@up
-\newenvironment{tmbeam}{
+\newenvironment{tmbeam}[1][]{
   \begin{scope}
+    \tmset{#1}
     \tm@beam@uptrue
     \tm@beam@maxatmiddlefalse
     \tm@beam@minatmiddlefalse
@@ -302,8 +327,9 @@
   \end{scope}
 }
 % Beam heading down
-\newenvironment{tmbeam*}{
+\newenvironment{tmbeam*}[1][]{
   \begin{scope}
+    \tmset{#1}
     \tm@beam@upfalse
     \tm@beam@maxatmiddlefalse
     \tm@beam@minatmiddlefalse
@@ -326,7 +352,7 @@
   \end{scope}
 }
 %\tmbeamnote[]{xpos}{notecode}{no of flags}{name}
-\newcommand\tmbeamnote[5][center]{
+\newcommand\tmbeamnote[5][]{
   \iftm@beam@up
     \tm@beam@head@max[#1]{#2}{#3}{#5}
   \else
@@ -335,20 +361,23 @@
   \tm@beam@arr@pushback{#5}
   \expandafter\def\csname tm@beam@numberofflags@#5\endcsname{#4}
 }
-\newcommand\tm@beam@head[4][center]{
+\newcommand\tm@beam@head[4][]{
   \def\tm@note@min{52}
   \def\tm@note@max{1}
-  \foreach \tm@i in {#3} {
-    \expandafter\tm@note@getnumber\expandafter<\tm@i>
-    \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-    \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
-    \global\let\tm@note@min\pgfmathresult
-    \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
-    \global\let\tm@note@max\pgfmathresult
-    \tm@quarter@head[#1]{#2}{\tm@note@diff}
-    \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
-  }
-  \coordinate (#4-center) at (#2,0);
+  \begingroup
+    \tmset{#1}
+    \foreach \tm@i in {#3} {
+      \expandafter\tm@note@getnumber\expandafter<\tm@i>
+      \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
+      \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
+      \global\let\tm@note@min\pgfmathresult
+      \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
+      \global\let\tm@note@max\pgfmathresult
+      \tm@quarter@head[\tm@note@relativepos]{#2}{\tm@note@diff}
+      \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
+    }
+    \coordinate (#4-center) at (#2,0);
+  \endgroup
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
@@ -360,13 +389,13 @@
   \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
 }
-\newcommand\tm@beam@head@max[4][center]{
+\newcommand\tm@beam@head@max[4][]{
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmax{\tm@note@max}{#4}
   \coordinate (#4-@aux1) at (#2+\tm@notewidth,\tm@note@min@diff*.1);
   \coordinate (#4-@aux2) at ([yshift=\tmnotelength]#2+\tm@notewidth,\tm@note@max@diff*.1);
 }
-\newcommand\tm@beam@head@min[4][center]{
+\newcommand\tm@beam@head@min[4][]{
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmin{\tm@note@min}{#4}
   \coordinate (#4-@aux1) at (#2-\tm@notewidth,\tm@note@max@diff*.1);
@@ -432,7 +461,7 @@
   \foreach \tm@i in \tm@beam@array {
     \path (intersection cs:first line={(\tm@i-@aux1) -- (\tm@i-@aux2)},second line={(tm@a)--(tm@b)})
       coordinate (\tm@i-beamintersection);
-    \draw[color/.expanded=\tmcolor] (\tm@i-@aux1) -- (\tm@i-beamintersection) 
+    \draw[color/.expanded=\tm@color] (\tm@i-@aux1) -- (\tm@i-beamintersection) 
       coordinate (\tm@i-tail);
   }
   \foreach \tm@i [remember=\tm@i as \tm@j (initially \tm@beam@first@index)] in \tm@beam@array {
@@ -451,7 +480,7 @@
     \foreach \x [count=\y from 0] in {1,...,#4} {
       \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,-.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
     \iftm@beam@firstnoteunflagged
@@ -459,7 +488,7 @@
       \foreach \x [count=\y from 0] in {1,...,#2} {
         \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
         \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]@beamintersection@aux@mid);
-        \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,-.08) -- 
+        \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
           ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
       }
     \fi
@@ -469,7 +498,7 @@
     \foreach \x [count=\y from 0] in {1,...,#4} {
       \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,-.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedfalse
@@ -478,7 +507,7 @@
     \foreach \x [count=\y from 0] in {1,...,#2} {
       \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,-.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedtrue
@@ -491,7 +520,7 @@
     \foreach \x [count=\y from 0] in {1,...,#3} {
       \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]@beamintersection@aux@mid);
       \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#2-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,-.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
   \fi
@@ -559,7 +588,7 @@
   \foreach \tm@i in \tm@beam@array {
     \path (intersection cs:first line={(\tm@i-@aux1) -- (\tm@i-@aux2)},second line={(tm@a)--(tm@b)})
       coordinate (\tm@i-beamintersection);
-    \draw[color/.expanded=\tmcolor] (\tm@i-@aux1) -- (\tm@i-beamintersection);
+    \draw[color/.expanded=\tm@color] (\tm@i-@aux1) -- (\tm@i-beamintersection);
   }
   \foreach \tm@i [remember=\tm@i as \tm@j (initially \tm@beam@first@index)] in \tm@beam@array {
     \def\tm@beam@j@flags{\expandafter\csname tm@beam@numberofflags@\tm@j\endcsname}
@@ -577,7 +606,7 @@
     \foreach \x [count=\y from 0] in {1,...,#4} {
       \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
     \iftm@beam@firstnoteunflagged
@@ -585,7 +614,7 @@
       \foreach \x [count=\y from 0] in {1,...,#2} {
         \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
         \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]@beamintersection@aux@mid);
-        \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,.08) -- 
+        \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
           ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
       }
     \fi
@@ -595,7 +624,7 @@
     \foreach \x [count=\y from 0] in {1,...,#4} {
       \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedfalse
@@ -604,7 +633,7 @@
     \foreach \x [count=\y from 0] in {1,...,#2} {
       \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
       \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedtrue
@@ -617,7 +646,7 @@
     \foreach \x [count=\y from 0] in {1,...,#3} {
       \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]@beamintersection@aux@mid);
       \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#2-beamintersection);
-      \fill[color/.expanded=\tmcolor] (@beamintersection@aux1) -- ++ (0,.08) -- 
+      \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
   \fi
@@ -630,20 +659,36 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % RESTS
-\newcommand\tmwholerest[2][0]{
-  \fill[color/.expanded=\tmcolor,shift={(0,#1*.1)}] (#2-.125,.08) rectangle ++ (.25,.12);
-  \draw[color/.expanded=\tmcolor,shift={(0,#1*.1)}] (#2-.2,.2) -- ++ (.4,0);
+\newcommand\tmwholerest[2][]{
+  \begingroup
+    \tmset{#1}
+    \fill[color/.expanded=\tm@color,shift={(0,\tm@lineshift*.1)}] (#2-.125,.08) rectangle ++ (.25,.12);
+    \draw[color/.expanded=\tm@linecolor,shift={(0,\tm@lineshift*.1)}] (#2-.2,.2) -- ++ (.4,0);
+  \endgroup
 }
-\newcommand\tmhalfrest[2][0]{
-  \fill[color/.expanded=\tmcolor,shift={(0,#1*.1)}] (#2-.125,0) rectangle ++ (.25,.12);
-  \draw[color/.expanded=\tmcolor,shift={(0,#1*.1)}] (#2-.2,0) -- ++ (.4,0);
+\newcommand\tmhalfrest[2][]{
+  \begingroup
+    \tmset{#1}
+    \fill[color/.expanded=\tm@color,shift={(0,\tm@lineshift*.1)}] (#2-.125,0) rectangle ++ (.25,.12);
+    \draw[color/.expanded=\tm@linecolor,shift={(0,\tm@lineshift*.1)}] (#2-.2,0) -- ++ (.4,0);
+  \endgroup
 }
-\newcommand\tmquarterrest[2][0]{\pic[color/.expanded=\tmcolor] at (#2,#1*.1) {tm-quarter-note-rest};}
-\newcommand\tmbelowquarterrest[3][0]{\pic[color/.expanded=\tmcolor] at (#2,#1*.1) {tm-#3-note-rest};}
-\newcommand\tmeighthrest[2][0]{\tmbelowquarterrest[#1]{#2}{1}}
-\newcommand\tmsixteenthrest[2][0]{\tmbelowquarterrest[#1]{#2}{2}}
-\newcommand\tmthirtysecondrest[2][0]{\tmbelowquarterrest[#1]{#2}{3}}
-\newcommand\tmsixtyfourthrest[2][0]{\tmbelowquarterrest[#1]{#2}{4}}
+\newcommand\tmquarterrest[2][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at (#2,\tm@lineshift*.1) {tm-quarter-note-rest};
+  \endgroup
+}
+\newcommand\tmbelowquarterrest[3][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at (#2,\tm@lineshift*.1) {tm-#3-note-rest};
+  \endgroup
+}
+\newcommand\tmeighthrest[2][]{\tmbelowquarterrest[#1]{#2}{1}}
+\newcommand\tmsixteenthrest[2][]{\tmbelowquarterrest[#1]{#2}{2}}
+\newcommand\tmthirtysecondrest[2][]{\tmbelowquarterrest[#1]{#2}{3}}
+\newcommand\tmsixtyfourthrest[2][]{\tmbelowquarterrest[#1]{#2}{4}}
 
 
 
