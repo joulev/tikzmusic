@@ -89,6 +89,7 @@
   \pgfmathparse{\tm@note@average@diff}
   \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
+  \global\@namedef{tm@note@\detokenize{#4}@clr}{\tm@color}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -377,6 +378,7 @@
       \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
     }
     \coordinate (#4-center) at (#2,0);
+    \global\@namedef{tm@note@\detokenize{#4}@clr}{\tm@color}
   \endgroup
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
@@ -662,27 +664,27 @@
 \newcommand\tmwholerest[2][]{
   \begingroup
     \tmset{#1}
-    \fill[color/.expanded=\tm@color,shift={(0,\tm@lineshift*.1)}] (#2-.125,.08) rectangle ++ (.25,.12);
-    \draw[color/.expanded=\tm@linecolor,shift={(0,\tm@lineshift*.1)}] (#2-.2,.2) -- ++ (.4,0);
+    \fill[color/.expanded=\tm@color,shift={($(0,\tm@lineshift*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (#2-.125,.08) rectangle ++ (.25,.12);
+    \draw[color/.expanded=\tm@linecolor,shift={($(0,\tm@lineshift*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (#2-.2,.2) -- ++ (.4,0);
   \endgroup
 }
 \newcommand\tmhalfrest[2][]{
   \begingroup
     \tmset{#1}
-    \fill[color/.expanded=\tm@color,shift={(0,\tm@lineshift*.1)}] (#2-.125,0) rectangle ++ (.25,.12);
-    \draw[color/.expanded=\tm@linecolor,shift={(0,\tm@lineshift*.1)}] (#2-.2,0) -- ++ (.4,0);
+    \fill[color/.expanded=\tm@color,shift={($(0,\tm@lineshift*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (#2-.125,0) rectangle ++ (.25,.12);
+    \draw[color/.expanded=\tm@linecolor,shift={($(0,\tm@lineshift*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (#2-.2,0) -- ++ (.4,0);
   \endgroup
 }
 \newcommand\tmquarterrest[2][]{
   \begingroup
     \tmset{#1}
-    \pic[color/.expanded=\tm@color] at (#2,\tm@lineshift*.1) {tm-quarter-note-rest};
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (#2,\tm@lineshift*.1) {tm-quarter-note-rest};
   \endgroup
 }
 \newcommand\tmbelowquarterrest[3][]{
   \begingroup
     \tmset{#1}
-    \pic[color/.expanded=\tm@color] at (#2,\tm@lineshift*.1) {tm-#3-note-rest};
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (#2,\tm@lineshift*.1) {tm-#3-note-rest};
   \endgroup
 }
 \newcommand\tmeighthrest[2][]{\tmbelowquarterrest[#1]{#2}{1}}
