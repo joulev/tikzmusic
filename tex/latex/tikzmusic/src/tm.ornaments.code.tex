@@ -1,33 +1,63 @@
-\newcommand\tmtrill[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+#1}
-  \else
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+#1}
-  \fi
-  \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-trill};
+\newcommand\tmtrill[2][]{
+  \begingroup
+    \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \tm@note@getnote{#2}
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+\tm@lineshift}
+    \else
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+\tm@lineshift}
+    \fi
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-trill};
+  \endgroup
 }
-\newcommand\tmturn[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+#1}
-  \else
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+#1}
-  \fi
-  \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-turn};
+\newcommand\tmturn[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+\tm@lineshift}
+    \else
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+\tm@lineshift}
+    \fi
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-turn};
+  \endgroup
 }
-\newcommand\tm@mordent[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+#1}
-  \else
-    \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+#1}
-  \fi
-  \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-mordent};
+\newcommand\tm@mordent[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+\tm@lineshift}
+    \else
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+\tm@lineshift}
+    \fi
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-mordent};
+  \endgroup
 }
 \def\tmmordent{\@ifstar\tmlowermordent\tm@mordent}
-\newcommand\tmuppermordent[2][0]{\tm@mordent[#1]{#2}}
-\newcommand\tmlowermordent[2][0]{
-  \tm@mordent[#1]{#2}
-  \draw[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@ornament@pos*.1)},line width=.5pt] (0,-.15) -- (0,.15);
+\newcommand\tmuppermordent[2][]{\tm@mordent[#1]{#2}}
+\newcommand\tmlowermordent[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@min@diff==-1,9,8)+\tm@lineshift}
+    \else
+      \pgfmathtruncatemacro\tm@ornament@pos{ifthenelse(\tm@note@max@diff<5,8,\tm@note@max@diff+4)+\tm@lineshift}
+    \fi
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-mordent};
+    \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@ornament@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)},line width=.5pt] (0,-.15) -- (0,.15);
+  \endgroup
 }
