@@ -32,18 +32,28 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SOME EXTRA STUFFS
-\newcommand\tmappendaccidental[4][0pt]{\pic[color/.expanded=\tm@color,xshift=#1] at ([xshift=-3mm]#2-#3) {tm-#4};}
-\def\tmadddot{\@ifstar\tm@@adddot\tm@adddot}
-\newcommand\tm@@adddot[4][0pt]{
-  \tm@note@getnumber<#3>
-  \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-  \pgfmathsetmacro\tm@note@dot@shift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
-  \foreach \tm@i in {1,...,#4} {
-    \fill[color/.expanded=\tm@color,xshift=#1] 
-      ([xshift=2.5mm,yshift=\tm@note@dot@shift]#2-#3) ++ ({(\tm@i-1)*.1},0) circle (.4mm);
-  }
+\newcommand\tmappendaccidental[4][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at ([xshift=-3mm]#2-#3) {tm-#4};
+  \endgroup
 }
-\newcommand\tm@adddot[3][0pt]{\tm@@adddot[#1]{#2}{#3}{1}}
+\def\tmadddot{\@ifstar\tm@@adddot\tm@adddot}
+\newcommand\tm@@adddot[4][]{
+  \begingroup
+    \tmset{#1}
+    \foreach \tm@i in {#3} {
+      \expandafter\tm@note@getnumber\expandafter<\tm@i>
+      \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
+      \pgfmathsetmacro\tm@note@dot@shift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
+      \foreach \tm@j in {1,...,#4} {
+        \fill[color/.expanded=\tm@color] 
+          ([xshift=2.5mm,yshift=\tm@note@dot@shift]#2-\tm@i) ++ ({(\tm@j-1)*.1},0) circle (.4mm);
+      }
+    }
+  \endgroup
+}
+\newcommand\tm@adddot[3][]{\tm@@adddot[#1]{#2}{#3}{1}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,7 +99,6 @@
   \pgfmathparse{\tm@note@average@diff}
   \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
-  \global\@namedef{tm@note@\detokenize{#4}@clr}{\tm@color}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -378,7 +387,6 @@
       \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
     }
     \coordinate (#4-center) at (#2,0);
-    \global\@namedef{tm@note@\detokenize{#4}@clr}{\tm@color}
   \endgroup
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}

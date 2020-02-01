@@ -86,7 +86,10 @@
   relative/.store in=\tm@note@relativepos,
   relative/.initial=center,
   relative/.get=\tm@note@relativepos,
-  relative/.value required
+  relative/.value required,
+  % Just leave it here... i am not going to apply it anytime soon
+  use note color/.is if=tm@usenotecolor,
+  use note color/.default=true,
 }
 
 % Just for now...
