@@ -13,6 +13,9 @@
 \def\tm@notewidth{.12}
 \pgfmathsetmacro\tm@note@mid@clef{30}
 
+% Well, \@namedef *almost* satisfies my use..., but only almost
+\def\@nameedef#1{\expandafter\edef\csname #1\endcsname}
+
 \newdimen\tm@x
 \newdimen\tm@y
 \newif\iftm@usenotecolor

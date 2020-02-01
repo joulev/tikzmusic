@@ -35,6 +35,9 @@
 \newcommand\tmappendaccidental[4][]{
   \begingroup
     \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
     \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at ([xshift=-3mm]#2-#3) {tm-#4};
   \endgroup
 }
@@ -42,6 +45,9 @@
 \newcommand\tm@@adddot[4][]{
   \begingroup
     \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
     \foreach \tm@i in {#3} {
       \expandafter\tm@note@getnumber\expandafter<\tm@i>
       \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
@@ -93,12 +99,13 @@
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
   \pgfmathparse{\tm@note@max@diff}
-  \global\@namedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
   \pgfmathparse{\tm@note@min@diff}
-  \global\@namedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
   \pgfmathparse{\tm@note@average@diff}
-  \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
-  \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
+  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
+  \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -387,17 +394,18 @@
       \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
     }
     \coordinate (#4-center) at (#2,0);
+    \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
   \endgroup
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
   \pgfmathparse{\tm@note@max@diff}%\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
-  \global\@namedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
   \pgfmathparse{\tm@note@min@diff}%\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
-  \global\@namedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
   \pgfmathparse{\tm@note@average@diff}%\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
-  \global\@namedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
-  \global\@namedef{tm@note@\detokenize{#4}@pos}{#2}
+  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
 }
 \newcommand\tm@beam@head@max[4][]{
   \tm@beam@head[#1]{#2}{#3}{#4}
@@ -712,9 +720,9 @@
       haven't defined that note yet. I can't do anything \MessageBreak
       for now.}
   }{
-    \pgfmathtruncatemacro\tm@note@average@diff{\@nameuse{tm@note@\detokenize{#1}@avg}}
+    \pgfmathsetmacro\tm@note@average@diff{\@nameuse{tm@note@\detokenize{#1}@avg}}
     \pgfmathtruncatemacro\tm@note@min@diff{\@nameuse{tm@note@\detokenize{#1}@min}}
     \pgfmathtruncatemacro\tm@note@max@diff{\@nameuse{tm@note@\detokenize{#1}@max}}
-    \pgfmathtruncatemacro\tm@note@pos{\@nameuse{tm@note@\detokenize{#1}@pos}}
+    \pgfmathsetmacro\tm@note@pos{\@nameuse{tm@note@\detokenize{#1}@pos}}
   }
 }

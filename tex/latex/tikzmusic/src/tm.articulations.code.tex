@@ -1,60 +1,90 @@
-\newcommand\tmstaccato[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-2,ifthenelse(\tm@note@min@diff==-1,-3,-5))+#1}
-    \fill[color/.expanded=\tmcolor] (\tm@note@pos,\tm@articulation@pos*.1) circle (.4mm);
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+2,ifthenelse(\tm@note@max@diff<2,3,5))+#1}
-    \fill[color/.expanded=\tmcolor] (\tm@note@pos,\tm@articulation@pos*.1) circle (.4mm);
-  \fi
+\newcommand\tmstaccato[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-2,ifthenelse(\tm@note@min@diff==-1,-3,-5))+\tm@lineshift}
+      \fill[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] (\tm@note@pos,\tm@articulation@pos*.1) circle (.4mm);
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+2,ifthenelse(\tm@note@max@diff<2,3,5))+\tm@lineshift}
+      \fill[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] (\tm@note@pos,\tm@articulation@pos*.1) circle (.4mm);
+    \fi
+  \endgroup
 }
 
-\newcommand\tmtenuto[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-2,ifthenelse(\tm@note@min@diff==-1,-3,-5))+#1}
-    \draw[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] (-.15,0) -- (.15,0);
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+2,ifthenelse(\tm@note@max@diff<1,3,5))+#1}
-    \draw[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] (-.15,0) -- (.15,0);
-  \fi
+\newcommand\tmtenuto[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-2,ifthenelse(\tm@note@min@diff==-1,-3,-5))+\tm@lineshift}
+      \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (-.15,0) -- (.15,0);
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+2,ifthenelse(\tm@note@max@diff<1,3,5))+\tm@lineshift}
+      \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (-.15,0) -- (.15,0);
+    \fi
+  \endgroup
 }
 
-\newcommand\tmaccentabove[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-3,-6)+#1}
-    \draw[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] (-.18,.075) -- (.18,0) -- (-.18,-.075);
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+3,6)+#1}
-    \draw[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] (-.18,.075) -- (.18,0) -- (-.18,-.075);
-  \fi
+\newcommand\tmaccentabove[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-3,-6)+\tm@lineshift}
+      \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (-.18,.075) -- (.18,0) -- (-.18,-.075);
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+3,6)+\tm@lineshift}
+      \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] (-.18,.075) -- (.18,0) -- (-.18,-.075);
+    \fi
+  \endgroup
 }
 
-\newcommand\tmstaccatissimo[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-3,-6)+#1}
-    \fill[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)},rounded corners=.5pt] 
-      (0,.1) -- (-.04,-.075) to[out=-90,in=-90,looseness=2] (.04,-.075) -- cycle;
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+3,6)+#1}
-    \fill[color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)},rounded corners=.5pt] 
-      (0,-.1) -- (-.04,.075) to[out=90,in=90,looseness=2] (.04,.075) -- cycle;
-  \fi
+\newcommand\tmstaccatissimo[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-2,\tm@note@min@diff-3,-6)+\tm@lineshift}
+      \fill[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)},rounded corners=.5pt] 
+        (0,.1) -- (-.04,-.075) to[out=-90,in=-90,looseness=2] (.04,-.075) -- cycle;
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff>2,\tm@note@max@diff+3,6)+\tm@lineshift}
+      \fill[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)},rounded corners=.5pt] 
+        (0,-.1) -- (-.04,.075) to[out=90,in=90,looseness=2] (.04,.075) -- cycle;
+    \fi
+  \endgroup
 }
 
-\newcommand\tmmarcato[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-1,7,8)+#1}
-    \draw[fill,color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] 
-      (-.1,-.1) -- (0,.1) -- (.1,-.1) -- (.033333,-.1) -- (-.033333,.0333333);
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff<4,6,\tm@note@max@diff+3)+#1}
-    \draw[fill,color/.expanded=\tmcolor,shift={(\tm@note@pos,\tm@articulation@pos*.1)}] 
-      (-.1,-.1) -- (0,.1) -- (.1,-.1) -- (.033333,-.1) -- (-.033333,.0333333);
-  \fi
+\newcommand\tmmarcato[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff<-1,7,8)+\tm@lineshift}
+      \draw[fill,color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] 
+        (-.1,-.1) -- (0,.1) -- (.1,-.1) -- (.033333,-.1) -- (-.033333,.0333333);
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff<4,6,\tm@note@max@diff+3)+\tm@lineshift}
+      \draw[fill,color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@articulation@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)}] 
+        (-.1,-.1) -- (0,.1) -- (.1,-.1) -- (.033333,-.1) -- (-.033333,.0333333);
+    \fi
+  \endgroup
 }
 
 
@@ -65,23 +95,35 @@
 
 \def\tmfermata{\@ifstar\tm@@fermata\tm@fermata}
 % Fermata above
-\newcommand\tm@fermata[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{7+#1}
-    \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-above};
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff<5,7,\tm@note@max@diff+3)+#1}
-    \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-above};
-  \fi
+\newcommand\tm@fermata[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{7+\tm@lineshift}
+      \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-above};
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@max@diff<5,7,\tm@note@max@diff+3)+\tm@lineshift}
+      \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-above};
+    \fi
+  \endgroup
 }
-\newcommand\tm@@fermata[2][0]{
-  \tm@note@getnote{#2}
-  \ifdim\tm@note@average@diff pt<0pt
-    \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff>-5,-7,\tm@note@min@diff-3)+#1}
-    \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-below};
-  \else
-    \pgfmathtruncatemacro\tm@articulation@pos{-7+#1}
-    \pic[color/.expanded=\tmcolor] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-below};
-  \fi
+\newcommand\tm@@fermata[2][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \ifdim\tm@note@average@diff pt<0pt
+      \pgfmathtruncatemacro\tm@articulation@pos{ifthenelse(\tm@note@min@diff>-5,-7,\tm@note@min@diff-3)+\tm@lineshift}
+      \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-below};
+    \else
+      \pgfmathtruncatemacro\tm@articulation@pos{-7+\tm@lineshift}
+      \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@articulation@pos*.1) {tm-fermata-below};
+    \fi
+  \endgroup
 }
