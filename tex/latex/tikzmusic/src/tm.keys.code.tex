@@ -1,4 +1,5 @@
-\def\tmset#1{\pgfkeys{/tm/.is family,/tm/.cd,#1}}
+\pgfkeys{/tm/.is family}
+\def\tmset{\pgfqkeys{/tm}}
 \tmset{
   % Color
   color/.store in=\tm@color,
@@ -42,19 +43,19 @@
   yshift/.value required,
   %
   start shift/.code={
-    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
-    \pgfkeysalso{start xshift=\tm@x,start yshift=\tm@y}
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{start xshift/.expanded=\tm@x,start yshift/.expanded=\tm@y}
   },
   start shift/.value required,
   end shift/.code={
-    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
-    \pgfkeysalso{end xshift=\tm@x,end yshift=\tm@y}
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{end xshift/.expanded=\tm@x,end yshift/.expanded=\tm@y}
   },
   end shift/.value required,
   %
   shift/.code={
-    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
-    \pgfkeysalso{xshift=\tm@x,yshift=\tm@y}
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{xshift/.expanded=\tm@x,yshift/.expanded=\tm@y}
   },
   shift/.value required,
   %
@@ -79,8 +80,8 @@
   brace middle yshift/.value required,
   %
   brace middle shift/.code={
-    \path #1; \pgfgetlastxy{\tm@x}{\tm@y}
-    \pgfkeysalso{brace middle xshift=\tm@x,brace middle yshift=\tm@y}
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeysalso{brace middle xshift/.expanded=\tm@x,brace middle yshift/.expanded=\tm@y}
   },
   % NOTES
   relative/.store in=\tm@note@relativepos,
@@ -90,6 +91,16 @@
   %
   use note color/.is if=tm@usenotecolor,
   use note color/.default=true,
+  % LINES
+  amplitude/.store in=\tm@amplitude,
+  amplitude/.initial=2.5mm,
+  amplitude/.get=\tm@amplitude,
+  amplitude/.value required,
+  %
+  cresc dim sep/.store in=\tm@crescdimsep,
+  cresc dim sep/.initial=3mm,
+  cresc dim sep/.get=\tm@crescdimsep,
+  cresc dim sep/.value required,
 }
 
 % Just for now...

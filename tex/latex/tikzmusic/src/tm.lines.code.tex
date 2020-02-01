@@ -3,32 +3,46 @@
 
 \def\tmslur{\@ifstar\tm@@slur\tm@slur}
 % Below
-\NewDocumentCommand\tm@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
-  \tm@note@getnote{#3}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-  \tm@note@getnote{#5}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1,mirror},very thick,color/.expanded=\tmcolor]
-    ([shift={(#2)}]tm@line@aux1) -- ([shift={(#4)}]tm@line@aux2);
+\newcommand\tm@slur[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+    \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
+      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
+      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
+  \endgroup
 }
 % Above
-\NewDocumentCommand\tm@@slur{ O{2.5mm} O{0,0} m O{0,0} m }{
-  \tm@note@getnote{#3}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
-  \tm@note@getnote{#5}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
-  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick,color/.expanded=\tmcolor]
-    ([shift={(#2)}]tm@line@aux1) -- ([shift={(#4)}]tm@line@aux2);
+\newcommand\tm@@slur[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+    \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
+      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
+      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
+  \endgroup
 }
 % Custom coordinates
 \def\tmslurline{\@ifstar\tm@@slurline\tm@slurline}
-\newcommand\tm@slurline[3][2.5mm]{
-  \coordinate (tm@line@aux1) at (#2);
-  \coordinate (tm@line@aux2) at (#3);
-  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1,mirror},very thick,color/.expanded=\tmcolor]
-    (tm@line@aux1) -- (tm@line@aux2);
+\newcommand\tm@slurline[3][]{
+  \begingroup
+    \tmset{#1}
+    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
+      (tm@line@aux1) -- (tm@line@aux2);
+  \endgroup
 }
-\newcommand\tm@@slurline[3][2.5mm]{
-  \coordinate (tm@line@aux1) at (#2);
-  \coordinate (tm@line@aux2) at (#3);
-  \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=#1},very thick,color/.expanded=\tmcolor]
-    (tm@line@aux1) -- (tm@line@aux2);
+\newcommand\tm@@slurline[3][]{
+  \begingroup
+    \tmset{#1}
+    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
+      (tm@line@aux1) -- (tm@line@aux2);
+  \endgroup
 }
 
 \newlength\tm@line@tail@x
@@ -66,32 +80,47 @@
 
 \def\tmcrescendo{\@ifstar\tm@@crescendo\tm@crescendo}
 % The hairpin
-\NewDocumentCommand\tm@crescendo{ O{0mm} O{3mm} m m }{
-  \tm@line@init{#3}{#4}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-  \draw[color/.expanded=\tmcolor] ([yshift={.5*#2}]tm@line@aux2) -- (tm@line@aux1) -- ([yshift={-.5*#2}]tm@line@aux2);
+\newcommand\tm@crescendo[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+    \draw[color/.expanded=\tm@color] ([yshift={.5*\tm@crescdimsep}]tm@line@aux2) -- (tm@line@aux1) -- ([yshift={-.5*\tm@crescdimsep}]tm@line@aux2);
+  \endgroup
 }
 % The line
-\newcommand\tm@@crescendo[3][0mm]{
-  \tm@line@init{#2}{#3}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
-    \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
-  \end{scope}
+\newcommand\tm@@crescendo[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tm@color]
+      \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
+      \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
 % Custom coordinates
 \def\tmcrescendoline{\@ifstar\tm@@crescendoline\tm@crescendoline}
-\newcommand\tm@crescendoline[3][3mm]{
-  \draw[color/.expanded=\tmcolor] ([yshift={.5*#1}]#3) -- (#2) -- ([yshift={-.5*#1}]#3);
+\newcommand\tm@crescendoline[3][]{
+  \begingroup
+    \tmset{#1}
+    \draw[color/.expanded=\tm@color] 
+      ([yshift={.5*\tm@amplitude},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) -- 
+      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- 
+      ([yshift={-.5*\tm@amplitude},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+  \endgroup
 }
-\def\tm@@crescendoline#1#2{
-  \begin{scope}[color/.expanded=\tmcolor]
-    \path (#1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
-    \draw[dashed] (tm@line@aux@node.base east) -- (#2);
-  \end{scope}
+\newcommand\tm@@crescendoline[3][]{
+  \begingroup
+    \tmset{#1}
+    \begin{scope}[color/.expanded=\tm@color]
+      \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {cresc.};
+      \draw[dashed] (tm@line@aux@node.base east) -- ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \end{scope}
+  \endgroup
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,34 +128,49 @@
 
 \def\tmdiminuendo{\@ifstar\tm@@diminuendo\tm@diminuendo}
 % The hairpin
-\NewDocumentCommand\tm@diminuendo{ O{0mm} O{3mm} m m }{
-  \tm@line@init{#3}{#4}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \draw ([yshift={.5*#2}]tm@line@aux1) -- (tm@line@aux2) -- ([yshift={-.5*#2}]tm@line@aux1);
-  \end{scope}
+\newcommand\tm@diminuendo[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tm@color]
+      \draw ([yshift={.5*\tm@amplitude}]tm@line@aux1) -- (tm@line@aux2) -- ([yshift={-.5*\tm@amplitude}]tm@line@aux1);
+    \end{scope}
+  \endgroup
 }
 % The line
-\newcommand\tm@@diminuendo[3][0mm]{
-  \tm@line@init{#2}{#3}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
-    \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
-  \end{scope}
+\newcommand\tm@@diminuendo[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+    \begin{scope}[color/.expanded=\tm@color]
+      \path (tm@line@aux1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
+      \draw[dashed] (tm@line@aux@node.base east) -- (tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
 % Custom coordinates
 \def\tmdiminuendoline{\@ifstar\tm@@diminuendoline\tm@diminuendoline}
-\newcommand\tm@diminuendoline[3][3mm]{
-  \draw[color/.expanded=\tmcolor] ([yshift={.5*#1}]#2) -- (#3) -- ([yshift={-.5*#1}]#2);
+\newcommand\tm@diminuendoline[3][]{
+  \begingroup
+    \tmset{#1}
+    \draw[color/.expanded=\tm@color] 
+      ([yshift={.5*\tm@amplitude},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- 
+      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) -- 
+      ([yshift={-.5*\tm@amplitude},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+  \endgroup
 }
-\def\tm@@diminuendoline#1#2{
-  \begin{scope}[color/.expanded=\tmcolor]
-    \path (#1) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
-    \draw[dashed] (tm@line@aux@node.base east) -- (#2);
-  \end{scope}
+\newcommand\tm@@diminuendoline[3][]{
+  \begingroup
+    \tmset{#1}
+    \begin{scope}[color/.expanded=\tm@color]
+      \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) node[above right,inner sep=0pt,font=\itshape] (tm@line@aux@node) {dim.};
+      \draw[dashed] (tm@line@aux@node.base east) -- ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \end{scope}
+  \endgroup
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,49 +178,60 @@
 
 \def\tmvolta{\@ifstar\tm@@volta\tm@volta}
 % Closed
-\newcommand\tm@volta[4][0mm]{
-  \tm@line@init{#2}{#3}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@max*.1+.3);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@max*.1+.3);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-      (tm@line@auxnode.north west -| tm@line@aux2) -- 
-      (tm@line@auxnode.south west -| tm@line@aux2);
-  \end{scope}
+\newcommand\tm@volta[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.3);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.3);
+    \begin{scope}[color/.expanded=\tm@color]
+      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+        (tm@line@auxnode.north west -| tm@line@aux2) -- 
+        (tm@line@auxnode.south west -| tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
 % Unclosed
-\newcommand\tm@@volta[4][0mm]{
-  \tm@line@init{#2}{#3}
-  \coordinate (tm@line@aux1) at ([xshift=-2mm,yshift=#1]\tm@line@posone,\tm@note@max*.1+.3);
-  \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@max*.1+.3);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-      (tm@line@auxnode.north west -| tm@line@aux2);
-  \end{scope}
+\newcommand\tm@@volta[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.3);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.3);
+    \begin{scope}[color/.expanded=\tm@color]
+      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+        (tm@line@auxnode.north west -| tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
 % Custom coordinates
 \def\tmvoltaline{\@ifstar\tm@@voltaline\tm@voltaline}
-% \tm@voltaline{y}{x1}{x2}{n}
-\def\tm@voltaline#1#2#3#4{
-  \coordinate (tm@line@aux1) at (#2,#1);
-  \coordinate (tm@line@aux2) at (#3,#1);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-      (tm@line@auxnode.north west -| tm@line@aux2) -- 
-      (tm@line@auxnode.south west -| tm@line@aux2);
-  \end{scope}
+\newcommand\tm@voltaline[4][]{
+  \begingroup
+    \tmset{#1}
+    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \begin{scope}[color/.expanded=\tm@color]
+      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+        (tm@line@auxnode.north west -| tm@line@aux2) -- 
+        (tm@line@auxnode.south west -| tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
-\def\tm@@voltaline#1#2#3#4{
-  \coordinate (tm@line@aux1) at (#2,#1);
-  \coordinate (tm@line@aux2) at (#3,#1);
-  \begin{scope}[color/.expanded=\tmcolor]
-    \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-    \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-      (tm@line@auxnode.north west -| tm@line@aux2);
-  \end{scope}
+\newcommand\tm@@voltaline[4][]{
+  \begingroup
+    \tmset{#1}
+    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+    \begin{scope}[color/.expanded=\tm@color]
+      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
+      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+        (tm@line@auxnode.north west -| tm@line@aux2);
+    \end{scope}
+  \endgroup
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -186,8 +241,8 @@
   \ifstrequal{#3}{8va}{
     \coordinate (tm@octave@aux1) at ([xshift=6mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-8va};
+    \begin{scope}[color/.expanded=\tm@color]
+      \pic[color/.expanded=\tm@color] at (tm@octave@aux1) {tm-8va};
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,-.3);
     \end{scope}
@@ -195,8 +250,8 @@
   \ifstrequal{#3}{8vb}{
     \coordinate (tm@octave@aux1) at ([xshift=2.5mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-8vb};
+    \begin{scope}[color/.expanded=\tm@color]
+      \pic[color/.expanded=\tm@color] at (tm@octave@aux1) {tm-8vb};
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,.3);
     \end{scope}
@@ -204,8 +259,8 @@
   \ifstrequal{#3}{15ma}{
     \coordinate (tm@octave@aux1) at ([xshift=8mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-15ma};
+    \begin{scope}[color/.expanded=\tm@color]
+      \pic[color/.expanded=\tm@color] at (tm@octave@aux1) {tm-15ma};
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,-.3);
     \end{scope}
@@ -213,42 +268,47 @@
   \ifstrequal{#3}{15mb}{
     \coordinate (tm@octave@aux1) at ([xshift=3.5mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@octave@aux1) {tm-15mb};
+    \begin{scope}[color/.expanded=\tm@color]
+      \pic[color/.expanded=\tm@color] at (tm@octave@aux1) {tm-15mb};
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,.3);
     \end{scope}
   }{}
 }
-\newcommand\tmoctave[4][0mm]{
-  \begin{scope}[yshift=#1]
+\newcommand\tmoctave[4][]{
+  \begingroup
+    \tmset{#1}
     \tm@line@init{#2}{#3}
     \ifstrequal{#4}{8va}{
-      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@max*.1+.5);
-      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{8va}
     }{}
     \ifstrequal{#4}{8vb}{
-      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@min*.1-.5);
-      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{8vb}
     }{}
     \ifstrequal{#4}{15ma}{
-      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@max*.1+.5);
-      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.5);
+      \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{15ma}
     }{}
     \ifstrequal{#4}{15mb}{
-      \coordinate (tm@line@aux1) at ([xshift=-3mm]\tm@line@posone,\tm@note@min*.1-.5);
-      \coordinate (tm@line@aux2) at ([xshift=2mm]\tm@line@postwo,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{15mb}
     }{}
-  \end{scope}
+  \endgroup
 }
 % Custom coordinates
-\def\tmoctaveline#1#2#3{
-  \path (#1) coordinate (tm@line@aux1) (#2) coordinate (tm@line@aux2);
-  \tm@octave{tm@line@aux1}{tm@line@aux2}{#3}
+\newcommand\tmoctaveline[4][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) coordinate (tm@line@aux1) 
+          ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) coordinate (tm@line@aux2);
+    \tm@octave{tm@line@aux1}{tm@line@aux2}{#4}
+  \endgroup
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -256,56 +316,68 @@
 
 \def\tmpedal{\@ifstar\tm@@pedal\tm@pedal}
 % Not starred
-\newcommand\tm@pedal[3][0mm]{
-  \tm@line@init{#2}{#3}
-  \ifstrequal{#2}{#3}{
-    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
-  }{
-    \coordinate (tm@line@aux1) at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-    \coordinate (tm@line@aux2) at ([xshift=2mm,yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
-      \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
-    \end{scope}
-  }
+\newcommand\tm@pedal[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \ifstrequal{#2}{#3}{
+      \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
+    }{
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+      \begin{scope}[color/.expanded=\tm@color]
+        \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
+        \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
+      \end{scope}
+    }
+  \endgroup
 }
 % Starred
-\newcommand\tm@@pedal[3][0mm]{
-  \tm@line@init{#2}{#3}
-  \ifstrequal{#2}{#3}{
-    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
-    \pic[color/.expanded=\tmcolor] at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star};
-  }{
-    \coordinate (tm@line@aux1) at ([xshift=3mm,yshift=#1]\tm@line@posone,\tm@note@min*.1-.5);
-    \coordinate (tm@line@aux2) at ([yshift=#1]\tm@line@postwo,\tm@note@min*.1-.5);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
-      \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tmcolor] {tm-ped-star};
-    \end{scope}
-  }
+\newcommand\tm@@pedal[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \ifstrequal{#2}{#3}{
+      \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
+      \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star};
+    }{
+      \coordinate (tm@line@aux1) at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
+      \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
+      \begin{scope}[color/.expanded=\tm@color]
+        \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
+        \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tm@color] {tm-ped-star};
+      \end{scope}
+    }
+  \endgroup
 }
 % Custom coordinates
 \def\tmpedalline{\@ifstar\tm@@pedalline\tm@pedalline}
-\def\tm@pedalline#1#2{
-  \ifstrequal{#1}{#2}{\pic[color/.expanded=\tmcolor] at (#1) {tm-ped};}{
-    \coordinate (tm@line@aux1) at (#1);
-    \coordinate (tm@line@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
-      \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
-    \end{scope}
-  }
+\newcommand\tm@pedalline[3][]{
+  \begingroup
+    \tmset{#1}
+    \ifstrequal{#2}{#3}{\pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-ped};}{
+      \coordinate (tm@line@aux1) at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2);
+      \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]#3);
+      \begin{scope}[color/.expanded=\tm@color]
+        \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
+        \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
+      \end{scope}
+    }
+  \endgroup
 }
-\def\tm@@pedalline#1#2{
-  \ifstrequal{#1}{#2}{
-    \pic[color/.expanded=\tmcolor] at (#1) {tm-ped};
-    \pic[color/.expanded=\tmcolor] at (#2) {tm-ped-star};
-  }{
-    \coordinate (tm@line@aux1) at (#1);
-    \coordinate (tm@line@aux2) at (#2);
-    \begin{scope}[color/.expanded=\tmcolor]
-      \pic[color/.expanded=\tmcolor] at (tm@line@aux1) {tm-ped};
-      \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tmcolor] {tm-ped-star};
-    \end{scope}
-  }
+\newcommand\tm@@pedalline[3][]{
+  \begingroup
+    \tmset{#1}
+    \ifstrequal{#2}{#3}{
+      \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-ped};
+      \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#3) {tm-ped-star};
+    }{
+      \coordinate (tm@line@aux1) at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2);
+      \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]#3);
+      \begin{scope}[color/.expanded=\tm@color]
+        \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
+        \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tm@color] {tm-ped-star};
+      \end{scope}
+    }
+  \endgroup
 }
