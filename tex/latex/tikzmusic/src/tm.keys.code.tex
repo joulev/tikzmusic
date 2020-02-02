@@ -6,6 +6,11 @@
   color/.initial=black,
   color/.get=\tm@color,
   color/.value required,
+  % Detect color if key is unknown
+  .unknown/.code={
+    \edef\tm@unknown@key{\pgfkeyscurrentname}
+    \pgfkeysalso{color/.expand once=\tm@unknown@key,line color/.expand once=\tm@unknown@key}
+  },
   % Line color
   line color/.store in=\tm@linecolor,
   line color/.initial=black,
