@@ -79,12 +79,9 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
-  \pgfmathparse{\tm@note@min@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
-  \pgfmathparse{\tm@note@average@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@max}{\tm@note@max@diff}
+  \global\@nameedef{tm@note@\detokenize{#4}@min}{\tm@note@min@diff}
+  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\tm@note@average@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
   \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
   \ifstrequal{#5}{whole}{\coordinate (#4-tail) at (#2,.1*\tm@note@max@diff);}{}
@@ -396,12 +393,9 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
-  \pgfmathparse{\tm@note@min@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
-  \pgfmathparse{\tm@note@average@diff}
-  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
+  \global\@nameedef{tm@note@\detokenize{#4}@max}{\tm@note@max@diff}
+  \global\@nameedef{tm@note@\detokenize{#4}@min}{\tm@note@min@diff}
+  \global\@nameedef{tm@note@\detokenize{#4}@avg}{\tm@note@average@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
 }
 \newcommand\tm@beam@head@max[4][]{
