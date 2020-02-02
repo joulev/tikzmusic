@@ -62,25 +62,6 @@
 \newcommand\tm@adddot[3][]{\tm@@adddot[#1]{#2}{#3}{1}}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% WHOLE NOTE
-\newcommand\tm@whole[3][center]{%
-  \tm@draw@extra@lines{#2}{#3}{.25}{\csname tm@draw@extra@lines@shift@#1\endcsname}
-  \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-whole-note-#1};
-}
-\newcommand\tmwhole[4][]{
-  \foreach \tm@i in {#3} {
-    \expandafter\tm@note@getnumber\expandafter<\tm@i>
-    \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-    \tmset{#1}
-    \tm@whole[\tm@note@relativepos]{#2}{\tm@note@diff}
-    \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
-    \coordinate (#4-tail) at (#2,.1*\tm@note@diff);
-  }
-  \coordinate (#4-center) at (#2,0);
-}
-
-
 \newcommand\tm@head[5][center]{
   \def\tm@note@min{52}
   \def\tm@note@max{1}
@@ -106,6 +87,22 @@
   \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
   \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
+  \ifstrequal{#5}{whole}{\coordinate (#4-tail) at (#2,.1*\tm@note@max@diff);}{}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% WHOLE NOTE
+\newcommand\tm@whole@head[3][center]{%
+  \tm@draw@extra@lines{#2}{#3}{.25}{\csname tm@draw@extra@lines@shift@#1\endcsname}
+  \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-whole-note-#1};
+}
+\newcommand\tmwhole[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{whole}
+  \endgroup
+  \def\tm@note@average@diff{0}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
