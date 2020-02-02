@@ -6,7 +6,8 @@
 \newcommand\tm@outputsharp[4][]{
   \begingroup\tmset{#1}
     \foreach \tm@i [count=\tm@j] in \tm@sharplist {
-      \path[xshift=#2cm,yshift=\tm@lineshift*0.2cm/2] pic[color/.expanded=\tm@color] at (\tm@j*.18,\tm@i*.1) {tm-#4};
+      \path[xshift=#2cm,yshift=\tm@lineshift*0.2cm/2] pic[color/.expanded=\tm@color] 
+        at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]\tm@j*.18,\tm@i*.1) {tm-#4};
       \ifnum\tm@j=#3\breakforeach\fi
     }
   \endgroup
@@ -14,7 +15,8 @@
 \newcommand\tm@outputflat[4][]{
   \begingroup\tmset{#1}
     \foreach \tm@i [count=\tm@j] in \tm@flatlist {
-      \path[xshift=#2cm,yshift=\tm@lineshift*0.2cm/2] pic[color/.expanded=\tm@color] at (\tm@j*.18,\tm@i*.1) {tm-#4};
+      \path[xshift=#2cm,yshift=\tm@lineshift*0.2cm/2] pic[color/.expanded=\tm@color] 
+        at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]\tm@j*.18,\tm@i*.1) {tm-#4};
       \ifnum\tm@j=#3\breakforeach\fi
     }
   \endgroup
@@ -32,7 +34,7 @@
 \newcommand\tmtimesignature[4][]{
   \begingroup
     \tmset{#1}
-    \coordinate (x) at (#2,0);
+    \coordinate (x) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,0);
     \path (x) node[above,inner sep=0pt] {\tm@@@timesignature{#3}};
     \path (x) node[below,inner sep=0pt] {\tm@@@timesignature{#4}};
   \endgroup
@@ -40,13 +42,13 @@
 \newcommand\tmtimesignaturecommon[2][]{
   \begingroup
     \tmset{#1}
-    \pic[color/.expanded=\tm@color] at (#2,0) {tm-common-time};
+    \pic[color/.expanded=\tm@color] at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,0) {tm-common-time};
   \endgroup
 }
 \newcommand\tmtimesignatureallabreve[2][]{
   \begingroup
     \tmset{#1}
-    \pic[color/.expanded=\tm@color] at (#2,0) {tm-alla-breve-time};
+    \pic[color/.expanded=\tm@color] at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,0) {tm-alla-breve-time};
   \endgroup
 }
 \def\tm@@@timesignature#1{%
