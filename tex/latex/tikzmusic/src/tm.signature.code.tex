@@ -11,7 +11,7 @@
     }
   \endgroup
 }
-\newcommand\tm@outputflat[4][0]{
+\newcommand\tm@outputflat[4][]{
   \begingroup\tmset{#1}
     \foreach \tm@i [count=\tm@j] in \tm@flatlist {
       \path[xshift=#2cm,yshift=\tm@lineshift*0.2cm/2] pic[color/.expanded=\tm@color] at (\tm@j*.18,\tm@i*.1) {tm-#4};
