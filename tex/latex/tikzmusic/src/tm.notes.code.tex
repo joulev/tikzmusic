@@ -123,11 +123,11 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \fi
     }{}
   \endgroup
@@ -141,11 +141,11 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \fi
     }{}
   \endgroup
@@ -168,11 +168,11 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \fi
     }{}
   \endgroup
@@ -186,11 +186,11 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \fi
     }{}
   \endgroup
@@ -210,12 +210,12 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
       \fi
     }{}
@@ -230,12 +230,12 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
       \fi
     }{}
@@ -270,12 +270,12 @@
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
         \tm@insert@flag@up{#5}{#4}
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
         \tm@insert@flag@down{#5}{#4}
       \fi
     }{}
@@ -290,12 +290,12 @@
       \ifdim\tm@note@average@diff pt>0pt  
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tmnotelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
+          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
         \tm@insert@flag@down{#5}{#4}
       \else
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tmnotelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
+          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
         \tm@insert@flag@up{#5}{#4}
       \fi
     }{}
@@ -399,11 +399,11 @@
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
   \pgfmathtruncatemacro\tm@note@max@diff{\tm@note@max-\tm@note@mid@clef}
   \pgfmathsetmacro\tm@note@average@diff{(\tm@note@min@diff+\tm@note@max@diff)/2}
-  \pgfmathparse{\tm@note@max@diff}%\global\expandafter\let\csname tm@note@#4@max\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@max@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@max}{\pgfmathresult}
-  \pgfmathparse{\tm@note@min@diff}%\global\expandafter\let\csname tm@note@#4@min\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@min@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@min}{\pgfmathresult}
-  \pgfmathparse{\tm@note@average@diff}%\global\expandafter\let\csname tm@note@#4@avg\endcsname\pgfmathresult
+  \pgfmathparse{\tm@note@average@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@avg}{\pgfmathresult}
   \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
 }
@@ -411,13 +411,13 @@
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmax{\tm@note@max}{#4}
   \coordinate (#4-@aux1) at (#2+\tm@notewidth,\tm@note@min@diff*.1);
-  \coordinate (#4-@aux2) at ([yshift=\tmnotelength]#2+\tm@notewidth,\tm@note@max@diff*.1);
+  \coordinate (#4-@aux2) at ([yshift=\tm@notelength]#2+\tm@notewidth,\tm@note@max@diff*.1);
 }
 \newcommand\tm@beam@head@min[4][]{
   \tm@beam@head[#1]{#2}{#3}{#4}
   \tm@beam@note@getmin{\tm@note@min}{#4}
   \coordinate (#4-@aux1) at (#2-\tm@notewidth,\tm@note@max@diff*.1);
-  \coordinate (#4-@aux2) at ([yshift=-\tmnotelength]#2-\tm@notewidth,\tm@note@min@diff*.1);
+  \coordinate (#4-@aux2) at ([yshift=-\tm@notelength]#2-\tm@notewidth,\tm@note@min@diff*.1);
 }
 
 
