@@ -1,30 +1,54 @@
 \def\tmgclef{\@ifstar\tm@@gclef\tm@gclef}
-\newcommand\tm@gclef[2][0]{
-  \path (#2,#1*.1) pic[scale=0.8] {tm-g-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{30-#1}
+\newcommand\tm@gclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,\tm@lineshift*.1) 
+      pic[scale=0.8,color/.expanded=\tm@color] {tm-g-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{30-\tm@lineshift}
+  \endgroup
 }
-\newcommand\tm@@gclef[2][0]{
-  \path (#2,#1*.1) pic {tm-g-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{30-#1}
+\newcommand\tm@@gclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,\tm@lineshift*.1) 
+      pic[color/.expanded=\tm@color] {tm-g-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{30-\tm@lineshift}
+  \endgroup
 }
 
 \def\tmcclef{\@ifstar\tm@@cclef\tm@cclef}
-\newcommand\tm@cclef[2][0]{
-  \path (#2,#1*.1) pic[scale=0.8] {tm-c-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{24-#1}
+\newcommand\tm@cclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,\tm@lineshift*.1) 
+      pic[scale=0.8,color/.expanded=\tm@color] {tm-c-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{24-\tm@lineshift}
+  \endgroup
 }
-\newcommand\tm@@cclef[2][0]{
-  \path (#2,#1*.1) pic {tm-c-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{24-#1}
+\newcommand\tm@@cclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,\tm@lineshift*.1) 
+      pic[color/.expanded=\tm@color] {tm-c-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{24-\tm@lineshift}
+  \endgroup
 }
 
 
 \def\tmfclef{\@ifstar\tm@@fclef\tm@fclef}
-\newcommand\tm@fclef[2][0]{
-  \path (#2,.03+#1*.1) pic[scale=0.8] {tm-f-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{18-#1}
+\newcommand\tm@fclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,.03+\tm@lineshift*.1) 
+      pic[scale=0.8,color/.expanded=\tm@color] {tm-f-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{18-\tm@lineshift}
+  \endgroup
 }
-\newcommand\tm@@fclef[2][0]{
-  \path (#2,#1*.1) pic {tm-f-clef};
-  \pgfmathsetmacro\tm@note@mid@clef{18-#1}
+\newcommand\tm@@fclef[2][]{
+  \begingroup
+    \tmset{#1}
+    \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,\tm@lineshift*.1) 
+      pic[color/.expanded=\tm@color] {tm-f-clef};
+    \pgfmathsetmacro\tm@note@mid@clef{18-\tm@lineshift}
+  \endgroup
 }
