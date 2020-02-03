@@ -6,13 +6,7 @@
   \draw[color/.expanded=\tm@linecolor] (0,-2*0.2) -- ++ (0,4*0.2);
 }
 
-\newenvironment{tmsinglestaff}[1][]{%
-  \par\begingroup\setlength\parindent{0pt}%
-  \begin{minipage}{\linewidth}%
-    \tmset{#1}%
-}{\end{minipage}\endgroup\par}
-
-\newenvironment{tmmultiplestaves}[1][]{%
+\newenvironment{tmline}[1][]{%
   \par\begingroup%
     \tmset{#1}%
     \setlength\parindent{0pt}%
