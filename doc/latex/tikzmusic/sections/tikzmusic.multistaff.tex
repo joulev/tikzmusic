@@ -1,0 +1,304 @@
+\section{Multiple-staff operations}\label{sec:multistaff}
+Because the following commands are multiple-staff commands, they should be 
+used outside |{tmstaff}| and |{tmstaff*}| (\emph{except} 
+|\tmbarlineinline|, |\tmdoublebarlineinline|, \dots).
+\subsection{Ensembling staves}\label{sec:multistaff:ensemble-staves}
+Braces that groups some staves inside a |{tmline}| can be drawn 
+using the following command:
+\begin{command}{\tmbrace\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}\marg{text}}
+  Draw a brace spanning from \meta{staff 1} to \meta{staff 2}. 
+  \meta{text} is displayed at the middle of the brace. If you don't want 
+  any text to be displayed, you can leave this option empty.
+\end{command}
+% Vu Van Dung: Inside the {codeexample} environment, indenting 
+% everything outside {tmstaff} or {tmstaff*} causes a blank 
+% line to be inserted, which is not the case for any other 
+% cases. I don't know why.
+\begin{codeexample}[]
+\begin{tmline}[staff offset=2cm]%
+\begin{tmstaff}{g}{piano-1}\end{tmstaff}%
+\begin{tmstaff}{f}{piano-2}\end{tmstaff}%
+\tmbrace{piano-1}{piano-2}{Piano}%
+\end{tmline}
+\end{codeexample}
+Similarly, brackets can also be drawn:
+\begin{command}{\tmbracket\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}}
+  Draw a bracket spanning from \meta{staff 1} to \meta{staff 2}. 
+  Unlike |\tmbrace|, no text will be displayed.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}[staff offset=2.5cm]%
+\begin{tmstaff}{g}{Violin}\end{tmstaff}%
+\begin{tmstaff}{c}{Viola}\end{tmstaff}%
+\begin{tmstaff}{f}{Violoncello}\end{tmstaff}%
+\begin{tikzpicture}[remember picture,overlay]
+  \foreach \i in {Violin,Viola,Violoncello}\path (\i-start) node[left=2mm] {\i};
+\end{tikzpicture}%
+\tmbracket{Violin}{Violoncello}%
+\end{tmline}
+\end{codeexample}
+\subsection{Barlines}\label{sec:multistaff:barlines}
+The \tmname\ package supports many different types of barlines. 
+\subsubsection{Normal barlines}\label{sec:multistaff:barlines:normal}
+\begin{command}{\tmbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw a normal barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|. 
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}\end{tmstaff}%
+\tmbarline{5}{staff-1}%
+\tmbarline[teal]{5}{staff-2}%
+\end{tmline}
+\end{codeexample}
+% JouleV: No, starred commands don't work :(
+\begin{command}{\tmbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}}
+  Draw a normal barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}\end{tmstaff}%
+\tmbarline*{5}{staff-1}{staff-2}%
+\end{tmline}
+\end{codeexample}
+A special case of |\tmbarline*| is implemented in the following command:
+\begin{command}{\tmbarlineendline\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}}
+  Draw a normal barline spanning from \meta{staff 1} to 
+  \meta{staff 2} at the end of the line.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{c}{staff-2}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-3}\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-3}%
+\tmbarlineendline[blue]{staff-1}{staff-3}%
+\end{tmline}
+\end{codeexample}
+If you want to draw the barline inside |{tmstaff}| or |{tmstaff*}|, 
+you can use 
+\begin{command}{\tmbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a normal barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{}
+  \tmbarlineinline[blue]{3,5,8,9}
+\end{tmstaff}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{Double barlines}\label{sec:multistaff:barlines:double}
+Like when drawing normal barlines as described in section 
+\ref{sec:multistaff:barlines:normal}, 
+we also have four commands for double barlines.
+\begin{command}{\tmdoublebarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw a double barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmdoublebarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}}
+  Draw a double barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+\end{command}
+\begin{command}{\tmdoublebarlineendline\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}}
+  Draw a double barline spanning from \meta{staff 1} to 
+  \meta{staff 2} at the end of the line.
+\end{command}
+\begin{command}{\tmdoublebarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a double barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+Example use of all four commands described in this section:
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmdoublebarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmdoublebarline*{4}{staff-1}{staff-2}%
+\tmdoublebarline{7}{staff-1}%
+\tmdoublebarlineendline{staff-1}{staff-2}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{Dotted barlines}\label{sec:multistaff:barlines:dotted}
+Now you can see the patterns :).
+\begin{command}{\tmdottedbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw a dotted barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmdottedbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}}
+  Draw a dotted barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+\end{command}
+\begin{command}{\tmdottedbarlineendline\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}}
+  Draw a dotted barline spanning from \meta{staff 1} to 
+  \meta{staff 2} at the end of the line.
+\end{command}
+\begin{command}{\tmdottedbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a double barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+The commands in use:
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmdottedbarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmdottedbarline*{4}{staff-1}{staff-2}%
+\tmdottedbarline{7}{staff-1}%
+\tmdottedbarlineendline{staff-1}{staff-2}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{Final barlines}\label{sec:multistaff:barlines:final}
+\begin{command}{\tmfinalbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw a final barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmfinalbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}}
+  Draw a final barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+\end{command}
+\begin{command}{\tmfinalbarlineendline\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}}
+  Draw a final barline spanning from \meta{staff 1} to 
+  \meta{staff 2} at the end of the line.
+\end{command}
+\begin{command}{\tmfinalbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a final barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmfinalbarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmfinalbarline*{4}{staff-1}{staff-2}%
+\tmfinalbarline{7}{staff-1}%
+\tmfinalbarlineendline{staff-1}{staff-2}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{Start repeat barlines}\label{sec:multistaff:barlines:start}
+\begin{command}{\tmstartrepeatbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw a start repeat barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmstartrepeatbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}\marg{list of staff names}}
+  Draw a start repeat barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+
+  Because of some internal problems, you need to specify a full list of the names 
+  of the staff that the barline spans over in \meta{list of staff names} with 
+  a comma-separated list.
+\end{command}
+\begin{command}{\tmstartrepeatbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a start repeat barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmstartrepeatbarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmstartrepeatbarline*{4}{staff-1}{staff-2}{staff-1,staff-2}%
+\tmstartrepeatbarline{7}{staff-1}%
+\end{tmline}
+\end{codeexample}
+Note that there is no |\tmstartrepeatbarlineendline|, because I am sure you 
+will never put a start repeat barline to the end of a line.
+\subsubsection{End repeat barlines}\label{sec:multistaff:barlines:end}
+\begin{command}{\tmendrepeatbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw an end repeat barline on \meta{staff} at $x$-position \meta{x-pos} in 
+  relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmendrepeatbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}\marg{list of staff names}}
+  Draw an end repeat barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+
+  Similar to |\tmstartrepeatbarline*|, you also need to specify 
+  \meta{list of staff names.}
+\end{command}
+\begin{command}{\tmendrepeatbarlineendline\opt{\oarg{options}}\marg{staff 1}\marg{staff 2}\marg{list of staff names}}
+  Draw an end repeat barline spanning from \meta{staff 1} to 
+  \meta{staff 2} at the end of the line. 
+\end{command}
+\begin{command}{\tmendrepeatbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a end repeat barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmendrepeatbarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmendrepeatbarline*{4}{staff-1}{staff-2}{staff-1,staff-2}%
+\tmendrepeatbarline{7}{staff-1}%
+\tmendrepeatbarlineendline{staff-1}{staff-2}{staff-1,staff-2}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{End-start repeat barlines}\label{sec:multistaff:barlines:endstart}
+Sometimes, you want a barline to be a start repeat barline and an end repeat 
+barline at the same time. You should not use |\tmstartrepeatbarline| (and 
+similar commands) and |\tmendrepeatbarline| (and similar commands) at the 
+same place, because it will look very bad. In those cases, use the following 
+commands:
+\begin{command}{\tmendstartrepeatbarline\opt{\oarg{options}}\marg{x-pos}\marg{staff}}
+  Draw an `end-start' repeat barline on \meta{staff} at $x$-position 
+  \meta{x-pos} in relative to the origin |(|\meta{staff}|-start)|.
+\end{command}
+\begin{command}{\tmendstartrepeatbarline*\opt{\oarg{options}}\marg{x-pos}\marg{staff 1}\marg{staff 2}\marg{list of staff names}}
+  Draw an `end-start' repeat barline spanning from \meta{staff 1} to 
+  \meta{staff 2}, at $x$-position \meta{x-pos} in relative to 
+  the origin |(|\meta{staff name}|-start)| of either staff.
+\end{command}
+\begin{command}{\tmendstartrepeatbarlineinline\opt{\oarg{options}}\marg{list of x-pos}}
+  Draw a end repeat barline at each $x$-position specified in \marg{list of x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}
+  \tmendstartrepeatbarlineinline{8,9,10}
+\end{tmstaff}%
+\tmbarline*{0}{staff-1}{staff-2}%
+\tmendstartrepeatbarline*{4}{staff-1}{staff-2}{staff-1,staff-2}%
+\tmendstartrepeatbarline{7}{staff-1}%
+\end{tmline}
+\end{codeexample}
+Note that there is no |\tmendstartrepeatbarlineendline|.
+\subsubsection{Normal barlines loops}\label{sec:multistaff:barlines:normal-loop}
+Normally there are many barlines in your line, so using |\tmbarline| for 
+each of them is obviously not convenient. You can use the following commands 
+to make drawing barlines easier and more concise.
+\begin{command}{\tmbarlineloop\opt{\oarg{options}}\marg{list of x-pos}\marg{list of staff names}}
+  Draw a normal barline at each $x$-position in \meta{list of x-pos} and at each 
+  staff specified in \meta{list of staff names}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+  \begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+  \begin{tmstaff}{f}{staff-2}\end{tmstaff}%
+  \tmbarlineloop{3,6,9}{staff-1,staff-2}%
+\end{tmline}
+\end{codeexample}
+\begin{command}{\tmbarlineloop*\opt{\oarg{options}}\marg{list of x-pos}\marg{staff 1}\marg{staff 2}}
+  Draw a normal barline at each $x$-position in \meta{list of x-pos}, spanning 
+  from \meta{staff 1} to \meta{staff 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{staff-1}\end{tmstaff}%
+\begin{tmstaff}{f}{staff-2}\end{tmstaff}%
+\tmbarlineloop*{3,6,9}{staff-1}{staff-2}%
+\end{tmline}
+\end{codeexample}

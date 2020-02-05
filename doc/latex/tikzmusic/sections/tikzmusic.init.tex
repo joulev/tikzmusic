@@ -1,0 +1,104 @@
+\section{Initialization}\label{sec:init}
+\subsection{Loading the package}\label{sec:init:load}
+This package currently only supports \LaTeXe.
+
+\begin{package}{tikzmusic}
+  Loading the \tmname\ package. There are no package options.
+\end{package}
+
+This package will automatically load the packages \pkg{etoolbox}, \pkg{spath3} 
+and \tikzname, as well as \tikzname\ standard libraries |calc|, 
+|intersection|, |decorations.pathreplacing|. You don't need to load these 
+packages and libraries again in your document.
+\subsection{Processing options}\label{sec:init:options}
+The \tmname\ package uses the \pkg{pgfkeys} package to handle options. Every 
+option defined in the package is in the same family, |/tm|, e.g. 
+|color|.
+
+\begin{command}{\tmset\marg{options}}
+  Process \meta{options}. where the default path is set to |/tm|.
+\end{command}
+
+If you know about \tikzname\ and its key system, you can think |\tmset| 
+works just like |\tikzset|, only the default path is different. You can now skip 
+to the next section.
+
+If you are not familiar with \pkg{pgfkeys} or |\pgfkeys| or 
+|\tikzset|, \meta{options} is a list of \meta{key}\opt{|=|\meta{value}} 
+pairs, separated by commas. The command will then separate each pair and process 
+them.
+
+\begin{itemize}
+  \item If the key is with \meta{value}, option \meta{key}
+  is processed, with its value being \meta{value}.
+  \item Otherwise, the command will check whether \meta{key} is a defined key. 
+  If it is defined, option \meta{key} is processed. 
+  Otherwise, it will be processed as the value for both |line color| and |color| 
+  (see section \ref{sec:custom:color}).
+\end{itemize}
+
+If you want to learn deeper about this, you can read section 88 of the PGF 
+manual (you can read it via |texdoc pgf|).
+\subsection{Environments for music lines}\label{sec:init:drawing-environment}
+Each music line will be drawn separately, by using the following environment:
+
+\begin{environment}{{tmline}\opt{\oarg{options}}}
+  Add a music line (consisting of one or many staves).
+\end{environment}
+
+\begin{codeexample}[]
+\begin{tmline}[blue]
+\begin{tmstaff}{g}{}\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+
+If a line consists of more than one staff, you may need to indent the staves a 
+little bit to make room for instrument names and braces/brackets. You can do so 
+by using the following key:
+
+\begin{key}{/tm/staff offset=\meta{length} (initially 0pt)}
+  Indent all staves in a line by \meta{length}.
+\end{key}
+
+\begin{codeexample}[]
+\begin{tmline}[staff offset=1.5cm]
+\begin{tmstaff}{g}{a}
+  \path[overlay] (a-start) node[left] {Violin};%
+\end{tmstaff}
+\end{tmline}%
+\end{codeexample}
+\subsection{Creating a staff}\label{sec:init:staff-creation}
+A staff can be created using one of the following environments:
+\begin{environment}{{tmstaff}\opt{\oarg{options}}\marg{clef name}\marg{staff name}}
+  Create a staff, with the starting clef is \meta{clef name}.
+
+  \meta{clef name} can have three values: |g|, |f| and |c|, which stands for 
+  the treble (G) clef, the bass (F) clef and the alto (C) clef, respectively.
+
+  \meta{staff name} will be used to make cross-staff barlines or braces, so 
+  you should only left it empty if you are sure you will not refer to it later.
+
+  \meta{options} will be executed at the beginning of the environment.
+\end{environment}
+\begin{codeexample}[]
+\begin{tmline}[staff offset=1cm]
+\begin{tmstaff}{g}{}\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\begin{environment}{{tmstaff*}\opt{\oarg{options}}\marg{staff name}}
+  Work like |{tmstaff}|, but no clefs will be drawn.
+\end{environment}
+Essentially, |{tmstaff}| and |{tmstaff*}| are extensions of the 
+|{tikzpicture}| environment, where the origin of the canva is the leftmost 
+point of the middle line. That origin is marked as \tikzname\ remembered 
+coordinate |(|\meta{staff name}|-start)|. There are also two other remembered 
+coordinates: the leftmost points of the top line and the bottom line are marked 
+as \tikzname\ coordinates |(|\meta{staff name}|-nw)| and |(|\meta{staff name}|-sw)| 
+respectively.
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{my-staff}
+  \path (my-staff-nw) node[above,overlay] {1} ++ (.5,.5) node[right] {\bfseries Allegro};
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}

@@ -1,0 +1,143 @@
+\section{Customization}\label{sec:custom}
+\subsection{Color}\label{sec:custom:color}
+\begin{key}{/tm/line color=\meta{color} (initially black)}
+  Set the color of the lines, including the five main lines in each staff and 
+  the additional lines in the notes.
+\end{key}
+\begin{key}{/tm/color=\meta{color} (initially black)}
+  Set the color of everything except the lines, whose color has been handled using 
+  |line color|.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}[color=red,line color=blue]{g}{}
+  \tmquarter[color=teal,line color=purple]{8}{G3}{}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+You can specify colors in a more compact way. If you want to set |color| and 
+|line color| to the same color \meta{color}, you can use \meta{color} as an 
+option. This works pretty much like the way you use colors in \tikzname. However, 
+keep in mind that \emph{both} |line color| and |color| are affected by specifing 
+this way.
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter[red]{6}{G3}{}
+  \tmquarter[color=red]{8}{G3}{}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+When adding notations to a note, e.g. when you use |\tmappendaccidental| to a 
+note, you might want to set the color of the additional notation to be the same 
+as the color of that note. You can do so using the following key:
+\begin{key}{/tm/use note color=\meta{|true| or |false|} (default true)}
+  If this key is set to |true|, the color of the additional notation is set to 
+  the color of its `parent' note.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter[color=red]{8}{G3}{a}\tmappendaccidental[use note color]{a}{G3}{sharp}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\subsection{Note length}\label{sec:custom:note-length}
+\begin{key}{/tm/note length=\meta{length} (initially 6mm)}
+  Reset the stem length of notes.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \begin{tmbeam}[note length=1.7cm]
+    \tmbeamnote{4}{C4}{10}{a}\tmbeamnote{5}{D4}{10}{b}\tmbeamnote{6}{E4}{10}{c}
+    \tmbeamnote{7}{F4}{10}{d}\tmbeamnote{8}{G4}{10}{e}\tmbeamnote{9}{A4}{10}{f}
+  \end{tmbeam}
+  \tmquarter*{10}{B4}{}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\subsection{Transformations}\label{sec:custom:transformations}
+\subsubsection{Shifting for lines}\label{sec:custom:transformations:lines}
+These applies to the lines command, see section \ref{sec:line} and |\tmbrace| and 
+|\tmbracket|.
+\begin{key}{/tm/start xshift=\meta{length} (initially 0pt)}
+  Shift the starting point of the line by \meta{length} in the horizontal direction.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{5}{C4}{a}\tmquarter{8}{C5}{b}
+  \tmoctave[red,start xshift=-5mm]{a}{b}{8va}
+  \tmoctave{a}{b}{8va} % For comparison
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\begin{key}{/tm/start yshift=\meta{length} (initially 0pt)}
+  Shift the starting point of the line by \meta{length} in the vertical direction.
+\end{key}
+\begin{key}{/tm/start shift=\meta{coordinate}}
+  Shift the starting point of the line by \meta{coordinate}.
+\end{key}
+\begin{key}{/tm/end xshift=\meta{length} (initially 0pt)}
+  Shift the ending point of the line by \meta{length} in the horizontal direction.
+\end{key}
+\begin{key}{/tm/end yshift=\meta{length} (initially 0pt)}
+  Shift the ending point of the line by \meta{length} in the vertical direction.
+\end{key}
+\begin{key}{/tm/end shift=\meta{coordinate}}
+  Shift the ending point of the line by \meta{coordinate}.
+\end{key}
+\subsubsection{Brace-specific shifting}\label{sec:custom:transformations:brace}
+\begin{key}{/tm/brace middle xshift=\meta{length} (initially 0pt)}
+  Shift the middle point of the brace by \meta{length} in the horizontal direction.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}[staff offset=1.7cm]
+\begin{tmstaff}{g}{a}\end{tmstaff}%
+\begin{tmstaff}{g}{b}\end{tmstaff}%
+\tmbrace[brace middle xshift=-3mm]{a}{b}{Piano}%
+\end{tmline}
+\end{codeexample}
+\begin{key}{/tm/brace middle yshift=\meta{length} (initially 0pt)}
+  Shift the middle point of the brace by \meta{length} in the vertical direction.
+\end{key}
+\begin{key}{/tm/brace middle shift=\meta{coordinate}}
+  Shift the middle point of the brace by \meta{coordinate}.
+\end{key}
+\subsubsection{Shifting for others}\label{sec:custom:transformations:others}
+Keep in mind that shifting only works with some commands, like the articulations 
+or the accidentals. Things whose coordinates are already specified, e.g. 
+|\tmwhole|, may or may not be affected by these keys.
+\begin{key}{/tm/xshift=\meta{length} (initially 0pt)}
+  Shift the object by \meta{length} in the horizontal direction. In the lines 
+  this is a shorthand for |start xshift| and |end xshift|.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{6}{E4,B4}{a}
+  \tmappendaccidental{a}{E4}{flat}\tmappendaccidental[xshift=-2mm]{a}{B4}{flat}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\begin{key}{/tm/yshift=\meta{length} (initially 0pt)}
+  Shift the object by \meta{length} in the horizontal direction. In the lines 
+  this is a shorthand for |start yshift| and |end yshift|
+\end{key}
+\begin{key}{/tm/shift=\meta{coordinate}}
+  Shift the object by \meta{coordinate} in the horizontal direction. In the lines 
+  this is a shorthand for |start shift| and |end shift|.
+\end{key}
+\begin{key}{/tm/line shift=\meta{number} (initially 0)}
+  Shift the object by \meta{number} lines. This is effectively |yshift| where 
+  \meta{length} is set to \meta{number} $\times$ \meta{line sep}.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff*}{}
+  \tmeighthrest[line shift=4]{3}\tmeighthrest[line shift=-4]{3}
+  \tmwholerest[line shift=4]{6} \tmwholerest[line shift=-4]{6}
+\end{tmstaff*}
+\end{tmline}
+\end{codeexample}

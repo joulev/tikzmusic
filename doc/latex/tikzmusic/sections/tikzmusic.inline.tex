@@ -1,0 +1,56 @@
+\section{Other in-line stuffs}\label{sec:inline}
+\subsection{Clefs}\label{sec:inline:clef}
+You can add a clef in-line using the following commands:
+\begin{command}{\tmgclef\opt{\oarg{options}}\marg{x-pos}}
+  Add a treble clef at position \meta{x-pos}. The clef will be scaled down a bit 
+  as per standards. \meta{shift} works like in |\tmkeysignature|.
+\end{command}
+\begin{command}{\tmcclef\opt{\oarg{options}}\marg{x-pos}}
+  Work like |\tmgclef|, but the clef is the alto clef.
+\end{command}
+\begin{command}{\tmfclef\opt{\oarg{options}}\marg{x-pos}}
+  Work like |\tmgclef|, but the clef is the bass clef.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{3}{C4}{}
+  \tmfclef{4}\tmquarter{5}{C4}{}
+  \tmcclef{6}\tmquarter{7}{C4}{}
+  \tmgclef{8}\tmquarter{9}{C4}{}
+  \tmcclef[line shift=2]{10}\tmquarter{11}{C4}{}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+However, sometimes you don't want these clefs to be scaled. You can use the 
+starred version of the mentioned commands.
+\begin{command}{\tmgclef*\opt{\oarg{options}}\marg{x-pos}}
+  Work like |\tmgclef|, but the clef is not scaled.
+\end{command}
+\begin{command}{\tmcclef*\opt{\oarg{options}}\marg{x-pos}}
+  Work like |\tmcclef|, but the clef is not scaled.
+\end{command}
+\begin{command}{\tmfclef*\opt{\oarg{options}}\marg{x-pos}}
+  Work like |\tmfclef|, but the clef is not scaled.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmfclef*{4}\tmcclef*{6}\tmgclef*{8}\tmcclef*[line shift=2]{10}
+\end{tmstaff}%
+\end{tmline}
+\end{codeexample}
+\subsection{Breaths}\label{sec:inline:breaths}
+\begin{command}{\tmbreath\opt{\oarg{options}}\marg{x-pos}}
+  Add a breath mark (a comma) to position \meta{x-pos}.
+\end{command}
+\begin{command}{\tmcaesura\opt{\oarg{options}}\marg{x-pos}}
+  Add a caesura to position \meta{x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmbreath{4}\tmbreath[line shift=1]{5}\tmcaesura{8}\tmcaesura[line shift=-4]{9}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}

@@ -1,0 +1,65 @@
+\section{Key signatures and time signatures}\label{sec:signatures}
+\subsection{Key signatures}\label{sec:signatures:key}
+Key signatures are added by the following command:
+\begin{command}{\tmkeysignature\opt{\oarg{options}}\marg{x-pos}\marg{type}\marg{number}}
+  Add a key signature at $x$-position \meta{x-pos}. The key signature has type 
+  \meta{type} and the number of \mbox{sharps/flats} \meta{number}.
+
+  \meta{type} can be either |sharp|, |flat|, |nsharp| or |nflat|. |sharp| and 
+  |flat| will produce a sharp or flat key signature as usual. |nsharp| and 
+  |nflat| will produce a `natural' key signature that has the format of sharp and 
+  flat, respectively.
+  
+  \meta{number} can be any number from |1| to |7|.
+
+  The key signature will be added as in a treble clef. You can use shifting options, 
+  e.g. |line shift| %(see more in section \ref{sec:keys:transformations}) 
+  to shift the key signature so that it fits other clefs.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmkeysignature{3}{sharp}{5}
+  \tmkeysignature{5}{nsharp}{5}
+  \tmkeysignature{7}{flat}{5}
+  \tmkeysignature{9}{nflat}{5}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\subsection{Time signatures}\label{sec:signatures:time}
+Normal time signatures can be added using the following command
+\begin{command}{\tmtimesignature\opt{\oarg{options}}\marg{x-pos}\marg{upper}\marg{lower}}
+  Add a time signature to $x$-position \meta{x-pos}. The upper part and the lower 
+  part of the time signature are \meta{upper} and \meta{lower} respectively.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}[staff offset=2cm]%
+\begin{tmstaff}{g}{piano-1}
+  \tmkeysignature{1}{sharp}{5}\tmtimesignature{2.5}{12}{8}
+\end{tmstaff}%
+\begin{tmstaff}{f}{piano-2}
+  \tmkeysignature[line shift=-2]{1}{sharp}{5}\tmtimesignature{2.5}{12}{8}
+\end{tmstaff}%
+\tmbrace{piano-1}{piano-2}{Piano}%
+\tmbarline*{0}{piano-1}{piano-2}\tmbarlineendline{piano-1}{piano-2}%
+\end{tmline}
+\end{codeexample}
+Special time signatures have their own commands:
+\begin{command}{\tmtimesignaturecommon\opt{\oarg{options}}\marg{x-pos}}
+  Add the common time signature (\tikz\pic{tm-common-time};) to $x$-position 
+  \meta{x-pos}.
+\end{command}
+\begin{command}{\tmtimesignatureallabreve\opt{\oarg{options}}\marg{x-pos}}
+  Add the alla breve time signature (\tikz\pic{tm-alla-breve-time};) to $x$-position 
+  \meta{x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{helloworld}
+  \tmkeysignature{1}{flat}{3}
+  \tmtimesignaturecommon{2}
+  \tmtimesignatureallabreve[yshift=3mm]{6.5}
+\end{tmstaff}%
+\tmbarline{6}{helloworld}\tmfinalbarlineendline{helloworld}{helloworld}%
+\end{tmline}
+\end{codeexample}
