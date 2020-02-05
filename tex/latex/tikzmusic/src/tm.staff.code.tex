@@ -15,6 +15,9 @@
     \begin{minipage}{\tm@multiplelineswidth}%
 }{\end{minipage}\endgroup\par}
 
+\def\tm@string@g{g}
+\def\tm@string@c{c}
+\def\tm@string@f{f}
 \newenvironment{tmstaff}[3][]{%
   \par\begin{tikzpicture}[remember picture]
     \tmset{#1}
@@ -23,9 +26,10 @@
     \coordinate (#3-nw) at (0,2*0.2);
     \coordinate (#3-sw) at (0,-2*0.2);
     \coordinate (#3-start) at (0,0);
-    \ifstrequal{#2}{g}{\pgfmathsetmacro\tm@note@mid@clef{30}}{}
-    \ifstrequal{#2}{c}{\pgfmathsetmacro\tm@note@mid@clef{24}}{}
-    \ifstrequal{#2}{f}{\pgfmathsetmacro\tm@note@mid@clef{18}}{}
+    \def\tm@string@aux{#2}
+    \ifx\tm@string@aux\tm@string@g\pgfmathsetmacro\tm@note@mid@clef{30}\fi
+    \ifx\tm@string@aux\tm@string@c\pgfmathsetmacro\tm@note@mid@clef{24}\fi
+    \ifx\tm@string@aux\tm@string@f\pgfmathsetmacro\tm@note@mid@clef{18}\fi
 }{\end{tikzpicture}}
 
 \newenvironment{tmstaff*}[2][]{%

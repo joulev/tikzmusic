@@ -1,5 +1,6 @@
 \def\tm@note@min{52}
 \def\tm@note@max{1}
+\def\tm@string@center{center}
 
 \pgfmathsetmacro\tm@draw@extra@lines@shift@right{2*\tm@notewidth}
 \pgfmathsetmacro\tm@draw@extra@lines@shift@center{0}
@@ -84,7 +85,11 @@
   \global\@nameedef{tm@note@\detokenize{#4}@avg}{\tm@note@average@diff}
   \global\@nameedef{tm@note@\detokenize{#4}@pos}{#2}
   \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
-  \ifstrequal{#5}{whole}{\coordinate (#4-tail) at (#2,.1*\tm@note@max@diff);}{}
+  \def\tm@string@whole{whole}
+  \def\tm@string@aux{#5}
+  \ifx\tm@string@aux\tm@string@whole
+    \coordinate (#4-tail) at (#2,.1*\tm@note@max@diff);
+  \fi
 }
 
 
@@ -113,7 +118,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
@@ -123,7 +128,7 @@
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
           ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -131,7 +136,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
@@ -141,7 +146,7 @@
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
           ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -158,7 +163,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
@@ -168,7 +173,7 @@
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
           ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -176,7 +181,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
@@ -186,7 +191,7 @@
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
           ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -200,7 +205,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
@@ -212,7 +217,7 @@
           ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -220,7 +225,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
@@ -232,7 +237,7 @@
           ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
         \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -260,7 +265,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (\tm@notewidth,.1*\tm@note@min@diff) -- 
@@ -272,7 +277,7 @@
           ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
         \tm@insert@flag@down{#5}{#4}
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -280,7 +285,7 @@
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
-    \expandafter\ifstrequal\expandafter{\tm@note@relativepos}{center}{
+    \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt>0pt  
         \draw[xshift=#2cm,color/.expanded=\tm@color] 
           (-\tm@notewidth,.1*\tm@note@max@diff) -- 
@@ -292,7 +297,7 @@
           ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
         \tm@insert@flag@up{#5}{#4}
       \fi
-    }{}
+    \fi
   \endgroup
   \def\tm@note@average@diff{0}
 }

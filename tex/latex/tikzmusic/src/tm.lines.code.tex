@@ -237,8 +237,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % OCTAVE LINES
 
+\def\tm@string@eva{8va}
+\def\tm@string@evb{8vb}
+\def\tm@string@fma{15ma}
+\def\tm@string@fmb{15mb}
 \def\tm@octave#1#2#3{
-  \ifstrequal{#3}{8va}{
+  \def\tm@string@aux{#3}
+  \ifx\tm@string@aux\tm@string@eva
     \coordinate (tm@octave@aux1) at ([xshift=6mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
     \begin{scope}[color/.expanded=\tm@color]
@@ -246,8 +251,8 @@
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,-.3);
     \end{scope}
-  }{}
-  \ifstrequal{#3}{8vb}{
+  \fi
+  \ifx\tm@string@aux\tm@string@evb
     \coordinate (tm@octave@aux1) at ([xshift=2.5mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
     \begin{scope}[color/.expanded=\tm@color]
@@ -255,8 +260,8 @@
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,.3);
     \end{scope}
-  }{}
-  \ifstrequal{#3}{15ma}{
+  \fi
+  \ifx\tm@string@aux\tm@string@fma
     \coordinate (tm@octave@aux1) at ([xshift=8mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
     \begin{scope}[color/.expanded=\tm@color]
@@ -264,8 +269,8 @@
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,-.3);
     \end{scope}
-  }{}
-  \ifstrequal{#3}{15mb}{
+  \fi
+  \ifx\tm@string@aux\tm@string@fmb
     \coordinate (tm@octave@aux1) at ([xshift=3.5mm]#1);
     \coordinate (tm@octave@aux2) at (#2);
     \begin{scope}[color/.expanded=\tm@color]
@@ -273,32 +278,33 @@
       \draw[dashed] (tm@octave@aux2) -- (tm@octave@aux1);
       \draw (tm@octave@aux2) -- ++ (0,.3);
     \end{scope}
-  }{}
+  \fi
 }
 \newcommand\tmoctave[4][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
-    \ifstrequal{#4}{8va}{
+    \def\tm@string@aux{#4}
+    \ifx\tm@string@aux\tm@string@eva
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.5);
       \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{8va}
-    }{}
-    \ifstrequal{#4}{8vb}{
+    \fi
+    \ifx\tm@string@aux\tm@string@evb
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
       \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{8vb}
-    }{}
-    \ifstrequal{#4}{15ma}{
+    \fi
+    \ifx\tm@string@aux\tm@string@fma
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.5);
       \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{15ma}
-    }{}
-    \ifstrequal{#4}{15mb}{
+    \fi
+    \ifx\tm@string@aux\tm@string@fmb
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=-3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
       \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \tm@octave{tm@line@aux1}{tm@line@aux2}{15mb}
-    }{}
+    \fi
   \endgroup
 }
 % Custom coordinates
@@ -320,16 +326,18 @@
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
-    \ifstrequal{#2}{#3}{
+    \def\tm@string@aux{#2}
+    \def\tm@string@aux@{#3}
+    \ifx\tm@string@aux\tm@string@aux@
       \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
-    }{
+    \else
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
       \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \begin{scope}[color/.expanded=\tm@color]
         \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
         \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
       \end{scope}
-    }
+    \fi
   \endgroup
 }
 % Starred
@@ -337,17 +345,19 @@
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
-    \ifstrequal{#2}{#3}{
+    \def\tm@string@aux{#2}
+    \def\tm@string@aux@{#3}
+    \ifx\tm@string@aux\tm@string@aux@
       \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped};
       \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5) {tm-ped-star};
-    }{
+    \else
       \coordinate (tm@line@aux1) at ([xshift/.evaluated=3mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
       \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
       \begin{scope}[color/.expanded=\tm@color]
         \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
         \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tm@color] {tm-ped-star};
       \end{scope}
-    }
+    \fi
   \endgroup
 }
 % Custom coordinates
@@ -355,29 +365,35 @@
 \newcommand\tm@pedalline[3][]{
   \begingroup
     \tmset{#1}
-    \ifstrequal{#2}{#3}{\pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-ped};}{
+    \def\tm@string@aux{#2}
+    \def\tm@string@aux@{#3}
+    \ifx\tm@string@aux\tm@string@aux@
+      \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-ped};
+    \else
       \coordinate (tm@line@aux1) at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2);
       \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]#3);
       \begin{scope}[color/.expanded=\tm@color]
         \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
         \draw (tm@line@aux1) -- (tm@line@aux2) -- ++ (0,.2);
       \end{scope}
-    }
+    \fi
   \endgroup
 }
 \newcommand\tm@@pedalline[3][]{
   \begingroup
     \tmset{#1}
-    \ifstrequal{#2}{#3}{
+    \def\tm@string@aux{#2}
+    \def\tm@string@aux@{#3}
+    \ifx\tm@string@aux\tm@string@aux@
       \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-ped};
       \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#3) {tm-ped-star};
-    }{
+    \else
       \coordinate (tm@line@aux1) at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2);
       \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]#3);
       \begin{scope}[color/.expanded=\tm@color]
         \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-ped};
         \draw (tm@line@aux1) -- (tm@line@aux2) pic[color/.expanded=\tm@color] {tm-ped-star};
       \end{scope}
-    }
+    \fi
   \endgroup
 }

@@ -21,11 +21,16 @@
     }
   \endgroup
 }
+\def\tm@string@sharp{sharp}
+\def\tm@string@flat{flat}
+\def\tm@string@nsharp{nsharp}
+\def\tm@string@nflat{nflat}
 \newcommand\tmkeysignature[4][]{
-  \ifstrequal{#3}{sharp}{\tm@outputsharp[#1]{#2}{#4}{sharp}}{}
-  \ifstrequal{#3}{flat}{\tm@outputflat[#1]{#2}{#4}{flat}}{}
-  \ifstrequal{#3}{nsharp}{\tm@outputsharp[#1]{#2}{#4}{natural}}{}
-  \ifstrequal{#3}{nflat}{\tm@outputflat[#1]{#2}{#4}{natural}}{}
+  \def\tm@string@aux{#3}
+  \ifx\tm@string@aux\tm@string@sharp\tm@outputsharp[#1]{#2}{#4}{sharp}\fi
+  \ifx\tm@string@aux\tm@string@flat\tm@outputflat[#1]{#2}{#4}{flat}\fi
+  \ifx\tm@string@aux\tm@string@nsharp\tm@outputsharp[#1]{#2}{#4}{natural}\fi
+  \ifx\tm@string@aux\tm@string@nflat\tm@outputflat[#1]{#2}{#4}{natural}\fi
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
