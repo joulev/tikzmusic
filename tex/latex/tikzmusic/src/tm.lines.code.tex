@@ -108,9 +108,9 @@
   \begingroup
     \tmset{#1}
     \draw[color/.expanded=\tm@color] 
-      ([yshift={.5*\tm@amplitude},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) -- 
+      ([yshift={.5*\tm@crescdimsep},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) -- 
       ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- 
-      ([yshift={-.5*\tm@amplitude},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
+      ([yshift={-.5*\tm@crescdimsep},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
   \endgroup
 }
 \newcommand\tm@@crescendoline[3][]{
@@ -135,7 +135,7 @@
     \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@min*.1-.5);
     \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@min*.1-.5);
     \begin{scope}[color/.expanded=\tm@color]
-      \draw ([yshift={.5*\tm@amplitude}]tm@line@aux1) -- (tm@line@aux2) -- ([yshift={-.5*\tm@amplitude}]tm@line@aux1);
+      \draw ([yshift={.5*\tm@crescdimsep}]tm@line@aux1) -- (tm@line@aux2) -- ([yshift={-.5*\tm@crescdimsep}]tm@line@aux1);
     \end{scope}
   \endgroup
 }
@@ -158,9 +158,9 @@
   \begingroup
     \tmset{#1}
     \draw[color/.expanded=\tm@color] 
-      ([yshift={.5*\tm@amplitude},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- 
+      ([yshift={.5*\tm@crescdimsep},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- 
       ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) -- 
-      ([yshift={-.5*\tm@amplitude},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
+      ([yshift={-.5*\tm@crescdimsep},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
   \endgroup
 }
 \newcommand\tm@@diminuendoline[3][]{
