@@ -301,19 +301,19 @@ This package currently provides support for the following rests:
 \end{tmline}
 \end{codeexample}
 \subsubsection{Dots}\label{sec:music-notes:misc:dots}
-\begin{command}{\tmadddot\opt{\oarg{options}}\marg{note name}\marg{note value}}
-  Add a dot to note in \meta{note name} having \meta{note value}.
+\begin{command}{\tmadddot\opt{\oarg{options}}\marg{note name}}
+  Add a dot to note in \meta{note name}.
 \end{command}
-\begin{command}{\tmadddot*\opt{\oarg{options}}\marg{note name}\marg{note value}\marg{number of dots}}
-  Add \meta{number of dots} dot to note in \meta{note name} having 
-  \meta{note value}. Basically |\tmadddot| is identical to |\tmadddot*| when 
+\begin{command}{\tmadddot*\opt{\oarg{options}}\marg{note name}\marg{number of dots}}
+  Add \meta{number of dots} dot to note in \meta{note name}. 
+  Basically |\tmadddot| is identical to |\tmadddot*| when 
   \meta{number of dots} is $1$.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmquarter{4}{A4}{a}\tmquarter{6}{B4}{b}\tmquarter{8}{C5}{c}
-  \tmadddot{a}{A4}\tmadddot{b}{B4}\tmadddot*{c}{C5}{10}
+  \tmquarter{4}{F4,A4}{a}\tmquarter{6}{G4,B4}{b}\tmquarter{8}{A4,C5}{c}
+  \tmadddot{a}\tmadddot{b}\tmadddot*{c}{10}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
