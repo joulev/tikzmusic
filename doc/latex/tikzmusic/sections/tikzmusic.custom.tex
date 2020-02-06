@@ -130,9 +130,13 @@ or the accidentals. Things whose coordinates are already specified, e.g.
   this is a shorthand for |start shift| and |end shift|.
 \end{key}
 \begin{key}{/tm/line shift=\meta{number} (initially 0)}
-  Shift the object by \meta{number} lines. This is effectively |yshift| where 
-  \meta{length} is set to \meta{number} $\times$ \meta{line sep}.
+  Shift the object by \meta{number} `note' lines. For example, if an accidental 
+  is displayed for a |D4| note, |line shift=1| will make it being displayed for 
+  a (possibly imaginary) |E4| (\emph{not} |F4|!) note at that position. This is 
+  effectively |yshift| where \meta{length} is set to \meta{number} $\times$ 
+  \meta{half of line sep}.
 \end{key}
+See the following example for more information about how |line shift| works:
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff*}{}
