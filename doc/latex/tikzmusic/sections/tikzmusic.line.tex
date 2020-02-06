@@ -1,5 +1,5 @@
 \section{Lines}\label{sec:line}
-\subsection{Slur}\label{sec:line:slur-tie}
+\subsection{Slur}\label{sec:line:slur}
 \begin{command}{\tmslur\opt{\oarg{options}}\marg{note 1}\oarg{shift 2}\marg{note 2}}
   Draw a slur joining \meta{note 1} and \meta{note 2}. The slur will join the 
   \emph{lowest} notes of the two note set.
@@ -34,8 +34,8 @@
   up and then go down.\footnote{Not being a native speaker, I can't find an 
   appropriate English word for this :).}
 \end{command}
-You can use these two commands to tie two notes. It is still quite a pain, though. 
-\opt{\textsc{todo}}.
+You can use these two commands to tie two notes as follows. It is how |\tmtie| is
+currently working.
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
@@ -57,6 +57,41 @@ this decoration, a.k.a. the height of the slur, by the following key:
 \begin{tmstaff}{g}{}
   \tmquarter{6}{E4}{a}\tmquarter{9}{F4}{b}
   \tmslur{a}{b}\tmslur[red,amplitude=4mm]{a}{b}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\subsection{Tying notes}\label{sec:line:tie}
+\begin{command}{\tmtie\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+  Add a tie between \meta{note 1} and \meta{note 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C4,E4,G4}{a}\tmquarter{6}{C4,E4}{b}\tmtie{b}{a}
+  %\tmtie{a}{b}: Error
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+{\bfseries\sffamily Important note:}
+\begin{itemize}
+  \item |\tmtie| is intended to be used with note sets having more than one notes. 
+  Of course, with note sets having just one note it still works, but expected 
+  behaviour is not guaranteed. In those cases, use |\tmslur| and friends, 
+  documented in section \ref{sec:line:slur}, instead.
+  \item The number of notes in \meta{note 1} \emph{must not} be more than that in 
+  \meta{note 2}. So, the order matters -- in the example above, you can't use 
+  |\tmtie{a}{b}| because that will resulted in error. Of course, if \meta{note 1} 
+  and \meta{note 2} have the same number of notes, which is very usually the case, 
+  you can use any order as you want.
+  \item Note that the starting coordinate is always the one having the less 
+  $x$-coordinate, no matter how the notes are ordered in |\tmtie|. In the example 
+  above, the starting coordinate is |a|, although it comes after |b|. So 
+  |start xshift| (say) will be applied to |a|, not |b|.
+\end{itemize}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C4,E4,G4}{a}\tmquarter{6}{C4,E4}{b}\tmtie[start xshift=-1cm]{b}{a}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
