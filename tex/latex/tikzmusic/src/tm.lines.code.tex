@@ -45,6 +45,51 @@
   \endgroup
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIE - just a special slur
+
+% Note: this is intended for use with multinote notes. If a note set has only a 
+% single note, you should use slur.
+\newcommand\tmtie[3][]{
+  \begingroup
+    \tmset{amplitude=1.5mm}% This is the default for tying
+    \tmset{#1}
+    \edef\tm@notelist{\@nameuse{tm@note@\detokenize{#2}@notes}}
+    \edef\tm@note@avg{\@nameuse{tm@note@\detokenize{#2}@avg}}
+    \edef\tm@note@pos@fi{\@nameuse{tm@note@\detokenize{#2}@pos}}
+    \edef\tm@note@pos@se{\@nameuse{tm@note@\detokenize{#3}@pos}}
+    \foreach \tm@i in \tm@notelist {
+      \expandafter\tm@note@getnumber\expandafter<\tm@i>
+      \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
+      \ifdim\tm@note@diff pt>\tm@note@avg pt
+        % If it is larger than average: slur joining above
+        \ifdim\tm@note@pos@fi pt<\tm@note@pos@se pt
+          % First is the left, second is the right
+          \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2-\tm@i);
+          \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3-\tm@i);
+        \else
+          % First is the right
+          \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#3-\tm@i);
+          \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#2-\tm@i);
+        \fi
+        \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
+          ([shift={(2mm,1mm)}]tm@line@aux1) -- ([shift={(-2mm,1mm)}]tm@line@aux2);
+      \else
+        % If it is smaller than or equal to average: slur joining below
+        \ifdim\tm@note@pos@fi pt<\tm@note@pos@se pt
+          \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2-\tm@i);
+          \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3-\tm@i);
+        \else
+          \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#3-\tm@i);
+          \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#2-\tm@i);
+        \fi
+        \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
+          ([shift={(2mm,-1mm)}]tm@line@aux1) -- ([shift={(-2mm,-1mm)}]tm@line@aux2);
+      \fi
+    }
+  \endgroup
+}
+
 \newlength\tm@line@tail@x
 \newlength\tm@line@tail@y
 

@@ -50,7 +50,6 @@
       \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
     \fi
     \edef\tm@notelist{\@nameuse{tm@note@\detokenize{#2}@notes}}
-    \typeout{For note #2: \tm@notelist}
     \foreach \tm@i in \tm@notelist {
       \expandafter\tm@note@getnumber\expandafter<\tm@i>
       \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
