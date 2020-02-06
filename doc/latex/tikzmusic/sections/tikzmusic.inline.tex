@@ -22,21 +22,15 @@ You can add a clef in-line using the following commands:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-However, sometimes you don't want these clefs to be scaled. You can use the 
-starred version of the mentioned commands.
-\begin{command}{\tmgclef*\opt{\oarg{options}}\marg{x-pos}}
-  Work like |\tmgclef|, but the clef is not scaled.
-\end{command}
-\begin{command}{\tmcclef*\opt{\oarg{options}}\marg{x-pos}}
-  Work like |\tmcclef|, but the clef is not scaled.
-\end{command}
-\begin{command}{\tmfclef*\opt{\oarg{options}}\marg{x-pos}}
-  Work like |\tmfclef|, but the clef is not scaled.
-\end{command}
+However, sometimes you don't want these clefs to be scaled. In those cases, you 
+can use the following key:
+\begin{key}{/tm/unscaled=\meta{|true| or |false|} (default true)}
+  Unscale the staves drawn by |\tmgclef| and friends.
+\end{key}
 \begin{codeexample}[]
 \begin{tmline}
-\begin{tmstaff}{g}{}
-  \tmfclef*{4}\tmcclef*{6}\tmgclef*{8}\tmcclef*[line shift=2]{10}
+\begin{tmstaff}[unscaled]{g}{}
+  \tmfclef{4}\tmcclef{6}\tmgclef{8}\tmcclef[line shift=2]{10}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}

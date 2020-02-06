@@ -42,8 +42,7 @@
     \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at ([xshift=-3mm]#2-#3) {tm-#4};
   \endgroup
 }
-\def\tmadddot{\@ifstar\tm@@adddot\tm@adddot}
-\newcommand\tm@@adddot[3][]{
+\newcommand\tmadddot[3][]{
   \begingroup
     \tmset{#1}
     \iftm@usenotecolor
@@ -61,7 +60,6 @@
     }
   \endgroup
 }
-\newcommand\tm@adddot[2][]{\tm@@adddot[#1]{#2}{1}}
 
 
 \newcommand\tm@head[5][center]{
@@ -109,44 +107,32 @@
   \def\tm@note@average@diff{0}
 }
 
+\def\tm@note@stemup#1#2{
+  \draw[xshift=#2cm,color/.expanded=\tm@color] 
+    (\tm@notewidth,.1*\tm@note@min@diff) -- 
+    ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#1-tail);
+}
+\def\tm@note@stemdown#1#2{
+  \draw[xshift=#2cm,color/.expanded=\tm@color] 
+    (-\tm@notewidth,.1*\tm@note@max@diff) -- 
+    ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#1-tail);
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HALF NOTE
 \newcommand\tm@half@head[3][center]{%
   \tm@draw@extra@lines{#2}{#3}{.2}{\csname tm@draw@extra@lines@shift@#1\endcsname}
   \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-half-note-head-#1};
 }
-\def\tmhalf{\@ifstar\tm@@half\tm@half}
-\newcommand\tm@half[4][]{
+\newcommand\tmhalf[4][]{
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \iftm@note@stemreversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
       \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \fi
-    \fi
-  \endgroup
-  \def\tm@note@average@diff{0}
-}
-\newcommand\tm@@half[4][]{
-  \begingroup
-    \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \iftm@note@stemreversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
       \fi
     \fi
   \endgroup
@@ -160,38 +146,15 @@
   \tm@draw@extra@lines{#2}{#3}{.2}{\csname tm@draw@extra@lines@shift@#1\endcsname}
   \pic[color/.expanded=\tm@color] at (#2,#3*0.1) {tm-quarter-note-head-#1};
 }
-\def\tmquarter{\@ifstar\tm@@quarter\tm@quarter}
-\newcommand\tm@quarter[4][]{
+\newcommand\tmquarter[4][]{
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \iftm@note@stemreversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
       \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \fi
-    \fi
-  \endgroup
-  \def\tm@note@average@diff{0}
-}
-\newcommand\tm@@quarter[4][]{
-  \begingroup
-    \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-      \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
+        \iftm@note@stemreversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
       \fi
     \fi
   \endgroup
@@ -202,42 +165,27 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EIGHTH NOTE
-\def\tmeighth{\@ifstar\tm@@eighth\tm@eighth}
-\newcommand\tm@eighth[4][]{
+\newcommand\tmeighth[4][]{
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+        \iftm@note@stemreversed
+          \tm@note@stemdown{#4}{#2}
+          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
+        \else
+          \tm@note@stemup{#4}{#2}
+          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+        \fi
       \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
-      \fi
-    \fi
-  \endgroup
-  \def\tm@note@average@diff{0}
-}
-\newcommand\tm@@eighth[4][]{
-  \begingroup
-    \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#4-tail);
-        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
-      \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#4-tail);
-        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+        \iftm@note@stemreversed
+          \tm@note@stemup{#4}{#2}
+          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+        \else
+          \tm@note@stemdown{#4}{#2}
+          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
+        \fi
       \fi
     \fi
   \endgroup
@@ -262,42 +210,28 @@
       at ([yshift=\tm@insert@flag@shift@amount]#1-tail) {tm-note-flag-down};
   }
 }
-\def\tmmorethaneighth{\@ifstar\tm@@morethaneighth\tm@morethaneighth}
-\newcommand\tm@morethaneighth[5][]{
+
+\newcommand\tmmorethaneighth[5][]{
   \begingroup
     \tmset{#1}
     \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
-        \tm@insert@flag@up{#5}{#4}
+        \iftm@note@stemreversed
+          \tm@note@stemdown{#5}{#2}
+          \tm@insert@flag@down{#5}{#4}
+        \else
+          \tm@note@stemup{#5}{#2}
+          \tm@insert@flag@up{#5}{#4}
+        \fi
       \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
-        \tm@insert@flag@down{#5}{#4}
-      \fi
-    \fi
-  \endgroup
-  \def\tm@note@average@diff{0}
-}
-\newcommand\tm@@morethaneighth[5][]{
-  \begingroup
-    \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt>0pt  
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (-\tm@notewidth,.1*\tm@note@max@diff) -- 
-          ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#5-tail);
-        \tm@insert@flag@down{#5}{#4}
-      \else
-        \draw[xshift=#2cm,color/.expanded=\tm@color] 
-          (\tm@notewidth,.1*\tm@note@min@diff) -- 
-          ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#5-tail);
-        \tm@insert@flag@up{#5}{#4}
+        \iftm@note@stemreversed
+          \tm@note@stemup{#5}{#2}
+          \tm@insert@flag@up{#5}{#4}
+        \else
+          \tm@note@stemdown{#5}{#2}
+          \tm@insert@flag@down{#5}{#4}
+        \fi
       \fi
     \fi
   \endgroup

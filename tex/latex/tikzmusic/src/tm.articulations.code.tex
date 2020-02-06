@@ -93,9 +93,8 @@
 %%%%%%%%%%%%%%%%%%%%%%
 % FERMATA
 
-\def\tmfermata{\@ifstar\tm@@fermata\tm@fermata}
 % Fermata above
-\newcommand\tm@fermata[2][]{
+\newcommand\tmfermataabove[2][]{
   \begingroup
     \tmset{#1}
     \tm@note@getnote{#2}
@@ -111,7 +110,7 @@
     \fi
   \endgroup
 }
-\newcommand\tm@@fermata[2][]{
+\newcommand\tmfermatabelow[2][]{
   \begingroup
     \tmset{#1}
     \tm@note@getnote{#2}
@@ -127,3 +126,4 @@
     \fi
   \endgroup
 }
+\let\tmfermata\tmfermataabove

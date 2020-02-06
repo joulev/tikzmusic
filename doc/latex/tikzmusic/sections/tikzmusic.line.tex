@@ -2,47 +2,33 @@
 \subsection{Slur}\label{sec:line:slur}
 \begin{command}{\tmslur\opt{\oarg{options}}\marg{note 1}\oarg{shift 2}\marg{note 2}}
   Draw a slur joining \meta{note 1} and \meta{note 2}. The slur will join the 
-  \emph{lowest} notes of the two note set.
+  \emph{lowest} notes of the two note set, i.e. it will go down and then go 
+  up.\footnote{Not being a native speaker, I can't find an 
+  appropriate English word for this :).} 
+  You can change this direction using |reversed|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
   \tmquarter{3}{C4}{a}\tmquarter{5}{D4}{b}\tmslur{a}{b}
-  \tmquarter{7}{C4}{a}\tmquarter{9}{D4}{b}
-  \tmslur[amplitude=1.5mm,start yshift=-1mm,end shift={(-1mm,-1mm)}]{a}{b}
+  \tmquarter{7}{C5}{a}\tmquarter{9}{D5}{b}
+  \tmslur[reversed,amplitude=1.5mm,start yshift=-1mm,end shift={(-1mm,-1mm)}]{a}{b}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmslur*\opt{\oarg{options}}\marg{note 1}\oarg{shift 2}\marg{note 2}}
-  Identical to |\tmslur|, only the slur will join the \emph{highest} notes.
-\end{command}
-\begin{codeexample}[]
-\begin{tmline}
-  \begin{tmstaff}{g}{}
-    \tmquarter{3}{C5}{a}\tmquarter{5}{D5}{b}\tmslur*{a}{b}
-    \tmquarter{7}{C5}{a}\tmquarter{9}{D5}{b}
-    \tmslur*[amplitude=1.5mm,start yshift=1mm,end shift={(-1mm,-1mm)}]{a}{b}
-  \end{tmstaff}
-\end{tmline}
-\end{codeexample}
-\begin{command}{\tmslurline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmslurcoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Draw a slur from \meta{coordinate 1} to \meta{coordinate 2}. The slur will go 
   down and then go up.
 \end{command}
-\begin{command}{\tmslurline*\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
-  Draw a slur from \meta{coordinate 1} to \meta{coordinate 2}. The slur will go 
-  up and then go down.\footnote{Not being a native speaker, I can't find an 
-  appropriate English word for this :).}
-\end{command}
-You can use these two commands to tie two notes as follows. It is how |\tmtie| is
+You can use this command to tie two notes as follows. It is how |\tmtie| is
 currently working.
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
   \tmquarter{4}{C4,E4,G4}{a}\tmquarter{7}{C4,E4,G4}{b}
-  \tmslurline[amplitude=1.5mm,start shift={(2mm,-1.5mm)},end shift={(-2mm,-1.5mm)}]{a-C4}{b-C4}
-  \tmslurline[amplitude=1.5mm,start shift={(2mm,-1.5mm)},end shift={(-2mm,-1.5mm)}]{a-E4}{b-E4}
-  \tmslurline*[amplitude=1.5mm,start shift={(2mm,1.5mm)},end shift={(-2mm, 1.5mm)}]{a-G4}{b-G4}
+  \tmslurcoordinate[amplitude=1.5mm,start shift={(2mm,-1.5mm)},end shift={(-2mm,-1.5mm)}]{a-C4}{b-C4}
+  \tmslurcoordinate[amplitude=1.5mm,start shift={(2mm,-1.5mm)},end shift={(-2mm,-1.5mm)}]{a-E4}{b-E4}
+  \tmslurcoordinate[reversed,amplitude=1.5mm,start shift={(2mm,1.5mm)},end shift={(-2mm,1.5mm)}]{a-G4}{b-G4}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -97,64 +83,76 @@ this decoration, a.k.a. the height of the slur, by the following key:
 \end{codeexample}
 \subsection{Crescendo and diminuendo}\label{sec:line:cresc-dim}
 \subsubsection{Crescendo}\label{sec:line:cresc-dim:cresc}
-\begin{command}{\tmcrescendo\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+\begin{command}{\tmcrescendohairpin\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
   Draw a crescendo hairpin between \meta{note 1} and \meta{note 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmquarter{2}{C5}{a} \tmquarter{4}{D5}{b} \tmcrescendo{a}{b}
-  \tmquarter{6}{C5}{a} \tmquarter{8}{D5}{b} \tmcrescendo[yshift=-5mm]{a}{b}
-  \tmquarter{10}{C5}{a}\tmquarter{12}{D5}{b}\tmcrescendo[cresc dim sep=5mm]{a}{b}
+  \tmquarter{2}{C5}{a} \tmquarter{4}{D5}{b} \tmcrescendohairpin{a}{b}
+  \tmquarter{6}{C5}{a} \tmquarter{8}{D5}{b} \tmcrescendohairpin[yshift=-5mm]{a}{b}
+  \tmquarter{10}{C5}{a}\tmquarter{12}{D5}{b}\tmcrescendohairpin[cresc dim sep=5mm]{a}{b}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmcrescendo*\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+\begin{command}{\tmcrescendoline\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
   Draw a crescendo line between \meta{note 1} and \meta{note 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
   \begin{tmstaff}{g}{}
-    \tmquarter{2}{C5}{a}\tmquarter{4}{D5}{b}\tmcrescendo*{a}{b}
-    \tmquarter{6}{C5}{a}\tmquarter{8}{D5}{b}\tmcrescendo*[yshift=-5mm]{a}{b}
+    \tmquarter{2}{C5}{a}\tmquarter{4}{D5}{b}\tmcrescendoline{a}{b}
+    \tmquarter{6}{C5}{a}\tmquarter{8}{D5}{b}\tmcrescendoline[yshift=-5mm]{a}{b}
   \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmcrescendoline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmcrescendo\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+  Alias of |\tmcrescendohairpin|.
+\end{command}
+\begin{command}{\tmcrescendohairpincoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Draw a crescendo hairpin between \meta{coordinate 1} and \meta{coordinate 2}. 
   The coordinates do \emph{not} include parentheses.
 \end{command}
-\begin{command}{\tmcrescendoline*\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmcrescendolinecoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Draw a crescendo line between \meta{coordinate 1} and \meta{coordinate 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmcrescendoline{1.5,-1}{\linewidth-2mm,-1}
-  \tmcrescendoline*{1.5,-1.5}{\linewidth-2mm,-1.5}
+  \tmcrescendohairpincoordinate{1.5,-1}{\linewidth-2mm,-1}
+  \tmcrescendolinecoordinate{1.5,-1.5}{\linewidth-2mm,-1.5}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\begin{command}{\tmcrescendocoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+  Alias of |\tmcrescendohairpincoordinate|.
+\end{command}
 \subsubsection{Diminuendo}\label{sec:line:cresc-dim:dim}
 All commands are just like in crescendo (section \ref{sec:line:cresc-dim:cresc}).
-\begin{command}{\tmdiminuendo\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+\begin{command}{\tmdiminuendohairpin\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
   Add a diminuendo hairpin between \meta{note 1} and \meta{note 2}.
 \end{command}
-\begin{command}{\tmdiminuendo*\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+\begin{command}{\tmdiminuendoline\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
   Add a diminuendo line between \meta{note 1} and \meta{note 2}.
 \end{command}
-\begin{command}{\tmdiminuendoline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmdiminuendo\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+  Alias of |\tmdiminuendohairpin|.
+\end{command}
+\begin{command}{\tmdiminuendohairpincoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Add a diminuendo hairpin between \meta{coordinate 1} and \meta{coordinate 2}.
 \end{command}
-\begin{command}{\tmdiminuendoline*\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmdiminuendolinecoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Add a diminuendo line between \meta{coordinate 1} and \meta{coordinate 2}.
+\end{command}
+\begin{command}{\tmdiminuendocoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+  Alias of |\tmdiminuendohairpincoordinate|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
   \tmquarter{2}{C4}{a}\tmquarter{4}{G3}{b}\tmdiminuendo{a}{b}
-  \tmquarter{5}{C4}{a}\tmquarter{7}{G3}{b}\tmdiminuendo*{a}{b}
-  \tmdiminuendoline{8,-1}{10,-1}\tmdiminuendoline*{11,-1}{13,-1}
+  \tmquarter{5}{C4}{a}\tmquarter{7}{G3}{b}\tmdiminuendoline{a}{b}
+  \tmdiminuendocoordinate{8,-1}{10,-1}\tmdiminuendolinecoordinate{11,-1}{13,-1}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -174,11 +172,12 @@ following key:
 \end{codeexample}
 \subsection{Volta}\label{sec:line:volta}
 \begin{command}{\tmvolta\opt{\oarg{options}}\marg{note 1}\marg{note 2}\marg{number}}
-  Draw a \emph{closed} volta line between \meta{note 1} and \meta{note 2}.
+  Draw a volta line between \meta{note 1} and \meta{note 2}.
 \end{command}
-\begin{command}{\tmvolta*\opt{\oarg{options}}\marg{note 1}\marg{note 2}\marg{number}}
-  Draw an \emph{unclosed} volta line between \meta{note 1} and \meta{note 2}.
-\end{command}
+By default, volta lines are closed. You can `unclose' it by using
+\begin{key}{/tm/volta unclosed=\meta{|true| or |false|} (default true)}
+  If set to |true|, the volta will be unclosed.
+\end{key}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
@@ -186,15 +185,12 @@ following key:
   \tmquarter{5}{C4}{a}\tmquarter{6}{D4}{}\tmquarter{7}{E4}{b}
   \tmendrepeatbarlineinline{8}
   \tmquarter{9}{F4}{c}\tmquarter{10}{G4}{}\tmquarter{11}{A4}{d}
-  \tmvolta{a}{b}{1}\tmvolta*{c}{d}{2}
+  \tmvolta{a}{b}{1}\tmvolta[volta unclosed]{c}{d}{2}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmvoltaline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}\marg{number}}
-  Draw a \emph{closed} volta line between \meta{coordinate 1} and \meta{coordinate 2}.
-\end{command}
-\begin{command}{\tmvoltaline*\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}\marg{number}}
-  Identical to |\tmvoltaline|, only the line is unclosed.
+\begin{command}{\tmvoltacoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}\marg{number}}
+  Draw a volta line between \meta{coordinate 1} and \meta{coordinate 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
@@ -203,7 +199,7 @@ following key:
     \tmquarter{5}{C4}{}\tmquarter{6}{D4}{}\tmquarter{7}{E4}{}
     \tmendrepeatbarlineinline{8}
     \tmquarter{9}{F4}{}\tmquarter{10}{G4}{}\tmquarter{11}{A4}{}
-    \tmvoltaline{4.1,1}{7.9,1}{1}\tmvoltaline*{8.1,1}{10.5,1}{2}
+    \tmvoltacoordinate{4.1,1}{7.9,1}{1}\tmvoltacoordinate[volta unclosed]{8.1,1}{10.5,1}{2}
   \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -222,13 +218,13 @@ following key:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmoctaveline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}\marg{type}}
+\begin{command}{\tmoctavecoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}\marg{type}}
   Draw an octave line between \meta{coordinate 1} and \meta{coordinate 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmoctaveline{1,1}{\linewidth-2mm,1}{8va}
+  \tmoctavecoordinate{1,1}{\linewidth-2mm,1}{8va}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -237,7 +233,7 @@ following key:
   Draw a pedal line not ended with a star (\tikz\pic{tm-ped-star};) between 
   \meta{note 1} and \meta{note 2}.
 \end{command}
-\begin{command}{\tmpedal*\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+\begin{command}{\tmpedalstar\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
   Draw a pedal line ended with a star between \meta{note 1} and \meta{note 2}
 \end{command}
 \begin{codeexample}[]
@@ -245,24 +241,24 @@ following key:
 \begin{tmstaff}{g}{}
   \tmquarter{2}{C4}{a}\tmquarter{4}{D4}{b}\tmpedal{a}{b}
   \tmquarter{6}{E4}{a}\tmpedal{a}{a}
-  \tmquarter{8}{C4}{a}\tmquarter{10}{D4}{b}\tmpedal*{a}{b}
-  \tmquarter{12}{E4}{a}\tmpedal*{a}{a}
+  \tmquarter{8}{C4}{a}\tmquarter{10}{D4}{b}\tmpedalstar{a}{b}
+  \tmquarter{12}{E4}{a}\tmpedalstar{a}{a}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-\begin{command}{\tmpedalline\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmpedalcoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Draw a pedal line not ended with a star between \meta{coordinate 1} and 
   \meta{coordinate 2}.
 \end{command}
-\begin{command}{\tmpedalline*\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+\begin{command}{\tmpedalstarcoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
   Draw a pedal line ended with a star between \meta{coordinate 1} and 
   \meta{coordinate 2}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmpedalline{2,-1}{4,-1}\tmpedalline{6,-1}{6,-1}
-  \tmpedalline*{8,-1}{10,-1}\tmpedalline*{12,-1}{12,-1}
+  \tmpedalcoordinate{2,-1}{4,-1}\tmpedalcoordinate{6,-1}{6,-1}
+  \tmpedalstarcoordinate{8,-1}{10,-1}\tmpedalstarcoordinate{12,-1}{12,-1}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}

@@ -112,57 +112,63 @@ beamed, i.e. it is created with |\tmhalf|, |\tmquarter|, etc., the stem will onl
 be drawn if |relative=center|.
 \subsubsection{Half notes}\label{sec:music-notes:commands:half}
 \begin{command}{\tmhalf\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Similar to |\tmwhole|. The stem points upwards if the `average' note 
-  in the list is below the middle line, and downwards otherwise.
-\end{command}
-\begin{command}{\tmhalf*\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Identical to |\tmhalf|, only the stem direction is reversed.
+  Add a half note at position \meta{x-pos}. The stem direction will be automatically 
+  determined.
 \end{command}
 The end of the stem is marked as coordinate |(|\meta{name}|-tail)|. (This also 
 applies to |\tmquarter|, |\tmeighth| and |\tmmorethaneighth|.)
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmhalf {2}{E4}{}\tmhalf {3}{F5}{}\tmhalf {4}{E4,F5}{}\tmhalf {5}{B4}{}
-  \tmhalf*{6}{E4}{}\tmhalf*{7}{F5}{}\tmhalf*{8}{E4,F5}{}\tmhalf*{9}{B4}{}
-  \tmhalf {11}{B4,G4}{}\tmhalf[relative=right]{11}{C5}{}
-  \tmhalf*{11}{G4}{}   \tmhalf*[relative=left]{11}{F4}{}
+  \tmhalf{2}{E4}{}\tmhalf{3}{F5}{}\tmhalf{4}{E4,F5}{}\tmhalf{5}{B4}{}
+  \tmhalf[reversed]{6}{E4}{}      \tmhalf[reversed]{7}{F5}{}
+  \tmhalf[reversed]{8}{E4,F5}{}   \tmhalf[reversed]{9}{B4}{}
+  \tmhalf{11}{B4,G4}{}            \tmhalf[relative=right]{11}{C5}{}
+  \tmhalf[reversed]{11}{G4}{}     \tmhalf[reversed,relative=left]{11}{F4}{}
 \end{tmstaff}%
+\end{tmline}
+\end{codeexample}
+\subsubsection{Stem direction}\label{sec:music-notes:commands:stem-direction}
+You can change the default direction of the stem by using the following key:
+\begin{key}{/tm/reversed=\meta{|true| or |false|} (default true)}
+  If this is set to |true|, the stem direction of |\tmhalf|, |\tmquarter|, \dots 
+  will be reversed. If this key is applied to |\tmslur|, the direction of the 
+  slur will be reversed (see more in section \ref{sec:line:slur}).
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmhalf{3}{C5}{}\tmhalf[reversed]{6}{C5}{}
+\end{tmstaff}
 \end{tmline}
 \end{codeexample}
 \subsubsection{Quarter notes}\label{sec:music-notes:commands:quarter}
 \begin{command}{\tmquarter\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Similar to |\tmwhole|. The stem points upwards if the `average' note 
-  in the list is below the middle line, and downwards otherwise.
-\end{command}
-\begin{command}{\tmquarter*\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Identical to |\tmquarter|, only the stem direction is reversed.
+  Similar to |\tmhalf|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmquarter {2}{E4}{}\tmquarter {3}{F5}{}\tmquarter {4}{E4,F5}{}\tmquarter {5}{B4}{}
-  \tmquarter*{6}{E4}{}\tmquarter*{7}{F5}{}\tmquarter*{8}{E4,F5}{}\tmquarter*{9}{B4}{}
-  \tmquarter {11}{B4,G4}{}\tmquarter[relative=right]{11}{C5}{}
-  \tmquarter*{11}{G4}{}   \tmquarter*[relative=left]{11}{F4}{}
+  \tmquarter{2}{E4}{}\tmquarter{3}{F5}{}\tmquarter{4}{E4,F5}{}\tmquarter{5}{B4}{}
+  \tmquarter[reversed]{6}{E4}{}         \tmquarter[reversed]{7}{F5}{}
+  \tmquarter[reversed]{8}{E4,F5}{}      \tmquarter[reversed]{9}{B4}{}
+  \tmquarter{11}{B4,G4}{}               \tmquarter[relative=right]{11}{C5}{}
+  \tmquarter[reversed]{11}{G4}{}        \tmquarter[reversed,relative=left]{11}{F4}{}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
 \subsubsection{Eighth notes}\label{sec:music-notes:commands:eighth}
 \begin{command}{\tmeighth\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Similar to |\tmwhole|. The stem points upwards if the `average' note 
-  in the list is below the middle line, and downwards otherwise.
-\end{command}
-\begin{command}{\tmeighth*\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{name}}
-  Identical to |\tmeighth|, only the stem direction is reversed.
+  Similar to |\tmhalf|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmeighth {2}{E4}{}\tmeighth {3}{F5}{}\tmeighth {4}{E4,F5}{}\tmeighth {5}{B4}{}
-  \tmeighth*{6}{E4}{}\tmeighth*{7}{F5}{}\tmeighth*{8}{E4,F5}{}\tmeighth*{9}{B4}{}
-  \tmeighth {11}{B4,G4}{}\tmeighth[relative=right]{11}{C5}{}
-  \tmeighth*{11}{G4}{}   \tmeighth*[relative=left]{11}{F4}{}
+  \tmeighth {2}{E4}{}\tmeighth{3}{F5}{}\tmeighth{4}{E4,F5}{}\tmeighth{5}{B4}{}
+  \tmeighth[reversed]{6}{E4}{}         \tmeighth[reversed]{7}{F5}{}
+  \tmeighth[reversed]{8}{E4,F5}{}      \tmeighth[reversed]{9}{B4}{}
+  \tmeighth{11}{B4,G4}{}               \tmeighth[relative=right]{11}{C5}{}
+  \tmeighth[reversed]{11}{G4}{}        \tmeighth[reversed,relative=left]{11}{F4}{}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
@@ -171,11 +177,7 @@ The commands described in this section applies to every notes below the eighth
 notes, including the sixteenth note (semiquaver), the thirty-second note 
 (demisemiquaver), etc.
 \begin{command}{\tmmorethaneighth\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{number of flags}\marg{name}}
-  Similar to |\tmwhole|. The stem points upwards if the `average' note 
-  in the list is below the middle line, and downwards otherwise.
-\end{command}
-\begin{command}{\tmmorethaneighth*\opt{\oarg{options}}\marg{x-pos}\marg{note value list}\marg{number of flags}\marg{name}}
-  Identical to |\tmmorethaneighth|, only the stem direction is reversed.
+  Similar to |\tmhalf|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}%
@@ -221,16 +223,16 @@ weird output.
     \tmbeamnote{5}{B4}{2}{d}\tmbeamnote{5.5}{D5}{2}{e}\tmbeamnote{6}{C5}{2}{f}
     \tmappendaccidental{b}{D5}{sharp}\tmappendaccidental{e}{D5}{natural}
   \end{tmbeam*}
-  \tmbarlineinline{6.3}\tmeighth{6.75}{A4}{a}\tmadddot{a}{A4}
+  \tmbarlineinline{6.3}\tmeighth{6.75}{A4}{a}\tmadddot{a}{1}
   \begin{tmbeam}
     \tmbeamnote{8}{C4}{2}{a}\tmbeamnote{8.5}{E4}{2}{b}\tmbeamnote{9}{A4}{2}{c}
   \end{tmbeam}
-  \tmbarlineinline{9.3}\tmeighth{9.75}{B4}{a}\tmadddot{a}{B4}
+  \tmbarlineinline{9.3}\tmeighth{9.75}{B4}{a}\tmadddot{a}{1}
   \begin{tmbeam}
     \tmbeamnote{10.75}{E4}{2}{a}\tmbeamnote{11.5}{G4}{2}{b}\tmbeamnote{12}{B4}{2}{c}
     \tmappendaccidental{b}{G4}{sharp}
   \end{tmbeam}
-  \tmbarlineinline{12.3}\tmquarter{12.75}{C5}{a}\tmadddot{a}{C5}
+  \tmbarlineinline{12.3}\tmquarter{12.75}{C5}{a}\tmadddot{a}{1}
 \end{tmstaff}%
 \tmbarlineendline{p1}{p1}%
 \end{tmline}
@@ -301,19 +303,14 @@ This package currently provides support for the following rests:
 \end{tmline}
 \end{codeexample}
 \subsubsection{Dots}\label{sec:music-notes:misc:dots}
-\begin{command}{\tmadddot\opt{\oarg{options}}\marg{note name}}
-  Add a dot to note in \meta{note name}.
-\end{command}
-\begin{command}{\tmadddot*\opt{\oarg{options}}\marg{note name}\marg{number of dots}}
+\begin{command}{\tmadddot\opt{\oarg{options}}\marg{note name}\marg{number of dots}}
   Add \meta{number of dots} dot to note in \meta{note name}. 
-  Basically |\tmadddot| is identical to |\tmadddot*| when 
-  \meta{number of dots} is $1$.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
   \tmquarter{4}{F4,A4}{a}\tmquarter{6}{G4,B4}{b}\tmquarter{8}{A4,C5}{c}
-  \tmadddot{a}\tmadddot{b}\tmadddot*{c}{10}
+  \tmadddot{a}{1}\tmadddot{b}{1}\tmadddot{c}{10}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
@@ -350,17 +347,20 @@ This package currently provides support for the following rests:
 \end{tmline}
 \end{codeexample}
 For fermatas we have the following two commands:
-\begin{command}{\tmfermata\opt{\oarg{options}}\marg{note name}}
+\begin{command}{\tmfermataabove\opt{\oarg{options}}\marg{note name}}
   Add an `above-fermata' to \meta{note name}.
 \end{command}
-\begin{command}{\tmfermata*\opt{\oarg{options}}\marg{note name}}
+\begin{command}{\tmfermata\opt{\oarg{options}}\marg{note name}}
+  Alias of |\tmfermataabove|.
+\end{command}
+\begin{command}{\tmfermatabelow\opt{\oarg{options}}\marg{note name}}
   Add a `below-fermata' to \meta{note name}.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmquarter{5}{C4}{x}\tmfermata{x}
-  \tmquarter{8}{C4}{x}\tmfermata*{x}
+  \tmquarter{5}{C4}{x}\tmfermataabove{x}
+  \tmquarter{8}{C4}{x}\tmfermatabelow{x}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -371,25 +371,20 @@ For fermatas we have the following two commands:
 \begin{command}{\tmturn\opt{\oarg{options}}\marg{note name}}
   Add a turn to note \meta{note name}.
 \end{command}
-\begin{command}{\tmmordent\opt{\oarg{options}}\marg{note name}}
+\begin{command}{\tmuppermordent\opt{\oarg{options}}\marg{note name}}
   Add a `upper' mordent to note \meta{note name}.
 \end{command}
-\begin{command}{\tmmordent*\opt{\oarg{options}}\marg{note name}}
+\begin{command}{\tmlowermordent\opt{\oarg{options}}\marg{note name}}
   Add an `lower' mordent to note \meta{note name}.
 \end{command}
-\begin{command}{\tmuppermordent\opt{\oarg{options}}\marg{note name}}
-  Alias of |\tmmordent|.
-\end{command}
-\begin{command}{\tmlowermordent\opt{\oarg{options}}\marg{note name}}
-  Alias of |\tmmordent*|.
+\begin{command}{\tmmordent\opt{\oarg{options}}\marg{note name}}
+  Alias of |\tmuppermordent|.
 \end{command}
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmquarter{2}{C5}{a} \tmquarter{4}{C5}{b} \tmquarter{6}{C5}{c}
-  \tmquarter{8}{C5}{d} \tmquarter{10}{C5}{e}\tmquarter{12}{C5}{f}
-  \tmtrill{a}\tmturn{b}\tmmordent{c}
-  \tmuppermordent{d}\tmmordent*{e}\tmlowermordent{f}
+  \tmquarter{2}{C5}{a}\tmquarter{4}{C5}{b}\tmquarter{6}{C5}{c}\tmquarter{8}{C5}{d}
+  \tmtrill{a}\tmturn{b}\tmuppermordent{c}\tmlowermordent{d}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}

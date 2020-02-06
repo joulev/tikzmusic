@@ -87,6 +87,9 @@
     \pgfkeysalso{brace middle xshift/.expanded=\tm@x,brace middle yshift/.expanded=\tm@y}
   },
   % NOTES
+  reversed/.is if=tm@note@stemreversed,
+  reversed/.default=true,
+  %
   relative/.store in=\tm@note@relativepos,
   relative/.initial=center,
   relative/.get=\tm@note@relativepos,
@@ -104,6 +107,12 @@
   cresc dim sep/.initial=3mm,
   cresc dim sep/.get=\tm@crescdimsep,
   cresc dim sep/.value required,
+  %
+  volta unclosed/.is if=tm@line@voltaunclosed,
+  volta unclosed/.default=true,
+  % IN-LINES
+  unscaled/.is if=tm@clef@unscaled,
+  unscaled/.default=true,
 }
 
 

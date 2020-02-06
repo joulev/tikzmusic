@@ -28,7 +28,7 @@
     \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-turn};
   \endgroup
 }
-\newcommand\tm@mordent[2][]{
+\newcommand\tmuppermordent[2][]{
   \begingroup
     \tmset{#1}
     \tm@note@getnote{#2}
@@ -43,8 +43,6 @@
     \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at (\tm@note@pos,\tm@ornament@pos*.1) {tm-mordent};
   \endgroup
 }
-\def\tmmordent{\@ifstar\tmlowermordent\tm@mordent}
-\newcommand\tmuppermordent[2][]{\tm@mordent[#1]{#2}}
 \newcommand\tmlowermordent[2][]{
   \begingroup
     \tmset{#1}
@@ -61,3 +59,4 @@
     \draw[color/.expanded=\tm@color,shift={($(\tm@note@pos,\tm@ornament@pos*.1)+(\tm@shift@start@x,\tm@shift@start@y)$)},line width=.5pt] (0,-.15) -- (0,.15);
   \endgroup
 }
+\let\tmmordent\tmuppermordent

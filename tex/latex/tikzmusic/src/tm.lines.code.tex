@@ -1,47 +1,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SLUR
 
-\def\tmslur{\@ifstar\tm@@slur\tm@slur}
-% Below
-\newcommand\tm@slur[3][]{
+\newcommand\tmslur[3][]{
   \begingroup
     \tmset{#1}
     \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
     \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
-      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
-      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
-  \endgroup
-}
-% Above
-\newcommand\tm@@slur[3][]{
-  \begingroup
-    \tmset{#1}
-    \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
-    \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
-    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
-      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
-      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
+    % Weird naming, but anyway
+    \iftm@note@stemreversed
+      \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
+        ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
+        ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
+    \else
+      \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
+        ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
+        ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
+    \fi
   \endgroup
 }
 % Custom coordinates
-\def\tmslurline{\@ifstar\tm@@slurline\tm@slurline}
-\newcommand\tm@slurline[3][]{
+\newcommand\tmslurcoordinate[3][]{
   \begingroup
     \tmset{#1}
     \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
     \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
-    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
-      (tm@line@aux1) -- (tm@line@aux2);
-  \endgroup
-}
-\newcommand\tm@@slurline[3][]{
-  \begingroup
-    \tmset{#1}
-    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
-    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
-    \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
-      (tm@line@aux1) -- (tm@line@aux2);
+    \iftm@note@stemreversed
+      \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
+        (tm@line@aux1) -- (tm@line@aux2);
+    \else
+      \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
+        (tm@line@aux1) -- (tm@line@aux2);
+    \fi
   \endgroup
 }
 
@@ -123,9 +112,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CRESCENDO
 
-\def\tmcrescendo{\@ifstar\tm@@crescendo\tm@crescendo}
 % The hairpin
-\newcommand\tm@crescendo[3][]{
+\newcommand\tmcrescendohairpin[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -135,7 +123,7 @@
   \endgroup
 }
 % The line
-\newcommand\tm@@crescendo[3][]{
+\newcommand\tmcrescendoline[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -147,9 +135,9 @@
     \end{scope}
   \endgroup
 }
+\let\tmcrescendo\tmcrescendohairpin
 % Custom coordinates
-\def\tmcrescendoline{\@ifstar\tm@@crescendoline\tm@crescendoline}
-\newcommand\tm@crescendoline[3][]{
+\newcommand\tmcrescendohairpincoordinate[3][]{
   \begingroup
     \tmset{#1}
     \draw[color/.expanded=\tm@color] 
@@ -158,7 +146,7 @@
       ([yshift={-.5*\tm@crescdimsep},shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
   \endgroup
 }
-\newcommand\tm@@crescendoline[3][]{
+\newcommand\tmcrescendolinecoordinate[3][]{
   \begingroup
     \tmset{#1}
     \begin{scope}[color/.expanded=\tm@color]
@@ -167,13 +155,13 @@
     \end{scope}
   \endgroup
 }
+\let\tmcrescendocoordinate\tmcrescendohairpincoordinate
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DIMINUENDO
 
-\def\tmdiminuendo{\@ifstar\tm@@diminuendo\tm@diminuendo}
 % The hairpin
-\newcommand\tm@diminuendo[3][]{
+\newcommand\tmdiminuendohairpin[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -185,7 +173,7 @@
   \endgroup
 }
 % The line
-\newcommand\tm@@diminuendo[3][]{
+\newcommand\tmdiminuendoline[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -197,9 +185,9 @@
     \end{scope}
   \endgroup
 }
+\let\tmdiminuendo\tmdiminuendohairpin
 % Custom coordinates
-\def\tmdiminuendoline{\@ifstar\tm@@diminuendoline\tm@diminuendoline}
-\newcommand\tm@diminuendoline[3][]{
+\newcommand\tmdiminuendohairpincoordinate[3][]{
   \begingroup
     \tmset{#1}
     \draw[color/.expanded=\tm@color] 
@@ -208,7 +196,7 @@
       ([yshift={-.5*\tm@crescdimsep},shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
   \endgroup
 }
-\newcommand\tm@@diminuendoline[3][]{
+\newcommand\tmdiminuendolinecoordinate[3][]{
   \begingroup
     \tmset{#1}
     \begin{scope}[color/.expanded=\tm@color]
@@ -217,13 +205,12 @@
     \end{scope}
   \endgroup
 }
+\let\tmdiminuendocoordinate\tmdiminuendohairpincoordinate
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % VOLTA
 
-\def\tmvolta{\@ifstar\tm@@volta\tm@volta}
-% Closed
-\newcommand\tm@volta[4][]{
+\newcommand\tmvolta[4][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -231,50 +218,33 @@
     \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.3);
     \begin{scope}[color/.expanded=\tm@color]
       \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-        (tm@line@auxnode.north west -| tm@line@aux2) -- 
-        (tm@line@auxnode.south west -| tm@line@aux2);
-    \end{scope}
-  \endgroup
-}
-% Unclosed
-\newcommand\tm@@volta[4][]{
-  \begingroup
-    \tmset{#1}
-    \tm@line@init{#2}{#3}
-    \coordinate (tm@line@aux1) at ([xshift/.evaluated=-2mm+\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.3);
-    \coordinate (tm@line@aux2) at ([xshift/.evaluated=2mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.3);
-    \begin{scope}[color/.expanded=\tm@color]
-      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-        (tm@line@auxnode.north west -| tm@line@aux2);
+      \iftm@line@voltaunclosed
+        \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+          (tm@line@auxnode.north west -| tm@line@aux2);
+      \else
+        \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+          (tm@line@auxnode.north west -| tm@line@aux2) -- 
+          (tm@line@auxnode.south west -| tm@line@aux2);
+      \fi
     \end{scope}
   \endgroup
 }
 % Custom coordinates
-\def\tmvoltaline{\@ifstar\tm@@voltaline\tm@voltaline}
-\newcommand\tm@voltaline[4][]{
+\newcommand\tmvoltacoordinate[4][]{
   \begingroup
     \tmset{#1}
     \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
     \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
     \begin{scope}[color/.expanded=\tm@color]
       \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-        (tm@line@auxnode.north west -| tm@line@aux2) -- 
-        (tm@line@auxnode.south west -| tm@line@aux2);
-    \end{scope}
-  \endgroup
-}
-\newcommand\tm@@voltaline[4][]{
-  \begingroup
-    \tmset{#1}
-    \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
-    \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
-    \begin{scope}[color/.expanded=\tm@color]
-      \node[anchor=west,font=\bfseries,inner sep=.2em] (tm@line@auxnode) at (tm@line@aux1) {#4.};
-      \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
-        (tm@line@auxnode.north west -| tm@line@aux2);
+      \iftm@line@voltaunclosed
+        \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+          (tm@line@auxnode.north west -| tm@line@aux2);
+      \else
+        \draw (tm@line@auxnode.south west) -- (tm@line@auxnode.north west) -- 
+          (tm@line@auxnode.north west -| tm@line@aux2) -- 
+          (tm@line@auxnode.south west -| tm@line@aux2);
+      \fi
     \end{scope}
   \endgroup
 }
@@ -353,7 +323,7 @@
   \endgroup
 }
 % Custom coordinates
-\newcommand\tmoctaveline[4][]{
+\newcommand\tmoctavecoordinate[4][]{
   \begingroup
     \tmset{#1}
     \path ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) coordinate (tm@line@aux1) 
@@ -365,9 +335,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PEDAL LINES
 
-\def\tmpedal{\@ifstar\tm@@pedal\tm@pedal}
-% Not starred
-\newcommand\tm@pedal[3][]{
+\newcommand\tmpedal[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -385,8 +353,7 @@
     \fi
   \endgroup
 }
-% Starred
-\newcommand\tm@@pedal[3][]{
+\newcommand\tmpedalstar[3][]{
   \begingroup
     \tmset{#1}
     \tm@line@init{#2}{#3}
@@ -406,8 +373,7 @@
   \endgroup
 }
 % Custom coordinates
-\def\tmpedalline{\@ifstar\tm@@pedalline\tm@pedalline}
-\newcommand\tm@pedalline[3][]{
+\newcommand\tmpedalcoordinate[3][]{
   \begingroup
     \tmset{#1}
     \def\tm@string@aux{#2}
@@ -424,7 +390,7 @@
     \fi
   \endgroup
 }
-\newcommand\tm@@pedalline[3][]{
+\newcommand\tmpedalstarcoordinate[3][]{
   \begingroup
     \tmset{#1}
     \def\tm@string@aux{#2}
