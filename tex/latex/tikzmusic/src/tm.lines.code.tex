@@ -6,8 +6,7 @@
     \tmset{#1}
     \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
     \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-    % Weird naming, but anyway
-    \iftm@note@stemreversed
+    \iftm@reversed
       \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
         ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
         ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
@@ -24,7 +23,7 @@
     \tmset{#1}
     \coordinate (tm@line@aux1) at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2);
     \coordinate (tm@line@aux2) at ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3);
-    \iftm@note@stemreversed
+    \iftm@reversed
       \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
         (tm@line@aux1) -- (tm@line@aux2);
     \else

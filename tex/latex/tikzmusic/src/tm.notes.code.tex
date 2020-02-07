@@ -132,9 +132,9 @@
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \iftm@note@stemreversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
+        \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
       \else
-        \iftm@note@stemreversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
+        \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
       \fi
     \fi
   \endgroup
@@ -154,9 +154,9 @@
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \iftm@note@stemreversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
+        \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
       \else
-        \iftm@note@stemreversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
+        \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
       \fi
     \fi
   \endgroup
@@ -173,7 +173,7 @@
     \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \iftm@note@stemreversed
+        \iftm@reversed
           \tm@note@stemdown{#4}{#2}
           \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
         \else
@@ -181,7 +181,7 @@
           \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
         \fi
       \else
-        \iftm@note@stemreversed
+        \iftm@reversed
           \tm@note@stemup{#4}{#2}
           \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
         \else
@@ -219,7 +219,7 @@
     \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
     \ifx\tm@note@relativepos\tm@string@center
       \ifdim\tm@note@average@diff pt<0pt
-        \iftm@note@stemreversed
+        \iftm@reversed
           \tm@note@stemdown{#5}{#2}
           \tm@insert@flag@down{#5}{#4}
         \else
@@ -227,7 +227,7 @@
           \tm@insert@flag@up{#5}{#4}
         \fi
       \else
-        \iftm@note@stemreversed
+        \iftm@reversed
           \tm@note@stemup{#5}{#2}
           \tm@insert@flag@up{#5}{#4}
         \else
