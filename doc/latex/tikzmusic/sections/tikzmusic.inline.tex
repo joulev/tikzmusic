@@ -48,3 +48,15 @@ can use the following key:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Dynamics}\label{sec:inline:dynamics}
+\begin{command}{\tmdynamics\opt{\oarg{options}}\marg{coordinate}\marg{type}}
+  Add a dynamics notation to \meta{coordinate}. \meta{type} can be one of the 
+  following values: |mp|, |p|, |pp|, |ppp|, |mf|, |f|, |ff|, |fff| and |fp|.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmdynamics{4,-1}{pp}\tmdynamics[red]{8,1}{mf}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
