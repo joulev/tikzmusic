@@ -116,10 +116,8 @@ a different value by using
 \end{codeexample}
 The lines will always span over the full line width, so to get a staff having 
 some particular length, you can put them inside a |{minipage}|:
-\let\oldtmlineii\tmline%
-\def\tmline{\begin{minipage}{\linewidth+5mm}\oldtmlineii}%
-\let\oldendtmlineii\endtmline%
-\def\endtmline{\oldendtmlineii\end{minipage}}%
+\def\tmline{\begin{minipage}{\linewidth}\oldtmline}%
+\def\endtmline{\oldendtmline\end{minipage}}%
 \begin{codeexample}[]
 \begin{minipage}{4cm}
 \begin{tmline}
@@ -127,7 +125,5 @@ some particular length, you can put them inside a |{minipage}|:
 \end{tmline}
 \end{minipage}
 \end{codeexample}
-\let\oldtmlineiii\tmline%
-\def\tmline{\begin{minipage}{\linewidth-5mm}\oldtmlineiii}%
-\let\oldendtmlineiii\endtmline%
-\def\endtmline{\oldendtmlineiii\end{minipage}}%
+\def\tmline{\begin{minipage}{\linewidth-5mm}\oldtmline}%
+\def\endtmline{\oldendtmline\end{minipage}}%
