@@ -10,9 +10,11 @@
 \newenvironment{tmline}[1][]{%
   \par\begingroup%
     \setlength\parindent{0pt}%
-    \setlength\tm@multiplelineswidth{\dimexpr(\linewidth-\tm@staff@offset)\relax}%
-    \setlength\tm@linewidth{\dimexpr(\linewidth-\pgflinewidth)\relax}
+    \setlength\tm@linewidth{\dimexpr(\linewidth-\pgflinewidth)\relax}%
     \tmset{#1}%
+    \pgfmathparse{\tm@linewidth-\tm@staff@offset}%
+    \setlength\tm@multiplelineswidth{\dimexpr(\linewidth-\tm@staff@offset)\relax}%
+    \setlength\tm@linewidth{\pgfmathresult pt}%
     \hfill%
     \begin{minipage}{\tm@multiplelineswidth}%
 }{\end{minipage}\endgroup\par}
