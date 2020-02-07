@@ -11,5 +11,5 @@ Currently this is not published on CTAN (and it won't be published any time soon
 You only have to `cd` into the documentation folder (`doc/latex/tikzmusic`) and run
 
 ```
-$ ./build.sh
+$ arara tikzmusic
 ```
