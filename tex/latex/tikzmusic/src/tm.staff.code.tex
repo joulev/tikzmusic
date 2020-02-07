@@ -1,8 +1,10 @@
 \newlength\tm@multiplelineswidth
+\newlength\tm@linewidth
+\setlength\tm@linewidth{\dimexpr(\linewidth-\pgflinewidth)\relax}
 
 \def\tm@createstaff{%
   \foreach \tm@i in {-2,-1,0,1,2}
-    \draw[line cap=rect,color/.expanded=\tm@linecolor] (0,\tm@i*0.2) -- ++ (\linewidth-\pgflinewidth,0);
+    \draw[line cap=rect,color/.expanded=\tm@linecolor] (0,\tm@i*0.2) -- ++ (\tm@linewidth,0);
   \draw[color/.expanded=\tm@linecolor] (0,-2*0.2) -- ++ (0,4*0.2);
 }
 
@@ -19,8 +21,9 @@
 \def\tm@string@c{c}
 \def\tm@string@f{f}
 \newenvironment{tmstaff}[3][]{%
-  \par\begin{tikzpicture}[remember picture]
-    \tmset{#1}
+  \par\begingroup\tmset{#1}\begin{tikzpicture}[remember picture,scale/.expanded=\tm@scale,every pic/.style={scale/.expanded=\tm@scale}]
+    \pgfmathparse{\tm@linewidth/(\tm@scale)}
+    \setlength\tm@linewidth{\pgfmathresult pt}
     \tm@createstaff
     \pic[color/.expanded=\tm@color] at (0.2,0) {tm-#2-clef};
     \coordinate (#3-nw) at (0,2*0.2);
@@ -30,17 +33,18 @@
     \ifx\tm@string@aux\tm@string@g\pgfmathsetmacro\tm@note@mid@clef{30}\fi
     \ifx\tm@string@aux\tm@string@c\pgfmathsetmacro\tm@note@mid@clef{24}\fi
     \ifx\tm@string@aux\tm@string@f\pgfmathsetmacro\tm@note@mid@clef{18}\fi
-}{\end{tikzpicture}}
+}{\end{tikzpicture}\endgroup}
 
 \newenvironment{tmstaff*}[2][]{%
-  \par\begin{tikzpicture}[remember picture]
-    \tmset{#1}
+  \par\begingroup\tmset{#1}\begin{tikzpicture}[remember picture,scale/.expanded=\tm@scale,every pic/.style={scale/.expanded=\tm@scale}]
+    \pgfmathparse{\tm@linewidth/(\tm@scale)}
+    \setlength\tm@linewidth{\pgfmathresult pt}
     \tm@createstaff
     \coordinate (#2-nw) at (0,2*0.2);
     \coordinate (#2-sw) at (0,-2*0.2);
     \coordinate (#2-start) at (0,0);
     \pgfmathsetmacro\tm@note@mid@clef{30}
-}{\end{tikzpicture}}
+}{\end{tikzpicture}\endgroup}
 
 \newcommand\tmbrace[4][]{%
   \begin{tikzpicture}[remember picture,overlay]
