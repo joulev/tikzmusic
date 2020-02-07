@@ -1,6 +1,5 @@
 \newlength\tm@multiplelineswidth
 \newlength\tm@linewidth
-\setlength\tm@linewidth{\dimexpr(\linewidth-\pgflinewidth)\relax}
 
 \def\tm@createstaff{%
   \foreach \tm@i in {-2,-1,0,1,2}
@@ -10,9 +9,10 @@
 
 \newenvironment{tmline}[1][]{%
   \par\begingroup%
-    \tmset{#1}%
     \setlength\parindent{0pt}%
     \setlength\tm@multiplelineswidth{\dimexpr(\linewidth-\tm@staff@offset)\relax}%
+    \setlength\tm@linewidth{\dimexpr(\linewidth-\pgflinewidth)\relax}
+    \tmset{#1}%
     \hfill%
     \begin{minipage}{\tm@multiplelineswidth}%
 }{\end{minipage}\endgroup\par}
@@ -40,6 +40,7 @@
     \pgfmathparse{\tm@linewidth/(\tm@scale)}
     \setlength\tm@linewidth{\pgfmathresult pt}
     \tm@createstaff
+    \pic[fill=none,opacity=0] at (0.2,0) {tm-g-clef};
     \coordinate (#2-nw) at (0,2*0.2);
     \coordinate (#2-sw) at (0,-2*0.2);
     \coordinate (#2-start) at (0,0);
