@@ -111,11 +111,13 @@
   \draw[xshift=#2cm,color/.expanded=\tm@color] 
     (\tm@notewidth,.1*\tm@note@min@diff) -- 
     ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#1-tail);
+  \global\@nameedef{tm@note@\detokenize{#1}@dir}{up}
 }
 \def\tm@note@stemdown#1#2{
   \draw[xshift=#2cm,color/.expanded=\tm@color] 
     (-\tm@notewidth,.1*\tm@note@max@diff) -- 
     ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#1-tail);
+  \global\@nameedef{tm@note@\detokenize{#1}@dir}{down}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

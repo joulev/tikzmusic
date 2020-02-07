@@ -388,3 +388,18 @@ For fermatas we have the following two commands:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsubsection{Tremolo}\label{sec:music-notes:misc:tremolo}
+\begin{command}{\tmtremolo\opt{\oarg{options}}\marg{note}\marg{number}}
+  Add a tremolo to note \meta{note}.
+\end{command}
+\begin{command}{\tmtremolocoordinate\opt{\oarg{options}}\marg{coordinate}\marg{number}}
+  Add a tremolo to coordinate \meta{coordinate}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C4}{a}\tmtremolo{a}{1}\tmquarter{7}{D4}{b}\tmtremolo[red]{b}{2}
+  \tmtremolocoordinate{5.5,-.55}{2}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}

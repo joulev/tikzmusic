@@ -1,0 +1,46 @@
+\def\tm@string@down{down}
+% This command is intended to use with unbeamed notes.
+\newcommand\tmtremolo[3][]{
+  \begingroup
+    \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \edef\tm@note@direction{\@nameuse{tm@note@\detokenize{#2}@dir}}
+    \foreach \tm@i in {1,...,#3} {
+      \ifx\tm@note@direction\tm@string@down
+        \coordinate (tm@aux) at ([yshift/.evaluated=-.3mm+\tm@i cm*0.15]#2-tail);
+      \else
+        \coordinate (tm@aux) at ([yshift/.evaluated=.3mm-\tm@i cm*0.15]#2-tail);
+      \fi
+      \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]tm@aux) -- ++ (0,-.08) -- 
+        ([xshift=1.5mm,yshift=.1mm]tm@aux) -- ++ (0,.08) -- cycle;
+    }
+  \endgroup
+}
+\newcommand\tmtremolocoordinate[3][]{
+  \begingroup
+    \tmset{#1}
+    \ifodd#3
+      \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]#2) -- ++ (0,-.08) -- 
+        ([xshift=1.5mm,yshift=.1mm]#2) -- ++ (0,.08) -- cycle;
+      \foreach \tm@i [parse=true] in {1,...,(#3-1)/2} {
+        \coordinate (tm@aux) at ([yshift/.evaluated=\tm@i cm*0.15]#2);
+        \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]tm@aux) -- ++ (0,-.08) -- 
+          ([xshift=1.5mm,yshift=.1mm]tm@aux) -- ++ (0,.08) -- cycle;
+        \coordinate (tm@aux) at ([yshift/.evaluated=-\tm@i cm*0.15]#2);
+        \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]tm@aux) -- ++ (0,-.08) -- 
+          ([xshift=1.5mm,yshift=.1mm]tm@aux) -- ++ (0,.08) -- cycle;
+      }
+    \else
+      \foreach \tm@i [parse=true] in {1,...,#3/2} {
+        \coordinate (tm@aux) at ([yshift/.evaluated=-0.75mm+\tm@i cm*0.15]#2);
+        \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]tm@aux) -- ++ (0,-.08) -- 
+          ([xshift=1.5mm,yshift=.1mm]tm@aux) -- ++ (0,.08) -- cycle;
+        \coordinate (tm@aux) at ([yshift/.evaluated=0.75mm-\tm@i cm*0.15]#2);
+        \fill[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-.1mm]tm@aux) -- ++ (0,-.08) -- 
+          ([xshift=1.5mm,yshift=.1mm]tm@aux) -- ++ (0,.08) -- cycle;
+      }
+    \fi
+  \endgroup
+}
