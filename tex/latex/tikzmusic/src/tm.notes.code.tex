@@ -309,8 +309,10 @@
 \newcommand\tmbeamnote[5][]{
   \iftm@beam@up
     \tm@beam@head@max[#1]{#2}{#3}{#5}
+    \global\@nameedef{tm@note@\detokenize{#5}@dir}{up}
   \else
     \tm@beam@head@min[#1]{#2}{#3}{#5}
+    \global\@nameedef{tm@note@\detokenize{#5}@dir}{down}
   \fi
   \tm@beam@arr@pushback{#5}
   \expandafter\def\csname tm@beam@numberofflags@#5\endcsname{#4}
@@ -659,5 +661,6 @@
     \pgfmathtruncatemacro\tm@note@min@diff{\@nameuse{tm@note@\detokenize{#1}@min}}
     \pgfmathtruncatemacro\tm@note@max@diff{\@nameuse{tm@note@\detokenize{#1}@max}}
     \pgfmathsetmacro\tm@note@pos{\@nameuse{tm@note@\detokenize{#1}@pos}}
+    \edef\tm@note@dir{\@nameuse{tm@note@\detokenize{#1}@dir}}
   }
 }

@@ -1,0 +1,44 @@
+\newcommand\tmtuplets[4][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \ifx\tm@note@dir\tm@string@up
+      \coordinate (tm@tuplets@aux1min) at (#2-tail -| #2-center);
+      \coordinate (tm@tuplets@aux1max) at (\tm@note@pos,\tm@note@min@diff*.1);
+    \else
+      \coordinate (tm@tuplets@aux1min) at (\tm@note@pos,\tm@note@max@diff*.1);
+      \coordinate (tm@tuplets@aux1max) at (#2-tail -| #2-center);
+    \fi
+    \path (tm@tuplets@aux1max); \pgfgetlastxy{\tm@x}{\tm@y}
+    \ifdim\tm@y<4mm \coordinate (tm@tuplets@aux1max) at (\tm@note@pos,.4);\fi
+    \path (tm@tuplets@aux1min); \pgfgetlastxy{\tm@x}{\tm@y}
+    \ifdim\tm@y>-4mm \coordinate (tm@tuplets@aux1min) at (\tm@note@pos,-.4);\fi
+    %
+    \tm@note@getnote{#3}
+    \ifx\tm@note@dir\tm@string@up
+      \coordinate (tm@tuplets@aux2min) at (#3-tail -| #3-center);
+      \coordinate (tm@tuplets@aux2max) at (\tm@note@pos,\tm@note@min@diff*.1);
+    \else
+      \coordinate (tm@tuplets@aux2min) at (\tm@note@pos,\tm@note@max@diff*.1);
+      \coordinate (tm@tuplets@aux2max) at (#3-tail -| #3-center);
+    \fi
+    \path (tm@tuplets@aux2max); \pgfgetlastxy{\tm@x}{\tm@y}
+    \ifdim\tm@y<4mm \coordinate (tm@tuplets@aux2max) at (\tm@note@pos,.4);\fi
+    \path (tm@tuplets@aux2min); \pgfgetlastxy{\tm@x}{\tm@y}
+    \ifdim\tm@y>-4mm \coordinate (tm@tuplets@aux2min) at (\tm@note@pos,-.4);\fi
+    %
+    \iftm@reversed
+      \draw[color/.expanded=\tm@color] 
+        ([xshift=-1.5mm,yshift=-2mm]tm@tuplets@aux1min) -- ++ (0,-.2) -- 
+        ([xshift= 1.5mm,yshift=-4mm]tm@tuplets@aux2min) -- ++ (0,.2);
+      \path ($([xshift=-1.5mm]tm@tuplets@aux1min)!.5!([xshift=1.5mm]tm@tuplets@aux2min)$) 
+        node[below=4mm,font=\itshape,color/.expanded=\tm@color,fill/.expanded=\thepagecolor,anchor=center,inner sep=2pt] {#4};
+    \else
+      \draw[color/.expanded=\tm@color] 
+        ([xshift=-1.5mm,yshift=2mm]tm@tuplets@aux1max) -- ++ (0,.2) -- 
+        ([xshift= 1.5mm,yshift=4mm]tm@tuplets@aux2max) -- ++ (0,-.2);
+      \path ($([xshift=-1.5mm]tm@tuplets@aux1max)!.5!([xshift=1.5mm]tm@tuplets@aux2max)$) 
+        node[above=4mm,font=\itshape,color/.expanded=\tm@color,fill/.expanded=\thepagecolor,anchor=center,inner sep=2pt] {#4};
+    \fi
+  \endgroup
+}
