@@ -1,0 +1,6 @@
+\newcommand\tmdynamics[3][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2) {tm-dynamics-#3};
+  \endgroup
+}
