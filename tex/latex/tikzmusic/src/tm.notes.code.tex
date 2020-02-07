@@ -428,17 +428,17 @@
 %\...{name of note 1}{number of note 1}{name of note 2}{number of note 2}
 \def\tm@beam@draw@betweennotes@up#1#2#3#4{
   \ifnum#2>#4
-    \foreach \x [count=\y from 0] in {1,...,#4} {
-      \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#4} {
+      \coordinate (@beamintersection@aux1) at ([yshift=-\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=-\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
     \iftm@beam@firstnoteunflagged
       \coordinate (@beamintersection@aux@mid) at ($(#1-beamintersection)!.3!(#3-beamintersection)$);
-      \foreach \x [count=\y from 0] in {1,...,#2} {
-        \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
-        \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]@beamintersection@aux@mid);
+      \foreach \tm@x [count=\tm@y from 0] in {1,...,#2} {
+        \coordinate (@beamintersection@aux1) at ([yshift=-\tm@y cm*0.15]#1-beamintersection);
+        \coordinate (@beamintersection@aux2) at ([yshift=-\tm@y cm*0.15]@beamintersection@aux@mid);
         \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
           ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
       }
@@ -446,18 +446,18 @@
     \tm@beam@firstnoteunflaggedfalse
   \fi
   \ifnum#2=#4
-    \foreach \x [count=\y from 0] in {1,...,#4} {
-      \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#4} {
+      \coordinate (@beamintersection@aux1) at ([yshift=-\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=-\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedfalse
   \fi
   \ifnum#2<#4
-    \foreach \x [count=\y from 0] in {1,...,#2} {
-      \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#2} {
+      \coordinate (@beamintersection@aux1) at ([yshift=-\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=-\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
@@ -468,9 +468,9 @@
 \def\tm@beam@draw@betweennotes@up@final#1#2#3{
   \iftm@beam@firstnoteunflagged
     \coordinate (@beamintersection@aux@mid) at ($(#2-beamintersection)!.3!(#1-beamintersection)$);
-    \foreach \x [count=\y from 0] in {1,...,#3} {
-      \coordinate (@beamintersection@aux1) at ([yshift=-\y cm*0.15]@beamintersection@aux@mid);
-      \coordinate (@beamintersection@aux2) at ([yshift=-\y cm*0.15]#2-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#3} {
+      \coordinate (@beamintersection@aux1) at ([yshift=-\tm@y cm*0.15]@beamintersection@aux@mid);
+      \coordinate (@beamintersection@aux2) at ([yshift=-\tm@y cm*0.15]#2-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,-.08) -- 
         ([yshift=-.8mm]@beamintersection@aux2) -- ++ (0,.08) -- cycle;
     }
@@ -554,17 +554,17 @@
 %\...{name of note 1}{number of note 1}{name of note 2}{number of note 2}
 \def\tm@beam@draw@betweennotes@down#1#2#3#4{
   \ifnum#2>#4
-    \foreach \x [count=\y from 0] in {1,...,#4} {
-      \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#4} {
+      \coordinate (@beamintersection@aux1) at ([yshift=\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
     \iftm@beam@firstnoteunflagged
       \coordinate (@beamintersection@aux@mid) at ($(#1-beamintersection)!.3!(#3-beamintersection)$);
-      \foreach \x [count=\y from 0] in {1,...,#2} {
-        \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
-        \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]@beamintersection@aux@mid);
+      \foreach \tm@x [count=\tm@y from 0] in {1,...,#2} {
+        \coordinate (@beamintersection@aux1) at ([yshift=\tm@y cm*0.15]#1-beamintersection);
+        \coordinate (@beamintersection@aux2) at ([yshift=\tm@y cm*0.15]@beamintersection@aux@mid);
         \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
           ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
       }
@@ -572,18 +572,18 @@
     \tm@beam@firstnoteunflaggedfalse
   \fi
   \ifnum#2=#4
-    \foreach \x [count=\y from 0] in {1,...,#4} {
-      \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#4} {
+      \coordinate (@beamintersection@aux1) at ([yshift=\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
     \tm@beam@firstnoteunflaggedfalse
   \fi
   \ifnum#2<#4
-    \foreach \x [count=\y from 0] in {1,...,#2} {
-      \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]#1-beamintersection);
-      \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#3-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#2} {
+      \coordinate (@beamintersection@aux1) at ([yshift=\tm@y cm*0.15]#1-beamintersection);
+      \coordinate (@beamintersection@aux2) at ([yshift=\tm@y cm*0.15]#3-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
@@ -594,9 +594,9 @@
 \def\tm@beam@draw@betweennotes@down@final#1#2#3{
   \iftm@beam@firstnoteunflagged
     \coordinate (@beamintersection@aux@mid) at ($(#2-beamintersection)!.3!(#1-beamintersection)$);
-    \foreach \x [count=\y from 0] in {1,...,#3} {
-      \coordinate (@beamintersection@aux1) at ([yshift=\y cm*0.15]@beamintersection@aux@mid);
-      \coordinate (@beamintersection@aux2) at ([yshift=\y cm*0.15]#2-beamintersection);
+    \foreach \tm@x [count=\tm@y from 0] in {1,...,#3} {
+      \coordinate (@beamintersection@aux1) at ([yshift=\tm@y cm*0.15]@beamintersection@aux@mid);
+      \coordinate (@beamintersection@aux2) at ([yshift=\tm@y cm*0.15]#2-beamintersection);
       \fill[color/.expanded=\tm@color] (@beamintersection@aux1) -- ++ (0,.08) -- 
         ([yshift=.8mm]@beamintersection@aux2) -- ++ (0,-.08) -- cycle;
     }
