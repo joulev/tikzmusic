@@ -4,13 +4,15 @@
 \newcommand\tmslur[3][]{
   \begingroup
     \tmset{#1}
-    \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
-    \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
     \iftm@reversed
+      \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
+      \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@max@diff*.1+.2);
       \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude},very thick,pen colour/.expanded=\tm@color]
         ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
         ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
     \else
+      \tm@note@getnote{#2}\coordinate (tm@line@aux1) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
+      \tm@note@getnote{#3}\coordinate (tm@line@aux2) at (\tm@note@pos,\tm@note@min@diff*.1-.2);
       \draw[decorate,decoration={calligraphic curved parenthesis,amplitude=\tm@amplitude,mirror},very thick,pen colour/.expanded=\tm@color]
         ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]tm@line@aux1) -- 
         ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]tm@line@aux2);
