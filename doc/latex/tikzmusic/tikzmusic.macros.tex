@@ -505,10 +505,14 @@
   \begin{pgfmanualentry}
     \pgfmanualentryheadline{%
       \pgfmanualpdflabel{#1}{}%
-      \textbf{Pic type} {\ttfamily\declare{#1}#2}%
+      % JouleV: Making things bold
+      %\textbf{Pic type} {\ttfamily\declare{#1}#2}%
+      \textbf{Pic type {\ttfamily\declare{#1}#2}}%
     }%
     \index{#1@\protect\texttt{#1} pic type}%
-    \index{Pic Types!#1@\protect\texttt{#1}}
+    % JouleV: I prefer the lowercase
+    %\index{Pic Types!#1@\protect\texttt{#1}}
+    \index{Pic types!#1@\protect\texttt{#1}}
     \pgfmanualbody
 }
 {
