@@ -1,0 +1,31 @@
+\def\tm@littlehalf{
+  \pic[scale=0.5,color/.expanded=\tm@color] {tm-half-note-head-center};
+  \draw[scale=0.5,color/.expanded=\tm@color] (\tm@notewidth,0) -- ++ (0,.6);
+}
+\newcommand\tmlittlehalf[1][]{\begingroup\tmset{#1}\tikz{\tm@littlehalf}\endgroup}
+\newcommand\tmlittlehalfdot[1][]{%
+  \begingroup\tmset{#1}\tikz{
+    \tm@littlehalf\fill[color/.expanded=\tm@color] (.15,0) circle (.8pt);
+  }\endgroup%
+}
+\def\tm@littlequarter{
+  \pic[scale=0.5,color/.expanded=\tm@color] {tm-quarter-note-head-center};
+  \draw[scale=0.5,color/.expanded=\tm@color] (\tm@notewidth,0) -- ++ (0,.6);
+}
+\newcommand\tmlittlequarter[1][]{\begingroup\tmset{#1}\tikz{\tm@littlequarter}\endgroup}
+\newcommand\tmlittlequarterdot[1][]{%
+  \begingroup\tmset{#1}\tikz{
+    \tm@littlequarter\fill[color/.expanded=\tm@color] (.15,0) circle (.8pt);
+  }\endgroup%
+}
+\newcommand\tmlittleeighth[1][]{%
+  \begingroup\tmset{#1}\tikz{
+    \tm@littlequarter\pic[scale=0.5,color/.expanded=\tm@color] at (\tm@notewidth/2,.3) {tm-note-flag-up};
+  }\endgroup%
+}
+\newcommand\tmlittleeighthdot[1][]{%
+  \begingroup\tmset{#1}\tikz{
+    \tm@littlequarter\pic[scale=0.5,color/.expanded=\tm@color] at (\tm@notewidth/2,.3) {tm-note-flag-up};
+    \fill[color/.expanded=\tm@color] (.15,0) circle (.8pt);
+  }\endgroup%
+}
