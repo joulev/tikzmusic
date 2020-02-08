@@ -80,6 +80,29 @@ as the color of that note. You can do so using the following key:
 \end{tmline}
 \end{codeexample}
 \subsection{Transformations}\label{sec:custom:transformations}
+\subsubsection{Scaling}\label{sec:custom:transformations:scale}
+\begin{key}{/tm/scale=\meta{number} (initially 1)}
+  If applied to |{tmstaff}| or |{tmstaff*}|, scale the whole staff.
+
+  If applied to |{tmline}|, well, scale the whole line.
+
+  If applied to an unbeamed note, scale that note. You can, therefore, use |scale=0.7| (say) 
+  to get a grace note. \textbf{Note:} This feature is still experimental.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}[scale=0.7]
+\begin{tmstaff}{g}{}\end{tmstaff}%
+\begin{tmstaff*}{}\end{tmstaff*}%
+\end{tmline}%
+\end{codeexample}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmeighth[scale=.6]{5}{A4}{a}\tmquarter[reversed]{5.5}{B4}{b}
+  \tmslur[amplitude=1mm]{a}{b}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
 \subsubsection{Shifting for lines}\label{sec:custom:transformations:lines}
 These applies to the lines command, see section \ref{sec:line} and |\tmbrace| and 
 |\tmbracket|.

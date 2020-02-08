@@ -67,9 +67,13 @@
   line shift/.get=\tm@lineshift,
   line shift/.value required,
   % STAFF
-  scale/.store in=\tm@scale,
+  %scale/.store in=\tm@scale,
+  scale/.code={%
+    \def\tm@scale{#1}%
+    \pgfmathsetmacro\tm@notewidth{\tm@notewidth*#1}%
+    \pgfmathsetmacro\tm@notelength{\tm@notelength*#1}%
+  },
   scale/.initial=1,
-  scale/.get=\tm@scale,
   scale/.value required,
   %
   staff offset/.store in=\tm@staff@offset,

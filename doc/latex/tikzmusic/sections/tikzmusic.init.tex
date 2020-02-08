@@ -103,17 +103,8 @@ respectively.
 \end{tmline}
 \end{codeexample}
 By default, the staff lines will be separated by |2mm|. You can scale this to 
-a different value by using
-\begin{key}{/tm/scale=\meta{number} (initially 1)}
-  Scale the staff (if applied to |{tmstaff}| or |{tmstaff*}|), or scale the whole 
-  line (if applied to |{tmline}|), by \meta{number}.
-\end{key}
-\begin{codeexample}[]
-\begin{tmline}[scale=0.7]
-\begin{tmstaff}{g}{}\end{tmstaff}%
-\begin{tmstaff*}{}\end{tmstaff*}%
-\end{tmline}%
-\end{codeexample}
+a different value by using |scale|, see more in section \ref{sec:custom:transformations:scale}.
+
 The lines will always span over the full line width, so to get a staff having 
 some particular length, you can put them inside a |{minipage}|:
 \def\tmline{\begin{minipage}{\linewidth}\oldtmline}%
