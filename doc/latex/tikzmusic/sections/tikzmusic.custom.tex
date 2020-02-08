@@ -57,6 +57,28 @@ as the color of that note. You can do so using the following key:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Reversing}\label{sec:custom:reverse}
+\begin{key}{/tm/reverse=\meta{|true| or |false|} (default |true|)}
+  This key can alter the way some notations look:
+
+  \begin{itemize}
+    \item If this is applied to |\tmhalf|, |\tmquarter| and friends, this will 
+    change the direction of the stem. Note that this key does nothing when being 
+    applied to a beamed environment (see more in sectioin \ref{sec:music-notes:commands}).
+    \item If this key is applied to |\tmslur|, the direction of the 
+    slur will be reversed (see more in section \ref{sec:line:slur}).
+    \item If this key is applied to |\tmtuplets|, it will change the position of 
+    the tuplet in relative to the notes (see more in section \ref{sec:line:tuplet}).
+  \end{itemize}
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{3}{C5}{a}\tmquarter[reversed]{4}{C5}{b}
+  \tmquarter{5}{C5}{c}\tmquarter{6}{C5}{d}\tmslur[reversed]{c}{d}\tmtuplets[reversed]{c}{d}{2}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
 \subsection{Transformations}\label{sec:custom:transformations}
 \subsubsection{Shifting for lines}\label{sec:custom:transformations:lines}
 These applies to the lines command, see section \ref{sec:line} and |\tmbrace| and 

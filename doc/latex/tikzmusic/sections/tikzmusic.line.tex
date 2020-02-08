@@ -262,3 +262,20 @@ By default, volta lines are closed. You can `unclose' it by using
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Tuplets}\label{sec:line:tuplet}
+\begin{command}{\tmtuplets\opt{\oarg{options}}\marg{note 1}\marg{note 2}\marg{number}}
+  Draw a \meta{number}-th tuplet between \meta{note 1} and \meta{note 2}. 
+  By default it will be drawn above the notes, but you can use |reversed| to draw 
+  them below the notes.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{3}{C4}{a}\tmquarter{4}{E4}{b}
+  \begin{tmbeam}
+    \tmbeamnote{6}{D4}{1}{c}\tmbeamnote{6.5}{F4}{1}{}\tmbeamnote{7}{F4}{1}{d}
+  \end{tmbeam}
+  \tmtuplets[green]{a}{b}{2}\tmtuplets[reversed,red]{c}{d}{3}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
