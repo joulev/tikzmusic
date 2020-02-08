@@ -29,18 +29,18 @@
     %
     \iftm@reversed
       \path ($([xshift=-1.5mm]tm@tuplets@aux1min)!.5!([xshift=1.5mm]tm@tuplets@aux2min)$) 
-        node[below=4mm,font=\itshape,color/.expanded=\tm@color,anchor=center,inner sep=2pt] (tm@tuplets@number) {#4};
-      \draw[color/.expanded=\tm@color] 
-        ([xshift=-1.5mm,yshift=-2mm]tm@tuplets@aux1min) -- ++ (0,-.2) coordinate (tm@tuplets@aux1)
-        ([xshift= 1.5mm,yshift=-2mm]tm@tuplets@aux2min) -- ++ (0,-.2) coordinate (tm@tuplets@aux2);
-      \draw[color/.expanded=\tm@color] (tm@tuplets@aux1) -- (tm@tuplets@number) -- (tm@tuplets@aux2);
+        node[below=4mm,font=\itshape,color/.expanded=\tm@color,anchor=center,inner sep=2pt] (tm@tuplets@number) {#4}
+        ([xshift=-1.5mm,yshift=-4mm]tm@tuplets@aux1min) coordinate (tm@tuplets@aux1)
+        ([xshift= 1.5mm,yshift=-4mm]tm@tuplets@aux2min) coordinate (tm@tuplets@aux2);
+      \draw[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=-2mm]tm@tuplets@aux1min) -- (tm@tuplets@aux1) -- 
+        (tm@tuplets@number) -- (tm@tuplets@aux2) -- ([xshift=1.5mm,yshift=-2mm]tm@tuplets@aux2min);
     \else
       \path ($([xshift=-1.5mm]tm@tuplets@aux1max)!.5!([xshift=1.5mm]tm@tuplets@aux2max)$) 
-        node[above=4mm,font=\itshape,color/.expanded=\tm@color,anchor=center,inner sep=2pt] (tm@tuplets@number) {#4};
-      \draw[color/.expanded=\tm@color] 
-        ([xshift=-1.5mm,yshift=2mm]tm@tuplets@aux1max) -- ++ (0,.2) coordinate (tm@tuplets@aux1)
-        ([xshift= 1.5mm,yshift=2mm]tm@tuplets@aux2max) -- ++ (0,.2) coordinate (tm@tuplets@aux2);
-      \draw[color/.expanded=\tm@color] (tm@tuplets@aux1) -- (tm@tuplets@number) -- (tm@tuplets@aux2);
+        node[above=4mm,font=\itshape,color/.expanded=\tm@color,anchor=center,inner sep=2pt] (tm@tuplets@number) {#4}
+        ([xshift=-1.5mm,yshift=4mm]tm@tuplets@aux1max) coordinate (tm@tuplets@aux1)
+        ([xshift= 1.5mm,yshift=4mm]tm@tuplets@aux2max) coordinate (tm@tuplets@aux2);
+      \draw[color/.expanded=\tm@color] ([xshift=-1.5mm,yshift=2mm]tm@tuplets@aux1max) -- (tm@tuplets@aux1) -- 
+        (tm@tuplets@number) -- (tm@tuplets@aux2) -- ([xshift=1.5mm,yshift=2mm]tm@tuplets@aux2max);
     \fi
   \endgroup
 }
