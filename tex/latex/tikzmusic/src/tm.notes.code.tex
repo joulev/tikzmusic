@@ -61,18 +61,29 @@
   \endgroup
 }
 
+\def\tm@note@testargument{\@ifnextchar[\tm@note@testargument@yes\tm@note@testargument@no}
+\def\tm@note@testargument@yes[#1]#2><#3>{
+  \tm@note@getnumber<#2>
+  \tmset{#1}
+}
+\def\tm@note@testargument@no#1><#2>{
+  \tm@note@getnumber<#1>
+  \tmset{#2}
+}
 
-\newcommand\tm@head[5][center]{
+\newcommand\tm@head[5][]{
   \def\tm@note@min{52}
   \def\tm@note@max{1}
   \foreach \tm@i in {#3} {
-    \expandafter\tm@note@getnumber\expandafter<\tm@i>
+    \expandafter\tm@note@testargument\tm@i><#1>
     \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-    \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
-    \global\let\tm@note@min\pgfmathresult
-    \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
-    \global\let\tm@note@max\pgfmathresult
-    \csname tm@#5@head\endcsname[#1]{#2}{\tm@note@diff}
+    \ifx\tm@note@relativepos\tm@string@center
+      \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
+      \global\let\tm@note@min\pgfmathresult
+      \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
+      \global\let\tm@note@max\pgfmathresult
+    \fi
+    \csname tm@#5@head\endcsname[\tm@note@relativepos]{#2}{\tm@note@diff}
     \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
   }
   \coordinate (#4-center) at (#2,0);
@@ -102,7 +113,7 @@
 \newcommand\tmwhole[4][]{
   \begingroup
     \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{whole}
+    \tm@head[#1]{#2}{#3}{#4}{whole}
   \endgroup
   \def\tm@note@average@diff{0}
 }
@@ -129,13 +140,11 @@
 \newcommand\tmhalf[4][]{
   \begingroup
     \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{half}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
-      \else
-        \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
-      \fi
+    \tm@head[#1]{#2}{#3}{#4}{half}
+    \ifdim\tm@note@average@diff pt<0pt
+      \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
+    \else
+      \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
     \fi
   \endgroup
   \def\tm@note@average@diff{0}
@@ -151,13 +160,11 @@
 \newcommand\tmquarter[4][]{
   \begingroup
     \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
-      \else
-        \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
-      \fi
+    \tm@head[#1]{#2}{#3}{#4}{quarter}
+    \ifdim\tm@note@average@diff pt<0pt
+      \iftm@reversed\tm@note@stemdown{#4}{#2}\else\tm@note@stemup{#4}{#2}\fi
+    \else
+      \iftm@reversed\tm@note@stemup{#4}{#2}\else\tm@note@stemdown{#4}{#2}\fi
     \fi
   \endgroup
   \def\tm@note@average@diff{0}
@@ -170,24 +177,22 @@
 \newcommand\tmeighth[4][]{
   \begingroup
     \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#4}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \iftm@reversed
-          \tm@note@stemdown{#4}{#2}
-          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
-        \else
-          \tm@note@stemup{#4}{#2}
-          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
-        \fi
+    \tm@head[#1]{#2}{#3}{#4}{quarter}
+    \ifdim\tm@note@average@diff pt<0pt
+      \iftm@reversed
+        \tm@note@stemdown{#4}{#2}
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
       \else
-        \iftm@reversed
-          \tm@note@stemup{#4}{#2}
-          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
-        \else
-          \tm@note@stemdown{#4}{#2}
-          \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
-        \fi
+        \tm@note@stemup{#4}{#2}
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+      \fi
+    \else
+      \iftm@reversed
+        \tm@note@stemup{#4}{#2}
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-up};
+      \else
+        \tm@note@stemdown{#4}{#2}
+        \pic[color/.expanded=\tm@color] at (#4-tail) {tm-note-flag-down};
       \fi
     \fi
   \endgroup
@@ -216,24 +221,22 @@
 \newcommand\tmmorethaneighth[5][]{
   \begingroup
     \tmset{#1}
-    \tm@head[\tm@note@relativepos]{#2}{#3}{#5}{quarter}
-    \ifx\tm@note@relativepos\tm@string@center
-      \ifdim\tm@note@average@diff pt<0pt
-        \iftm@reversed
-          \tm@note@stemdown{#5}{#2}
-          \tm@insert@flag@down{#5}{#4}
-        \else
-          \tm@note@stemup{#5}{#2}
-          \tm@insert@flag@up{#5}{#4}
-        \fi
+    \tm@head[#1]{#2}{#3}{#5}{quarter}
+    \ifdim\tm@note@average@diff pt<0pt
+      \iftm@reversed
+        \tm@note@stemdown{#5}{#2}
+        \tm@insert@flag@down{#5}{#4}
       \else
-        \iftm@reversed
-          \tm@note@stemup{#5}{#2}
-          \tm@insert@flag@up{#5}{#4}
-        \else
-          \tm@note@stemdown{#5}{#2}
-          \tm@insert@flag@down{#5}{#4}
-        \fi
+        \tm@note@stemup{#5}{#2}
+        \tm@insert@flag@up{#5}{#4}
+      \fi
+    \else
+      \iftm@reversed
+        \tm@note@stemup{#5}{#2}
+        \tm@insert@flag@up{#5}{#4}
+      \else
+        \tm@note@stemdown{#5}{#2}
+        \tm@insert@flag@down{#5}{#4}
       \fi
     \fi
   \endgroup
