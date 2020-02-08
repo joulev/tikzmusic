@@ -122,12 +122,22 @@
   \draw[xshift=#2cm,color/.expanded=\tm@color] 
     (\tm@notewidth,.1*\tm@note@min@diff) -- 
     ([yshift=\tm@notelength]\tm@notewidth,.1*\tm@note@max@diff) coordinate (#1-tail);
+  \iftm@note@gracestrike
+    \draw[xshift=#2cm,color/.expanded=\tm@color] 
+      ([yshift/.evaluated=\tm@notelength/2-1mm*\tm@scale]0,.1*\tm@note@max@diff) -- 
+      ([yshift/.evaluated=\tm@notelength/2+1mm*\tm@scale]3.5*\tm@notewidth,.1*\tm@note@max@diff);
+  \fi
   \global\@nameedef{tm@note@\detokenize{#1}@dir}{up}
 }
 \def\tm@note@stemdown#1#2{
   \draw[xshift=#2cm,color/.expanded=\tm@color] 
     (-\tm@notewidth,.1*\tm@note@max@diff) -- 
     ([yshift=-\tm@notelength]-\tm@notewidth,.1*\tm@note@min@diff) coordinate (#1-tail);
+  \iftm@note@gracestrike
+    \draw[xshift=#2cm,color/.expanded=\tm@color] 
+      ([yshift/.evaluated=-\tm@notelength/2+1mm*\tm@scale]-2*\tm@notewidth,.1*\tm@note@max@diff) -- 
+      ([yshift/.evaluated=-\tm@notelength/2-1mm*\tm@scale]1.5*\tm@notewidth,.1*\tm@note@max@diff);
+  \fi
   \global\@nameedef{tm@note@\detokenize{#1}@dir}{down}
 }
 

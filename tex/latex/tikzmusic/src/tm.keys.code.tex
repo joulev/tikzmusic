@@ -67,7 +67,6 @@
   line shift/.get=\tm@lineshift,
   line shift/.value required,
   % STAFF
-  %scale/.store in=\tm@scale,
   scale/.code={%
     \def\tm@scale{#1}%
     \pgfmathsetmacro\tm@notewidth{\tm@notewidth*#1}%
@@ -106,6 +105,9 @@
   %
   use note color/.is if=tm@usenotecolor,
   use note color/.default=true,
+  %
+  grace strike out/.is if=tm@note@gracestrike,
+  grace strike out/.default=true,
   % LINES
   amplitude/.store in=\tm@amplitude,
   amplitude/.initial=2.5mm,

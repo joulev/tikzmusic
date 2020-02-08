@@ -180,6 +180,27 @@ notes, including the sixteenth note (semiquaver), the thirty-second note
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
+\subsubsection{Grace notes}\label{sec:music-notes:commands:grace}
+You can use |scale| to have smaller notes:
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmeighth[scale=.6]{5}{A4}{a}\tmquarter[reversed]{5.5}{B4}{b}
+  \tmslur[amplitude=1mm]{a}{b}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+To strike the note, you can use the following key:
+\begin{key}{/tm/grace strike out=\meta{|true| or |false|} (default true)}
+  Strike the grace note.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmeighth[scale=.6,grace strike out]{5}{A4}{}\tmeighth[grace strike out]{7}{A4}{}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
 \subsection{Beaming}\label{sec:music-notes:beam}
 \begin{environment}{{tmbeam}\opt{\oarg{options}}}
   Add a beaming note series. All notes inside this environment are `beamed' 
