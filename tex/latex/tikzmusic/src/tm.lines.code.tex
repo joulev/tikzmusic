@@ -409,3 +409,36 @@
     \fi
   \endgroup
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TRILL LINE
+
+% Not intended for general use
+\pgfdeclaredecoration{tm@trillline}{initial}{
+  \state{initial}[width=.22cm]{
+    \fill[color/.expanded=\tm@color] (0,0) sin ++ (.055,.04) cos ++ (.055,-.04) sin ++ (.055,-.04) cos ++ (.055,.04)
+      -- ++ (60:.08) sin ++ (-.055,-.04) cos ++ (-.055,.04) sin ++ (-.055,.04) cos ++ (-.055,-.04) -- cycle;
+  }
+  \state{final}{}
+}
+
+\newcommand\tmtrillline[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@line@init{#2}{#3}
+    \coordinate (tm@line@aux1) at ([xshift/.evaluated=\tm@shift@start@x,yshift=\tm@shift@start@y]\tm@line@posone,\tm@note@max*.1+.5);
+    \coordinate (tm@line@aux2) at ([xshift/.evaluated=-1.5mm+\tm@shift@end@x,yshift=\tm@shift@end@y]\tm@line@postwo,\tm@note@max*.1+.5);
+    \draw[decorate,decoration=tm@trillline] ([shift={(2mm,0mm)}]tm@line@aux1) -- (tm@line@aux2);
+    \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-trill};
+  \endgroup
+}
+\newcommand\tmtrilllinecoordinate[3][]{
+  \begingroup
+    \tmset{#1}
+    \coordinate (tm@line@aux1) at ([xshift=\tm@shift@start@x,yshift=\tm@shift@start@y]#2);
+    \coordinate (tm@line@aux2) at ([xshift=\tm@shift@end@x,yshift=\tm@shift@end@y]#3);
+    \draw[decorate,decoration=tm@trillline] ([shift={(2mm,0mm)}]tm@line@aux1) -- (tm@line@aux2);
+    \pic[color/.expanded=\tm@color] at (tm@line@aux1) {tm-trill};
+  \endgroup
+}

@@ -262,6 +262,28 @@ By default, volta lines are closed. You can `unclose' it by using
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Trill lines}\label{sec:line:trill}
+\begin{command}{\tmtrillline\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+  Draw a trill line from \meta{note 1} to \emph{the left} of \meta{note 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C5}{a}\tmquarter{7}{D5}{b}
+  \tmtrillline{a}{b}% Note that this doesn't get over note b.
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\begin{command}{\tmtrilllinecoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a trill line from \meta{coordinate 1} to \emph{the left} of \meta{coordinate 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C5}{}\tmbarlineinline{7}\tmtrilllinecoordinate{4,.6}{7,.6}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
 \subsection{Tuplets}\label{sec:line:tuplet}
 \begin{command}{\tmtuplets\opt{\oarg{options}}\marg{note 1}\marg{note 2}\marg{number}}
   Draw a \meta{number}-th tuplet between \meta{note 1} and \meta{note 2}. 
