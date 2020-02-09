@@ -4,6 +4,7 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{intersections}
 \usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta}
 \usetikzlibrary{calligraphy}
 
 \def\tmversion{0.0}
@@ -27,6 +28,8 @@
 \tm@line@voltaunclosedfalse
 \newif\iftm@note@gracestrike
 \tm@note@gracestrikefalse
+\newif\iftm@hidetext
+\tm@hidetextfalse
 
 \input{tm.keys.code.tex}
 \input{tm.code.tex}

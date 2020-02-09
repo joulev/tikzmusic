@@ -422,6 +422,16 @@
   }
   \state{final}{}
 }
+% TODO: Use /pgf/decoration/pre and /pgf/decoration/post instead of using a new decoration.
+\pgfdeclaredecoration{tm@trilllineto}{initial}{
+  \state{initial}[width=.22cm]{
+    \fill[color/.expanded=\tm@color] (0,0) sin ++ (.055,.04) cos ++ (.055,-.04) sin ++ (.055,-.04) cos ++ (.055,.04)
+      -- ++ (60:.08) sin ++ (-.055,-.04) cos ++ (-.055,.04) sin ++ (-.055,.04) cos ++ (-.055,-.04) -- cycle;
+  }
+  \state{final}{
+    \draw[color/.expanded=\tm@color,-{Stealth[width=2.75mm,length=2mm,inset=.7mm]}] (.1,0) -- (.15,0);
+  }
+}
 
 \newcommand\tmtrillline[3][]{
   \begingroup

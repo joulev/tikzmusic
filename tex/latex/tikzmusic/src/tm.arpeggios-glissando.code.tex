@@ -1,0 +1,60 @@
+\newcommand\tmarpeggio[2][]{
+  \begingroup
+    \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \tm@note@getnote{#2}
+    \draw[xshift=-4mm,decorate,decoration=tm@trillline,color/.expanded=\tm@color] 
+      ([yshift/.evaluated=-1mm+\tm@shift@start@y,xshift=\tm@shift@start@x]\tm@note@pos,\tm@note@min@diff*.1) -- 
+      ([yshift/.evaluated=2mm+\tm@shift@end@y,xshift=\tm@shift@end@x]\tm@note@pos,\tm@note@max@diff*.1);
+  \endgroup
+}
+% TODO: Use /pgf/decoration/pre and /pgf/decoration/post instead of using a new decoration.
+\newcommand\tmarpeggioup[2][]{
+  \begingroup
+    \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \tm@note@getnote{#2}
+    \draw[xshift=-4mm,decorate,decoration=tm@trilllineto,color/.expanded=\tm@color] 
+      ([yshift/.evaluated=-1mm+\tm@shift@start@y,xshift=\tm@shift@start@x]\tm@note@pos,\tm@note@min@diff*.1) -- 
+      ([yshift/.evaluated=2mm+\tm@shift@end@y,xshift=\tm@shift@end@x]\tm@note@pos,\tm@note@max@diff*.1);
+  \endgroup
+}
+\newcommand\tmarpeggiodown[2][]{
+  \begingroup
+    \tmset{#1}
+    \iftm@usenotecolor
+      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+    \fi
+    \tm@note@getnote{#2}
+    \draw[xshift=-4mm,decorate,decoration=tm@trilllineto,color/.expanded=\tm@color] 
+      ([yshift/.evaluated=2mm+\tm@shift@end@y,xshift=\tm@shift@end@x]\tm@note@pos,\tm@note@max@diff*.1) -- 
+      ([yshift/.evaluated=-1mm+\tm@shift@start@y,xshift=\tm@shift@start@x]\tm@note@pos,\tm@note@min@diff*.1);
+  \endgroup
+}
+
+\newcommand\tmglissandocoordinate[3][]{
+  \begingroup
+    \tmset{#1}
+    \draw[decorate,decoration=tm@trillline,color/.expanded=\tm@color] 
+      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2) -- ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]#3) 
+      \iftm@hidetext;\else node[midway,above,sloped,font=\itshape] {gliss.};\fi
+  \endgroup
+}
+\newcommand\tmglissando[3][]{
+  \begingroup
+    \tmset{#1}
+    \tm@note@getnote{#2}
+    \coordinate (tm@aux1) at (\tm@note@pos,\tm@note@min@diff*.1);
+    \tm@note@getnote{#3}
+    \coordinate (tm@aux2) at (\tm@note@pos,\tm@note@max@diff*.1);
+    \draw[decorate,decoration=tm@trillline,color/.expanded=\tm@color] 
+      ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]intersection cs:first line={(tm@aux1)--(tm@aux2)},second line={([xshift=3mm]tm@aux1)--([xshift=3mm,yshift=.5mm]tm@aux1)}) -- 
+      ([shift={(\tm@shift@end@x,\tm@shift@end@y)}]intersection cs:first line={(tm@aux1)--(tm@aux2)},second line={([xshift=-3mm]tm@aux2)--([xshift=-3mm,yshift=.5mm]tm@aux2)})
+      % This is a pretty strange syntax. I was surprised that it worked.
+      \iftm@hidetext; \else node[midway,above,sloped,font=\itshape] {gliss.}; \fi
+  \endgroup
+}

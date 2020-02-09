@@ -60,3 +60,58 @@ can use the following key:
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Arpeggios and glissandi}\label{sec:inline:arpeggio-glissando}
+\subsubsection{Arpeggios}\label{sec:inline:arpeggio-glissando:arpeggio}
+\begin{command}{\tmarpeggio\opt{\oarg{options}}\marg{note}}
+  Draw an arpeggio to \meta{note}. Note that the starting point (for |start xshift| 
+  usage...) is the lower point.
+\end{command}
+\begin{command}{\tmarpeggioup\opt{\oarg{options}}\marg{note}}
+  Draw an `increasiing' arpeggio to \meta{note}.
+\end{command}
+\begin{command}{\tmarpeggiodown\opt{\oarg{options}}\marg{note}}
+  Draw a `decreasing' arpeggio to \meta{note}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C4,E4,G4,C5}{a}     \tmarpeggio{a}
+  \tmquarter{6}{C4,E4,G4,C5}{a}     \tmarpeggioup[start xshift=-2mm]{a}
+  \tmquarter[red]{8}{C4,E4,G4,C5}{a}\tmarpeggiodown[use note color]{a}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\subsubsection{Glissandi}\label{sec:inline:arpeggio-glissando:glissando}
+\begin{command}{\tmglissando\opt{\oarg{options}}\marg{note 1}\marg{note 2}}
+  Draw a glissando from the lowest note of \meta{note 1} to the highest note of 
+  \meta{note 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C3}{a}\tmquarter{7}{C6}{b}\tmglissando{a}{b}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+By default, the word \emph{gliss.} will be displayed. You can hide that word 
+(e.g. when the two notes are too close) by using this key:
+\begin{key}{/tm/hide text=\meta{|true| or |false|} (default true)}
+  Hide the word \emph{gliss.} in glissando commands.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter{4}{C3}{a}\tmquarter{7}{C6}{b}\tmglissando[hide text]{a}{b}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
+\begin{command}{\tmglissandocoordinate\opt{\oarg{options}}\marg{coordinate 1}\marg{coordinate 2}}
+  Draw a `glissando line' from \meta{coordinate 1} to \meta{coordinate 2}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmglissandocoordinate{3,.6}{6,-.6}\tmglissandocoordinate[hide text]{7,.6}{10,-.6}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}
