@@ -1,4 +1,26 @@
-\section{Acknowledgements}\label{sec:acknowledgements}
+\section{Introduction}\label{sec:intro}
+\subsection{What it can do}\label{sec:intro:intro}
+This package provides commands and syntaxes to help you draw musical notations in 
+a \LaTeX\ document, based on the \tikzname\ package.
+
+Note that this package is still \emph{very} experimental.
+\subsection{Current limitations}\label{sec:intro:limitations}
+Although the syntaxes are quite human-readable, they are very \emph{long}. In 
+the future an easy-to-use front-end is necessary and should be implemented.
+
+The speed is also an issue, as it requires time to draw many complex notations. 
+For instance, the treble clef, |tm-g-clef|, takes $0.03$ seconds (in my machine) 
+alone.\footnote{Thanks to the \pkg{l3benchmark} package.} This has no easy fix 
+though, as efficiency and beauty, in these cases, can't live under the same roof.
+
+There are many notations which are so advanced that I can't be confident enough 
+to add them to the package. If you need them, feel free to submit a feature 
+request to the \href{https://github.com/joulev/tikzmusic}{package repository}. 
+
+Also, this documentation is written somewhat hastily, and may contain grammar 
+mistakes from a non-native speaker. If you find typos or errors in the manual, 
+feel free to send me a bug report.
+\subsection{Thanks}\label{sec:intro:thanks}
 First of all, I would like to thank the following people who have greatly 
 helped me in writing this package:
 
