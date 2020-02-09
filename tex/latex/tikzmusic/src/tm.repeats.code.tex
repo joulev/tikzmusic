@@ -1,0 +1,19 @@
+% simple enough...
+\newcommand\tmmeasurerepeat[2][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,0) {tm-measure-repeat};
+  \endgroup
+}
+\newcommand\tmsegno[2][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,1) {tm-segno};
+  \endgroup
+}
+\newcommand\tmcoda[2][]{
+  \begingroup
+    \tmset{#1}
+    \pic[color/.expanded=\tm@color] at ([shift={(\tm@shift@start@x,\tm@shift@start@y)}]#2,1) {tm-coda};
+  \endgroup
+}

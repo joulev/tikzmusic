@@ -115,3 +115,20 @@ By default, the word \emph{gliss.} will be displayed. You can hide that word
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
+\subsection{Repeat notations}\label{sec:inline:repeats}
+\begin{command}{\tmmeasurerepeat\opt{\oarg{options}}\marg{x-pos}}
+  Add a `measure-repeat' notation (\tikz\pic{tm-measure-repeat};) at \meta{x-pos}.
+\end{command}
+\begin{command}{\tmsegno\opt{\oarg{options}}\marg{x-pos}}
+  Add a segno at \meta{x-pos}.
+\end{command}
+\begin{command}{\tmcoda\opt{\oarg{options}}\marg{x-pos}}
+  Add a coda at \meta{x-pos}.
+\end{command}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmmeasurerepeat{3}\tmsegno{5}\tmsegno[yshift=5mm]{7}\tmcoda{9}\tmcoda[red]{11}
+\end{tmstaff}
+\end{tmline}
+\end{codeexample}

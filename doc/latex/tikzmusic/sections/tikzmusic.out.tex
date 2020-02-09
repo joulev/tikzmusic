@@ -344,3 +344,18 @@ Currently the following pics are defined:
 \begin{codeexample}[]
 \foreach \i in {mf,f,ff,fff,mp,p,pp,ppp,fp} {\tikz\pic{tm-dynamics-\i};\quad}
 \end{codeexample}
+\subsubsection{Repeat notations}\label{sec:out:pic:repeat}
+\begin{pictype}{tm-measure-repeat}{}
+  Draw \tikz\pic[scale=0.8]{tm-measure-repeat};
+\end{pictype}
+\begin{pictype}{tm-segno}{}
+  Draw a segno.
+\end{pictype}
+\begin{pictype}{tm-coda}{}
+  Draw a coda.
+\end{pictype}
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \path (0,0) pic {tm-measure-repeat} (1,0) pic {tm-segno} (2,0) pic {tm-coda};
+\end{tikzpicture}
+\end{codeexample}
