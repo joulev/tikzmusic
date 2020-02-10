@@ -13,6 +13,8 @@
 \pgfmathsetmacro\tm@note@mid@clef{30}
 \def\tm@scale{1}
 
+\def\tm@error#1{\PackageError{tikzmusic}{#1}{}}
+
 % Well, \@namedef *almost* satisfies my use..., but only almost
 \def\@nameedef#1{\expandafter\edef\csname #1\endcsname}
 

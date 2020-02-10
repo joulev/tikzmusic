@@ -33,33 +33,33 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % OBSOLETE
-\newcommand\tmappendaccidental[4][]{
-  \begingroup
-    \tmset{#1}
-    \iftm@usenotecolor
-      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
-    \fi
-    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at ([xshift=-3mm]#2-#3) {tm-#4};
-  \endgroup
-}
-\newcommand\tmadddot[3][]{
-  \begingroup
-    \tmset{#1}
-    \iftm@usenotecolor
-      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
-    \fi
-    \edef\tm@notelist{\@nameuse{tm@note@\detokenize{#2}@notes}}
-    \foreach \tm@i in \tm@notelist {
-      \expandafter\tm@note@getnumber\expandafter<\tm@i>
-      \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-      \pgfmathsetmacro\tm@note@dot@shift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
-      \foreach \tm@j in {1,...,#3} {
-        \fill[color/.expanded=\tm@color] 
-          ([xshift=2.5mm,yshift=\tm@note@dot@shift]#2-\tm@i) ++ ({(\tm@j-1)*.1},0) circle (.4mm);
-      }
-    }
-  \endgroup
-}
+%\newcommand\tmappendaccidental[4][]{
+%  \begingroup
+%    \tmset{#1}
+%    \iftm@usenotecolor
+%      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+%    \fi
+%    \pic[color/.expanded=\tm@color,shift={(\tm@shift@start@x,\tm@shift@start@y)}] at ([xshift=-3mm]#2-#3) {tm-#4};
+%  \endgroup
+%}
+%\newcommand\tmadddot[3][]{
+%  \begingroup
+%    \tmset{#1}
+%    \iftm@usenotecolor
+%      \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
+%    \fi
+%    \edef\tm@notelist{\@nameuse{tm@note@\detokenize{#2}@notes}}
+%    \foreach \tm@i in \tm@notelist {
+%      \expandafter\tm@note@getnumber\expandafter<\tm@i>
+%      \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
+%      \pgfmathsetmacro\tm@note@dot@shift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
+%      \foreach \tm@j in {1,...,#3} {
+%        \fill[color/.expanded=\tm@color] 
+%          ([xshift=2.5mm,yshift=\tm@note@dot@shift]#2-\tm@i) ++ ({(\tm@j-1)*.1},0) circle (.4mm);
+%      }
+%    }
+%  \endgroup
+%}
 
 \def\tm@note@currentnote{}
 \def\tm@note@testargument{\@ifnextchar[\tm@note@testargument@yes\tm@note@testargument@no}
@@ -693,10 +693,7 @@
 
 \def\tm@note@getnote#1{
   \@ifundefined{tm@note@\detokenize{#1}@avg}{
-    \PackageError{tikzmusic}{No note named `#1' is known}{%
-      You are referring to note `#1', but probably you \MessageBreak
-      haven't defined that note yet. I can't do anything \MessageBreak
-      for now.}
+    \tm@error{No note named `#1' is known}
   }{
     \pgfmathsetmacro\tm@note@average@diff{\@nameuse{tm@note@\detokenize{#1}@avg}}
     \pgfmathtruncatemacro\tm@note@min@diff{\@nameuse{tm@note@\detokenize{#1}@min}}

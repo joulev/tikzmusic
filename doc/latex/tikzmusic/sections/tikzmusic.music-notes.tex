@@ -53,7 +53,7 @@ For example, \emph{F\"ur Elise} by Beethoven starts with an |E5| (a \emph{mi} at
 5th octave).
 
 We will only work with these values. To have black notes in your score, you can 
-use |\tmappendaccidental| to add the accidentals.
+use |accidental| to add the accidentals, see more in section \ref{sec:music-notes:misc:accidentals}.
 
 The package will automatically detect which staff you are using, when you use 
 these values.
@@ -225,25 +225,22 @@ weird output.
 \begin{tmstaff}{g}{p1}
   \tmtimesignature{1}{3}{8}
   \begin{tmbeam*}
-    \tmbeamnote{1.75}{E5}{2}{}\tmbeamnote{2.5}{D5}{2}{a}
-    \tmappendaccidental{a}{D5}{sharp}
+    \tmbeamnote{1.75}{E5}{2}{}\tmbeamnote{2.5}{[accidental=sharp]D5}{2}{a}
   \end{tmbeam*}
   \tmbarlineinline{2.8}
   \begin{tmbeam*}
-    \tmbeamnote{3.25}{E5}{2}{a}\tmbeamnote{4}{D5}{2}{b}\tmbeamnote{4.5}{E5}{2}{c}
-    \tmbeamnote{5}{B4}{2}{d}\tmbeamnote{5.5}{D5}{2}{e}\tmbeamnote{6}{C5}{2}{f}
-    \tmappendaccidental{b}{D5}{sharp}\tmappendaccidental{e}{D5}{natural}
+    \tmbeamnote{3.25}{E5}{2}{a}\tmbeamnote{4}{[accidental=sharp]D5}{2}{b}\tmbeamnote{4.5}{E5}{2}{c}
+    \tmbeamnote{5}{B4}{2}{d}\tmbeamnote{5.5}{[accidental=natural]D5}{2}{e}\tmbeamnote{6}{C5}{2}{f}
   \end{tmbeam*}
-  \tmbarlineinline{6.3}\tmeighth{6.75}{A4}{a}\tmadddot{a}{1}
+  \tmbarlineinline{6.3}\tmeighth[dot=1]{6.75}{A4}{a}
   \begin{tmbeam}
     \tmbeamnote{8}{C4}{2}{a}\tmbeamnote{8.5}{E4}{2}{b}\tmbeamnote{9}{A4}{2}{c}
   \end{tmbeam}
-  \tmbarlineinline{9.3}\tmeighth{9.75}{B4}{a}\tmadddot{a}{1}
+  \tmbarlineinline{9.3}\tmeighth[dot=1]{9.75}{B4}{a}
   \begin{tmbeam}
-    \tmbeamnote{10.75}{E4}{2}{a}\tmbeamnote{11.5}{G4}{2}{b}\tmbeamnote{12}{B4}{2}{c}
-    \tmappendaccidental{b}{G4}{sharp}
+    \tmbeamnote{10.75}{E4}{2}{a}\tmbeamnote{11.5}{[accidental=sharp]G4}{2}{b}\tmbeamnote{12}{B4}{2}{c}
   \end{tmbeam}
-  \tmbarlineinline{12.3}\tmquarter{12.75}{C5}{a}\tmadddot{a}{1}
+  \tmbarlineinline{12.3}\tmquarter[dot=1]{12.75}{C5}{a}
 \end{tmstaff}%
 \tmbarlineendline{p1}{p1}%
 \end{tmline}
@@ -292,37 +289,94 @@ This package currently provides support for the following rests:
 \end{codeexample}
 \subsection{Miscellaneous}\label{sec:music-notes:misc}
 \subsubsection{Accidentals}\label{sec:music-notes:misc:accidentals}
-\begin{command}{\tmappendaccidental\opt{\oarg{options}}\marg{note name}\marg{note value}\marg{type}}
-  Add accidental \meta{type} to note of value \meta{note value} in 
-  \meta{note name}. \meta{type} can have five values: |sharp|, |flat|, 
-  |double-sharp|, |double-flat| and |natural|.
-\end{command}
+\begin{key}{/tm/accidental=\meta{options} (initially none)}
+  Change key directory to |/tm/accidental options|. All other keys documented in 
+  this section needs to be put inside \meta{options} to work.
+
+  By default, |/tm/accidental options/none| is executed.
+\end{key}
+\begin{key}{/tm/accidental options/sharp}
+  Add a sharp accidental to note.
+\end{key}
+\begin{key}{/tm/accidental options/flat}
+  Add a flat accidental to note.
+\end{key}
+\begin{key}{/tm/accidental options/double sharp}
+  Add a double sharp accidental to note.
+\end{key}
+\begin{key}{/tm/accidental options/double flat}
+  Add a double flat accidental to note.
+\end{key}
+\begin{key}{/tm/accidental options/natural}
+  Add a natural accidental to note.
+\end{key}
+\begin{key}{/tm/accidental options/none}
+  Doesn't add any accidentals. This is the default behaviour.
+\end{key}
+Sometimes the accidentals may not be in a good position. You can change their positions 
+by using these transformation keys.
+\begin{key}{/tm/accidental options/xshift=\meta{length} (initially 0pt)}
+  Shift the accidental by \meta{length} in the horizontal direction.
+\end{key}
+\begin{key}{/tm/accidental options/yshift=\meta{length} (initially 0pt)}
+  Shift the accidental by \meta{length} in the vertical direction.
+\end{key}
+\begin{key}{/tm/accidental options/shift=\meta{coordinate}}
+  Shift the accidental by \meta{coordinate}.
+\end{key}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmquarter{2}{B4}{a}\tmquarter{3}{B4}{b}\tmquarter{4}{B4}{c}
-  \tmquarter{5}{B4}{d}\tmquarter{6}{B4}{e}\tmquarter{9}{E4,G4,B4}{f}
-  \tmappendaccidental{a}{B4}{sharp}
-  \tmappendaccidental{b}{B4}{double-sharp}
-  \tmappendaccidental{c}{B4}{flat}
-  \tmappendaccidental{d}{B4}{double-flat}
-  \tmappendaccidental{e}{B4}{natural}
-  \tmappendaccidental{f}{E4}{sharp}
-  \tmappendaccidental[xshift=-2mm]{f}{G4}{sharp}
-  \tmappendaccidental[xshift=-4mm]{f}{B4}{sharp}
+  \tmquarter{2}{[accidental=sharp]B4}{a}\tmquarter{3}{[accidental=double sharp]B4}{b}
+  \tmquarter{4}{[accidental=flat]B4}{c} \tmquarter{5}{[accidental=double flat]B4}{d}
+  \tmquarter{6}{[accidental=natural]B4}{e}
+  \tmquarter{9}{[accidental=sharp]E4,[accidental={sharp,xshift=-2mm}]G4,[accidental={sharp,xshift=-4mm}]B4}{f}
 \end{tmstaff}%
 \end{tmline}
 \end{codeexample}
 \subsubsection{Dots}\label{sec:music-notes:misc:dots}
-\begin{command}{\tmadddot\opt{\oarg{options}}\marg{note name}\marg{number of dots}}
-  Add \meta{number of dots} dot to note in \meta{note name}. 
-\end{command}
+\begin{key}{/tm/dot=\meta{dot options}}
+  Change key path to |/tm/dot options|. You have to put all other keys specified 
+  in this section inside \meta{dot options} for them to work.
+\end{key}
+\begin{key}{/tm/dot options/number=\meta{number} (initially 0)}
+  Add \meta{number} dot to note.
+\end{key}
 \begin{codeexample}[]
 \begin{tmline}%
 \begin{tmstaff}{g}{}
-  \tmquarter{4}{F4,A4}{a}\tmquarter{6}{G4,B4}{b}\tmquarter{8}{A4,C5}{c}
-  \tmadddot{a}{1}\tmadddot{b}{1}\tmadddot{c}{10}
+  \tmquarter[dot={number=1}]{4}{F4,A4}{a}\tmquarter[dot={number=1}]{6}{G4,B4}{b}
+  \tmquarter[dot={number=10}]{8}{A4,C5}{c}
 \end{tmstaff}%
+\end{tmline}
+\end{codeexample}
+Obviously, writing |dot={number=x}| is too long for such a job. Therefore, this 
+package helps reduce the number of key strokes by identify any unknown `key' 
+in |/tm/dot options| that is a one-digit number as the value for |number|. Hence, 
+you can use |dot=x| if you don't want to use transformation keys.
+\begin{codeexample}[]
+\begin{tmline}%
+\begin{tmstaff}{g}{}
+  \tmquarter[dot=1]{4}{F4,A4}{a}
+\end{tmstaff}%
+\end{tmline}
+\end{codeexample}
+Like in the accidentals, you also have transformation options.
+\begin{key}{/tm/dot options/xshift=\meta{length} (initially 0pt)}
+  Shift the dots by \meta{length} in the horizontal direction. This is probably 
+  the most commonly used of the three.
+\end{key}
+\begin{key}{/tm/dot options/yshift=\meta{length} (initially 0pt)}
+  Shift the dots by \meta{length} in the vertical direction.
+\end{key}
+\begin{key}{/tm/dot options/shift=\meta{coordinate}}
+  Shift the dots by \meta{coordinate}.
+\end{key}
+\begin{codeexample}[]
+\begin{tmline}
+\begin{tmstaff}{g}{}
+  \tmquarter[dot={5,xshift=3mm}]{5}{C4,E4,G4,[{accidental=sharp,relative=right}]A4}{a}
+\end{tmstaff}
 \end{tmline}
 \end{codeexample}
 \subsubsection{Articulations}\label{sec:music-notes:misc:articulations}

@@ -28,7 +28,7 @@ this way.
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
-When adding notations to a note, e.g. when you use |\tmappendaccidental| to a 
+When adding notations to a note, e.g. when you use |\tmarpeggio| to a 
 note, you might want to set the color of the additional notation to be the same 
 as the color of that note. You can do so using the following key:
 \begin{key}{/tm/use note color=\meta{|true| or |false|} (default true)}
@@ -38,7 +38,7 @@ as the color of that note. You can do so using the following key:
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmquarter[color=red]{8}{G3}{a}\tmappendaccidental[use note color]{a}{G3}{sharp}
+  \tmquarter[color=red]{8}{G3}{a}\tmarpeggio[use note color]{a}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}
@@ -161,8 +161,7 @@ or the accidentals. Things whose coordinates are already specified, e.g.
 \begin{codeexample}[]
 \begin{tmline}
 \begin{tmstaff}{g}{}
-  \tmquarter{6}{E4,B4}{a}
-  \tmappendaccidental{a}{E4}{flat}\tmappendaccidental[xshift=-2mm]{a}{B4}{flat}
+  \tmquarter{2}{B4}{x}\tmstaccato[red,xshift=5mm]{x}\tmstaccato{x}
 \end{tmstaff}
 \end{tmline}
 \end{codeexample}

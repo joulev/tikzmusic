@@ -127,8 +127,9 @@
   dot options/number/.code={\def\tm@note@dot@number{#1}},
   dot options/.unknown/.code={
     \edef\tm@unknown@key{\pgfkeyscurrentname}
-    % TODO: Add a better error message
-    \ifcat\tm@unknown@key 0\def\tm@note@dot@number{\tm@unknown@key}\else\errmessage{Unknown key}\fi
+    \ifcat\tm@unknown@key 0\def\tm@note@dot@number{\tm@unknown@key}\else
+    \tm@error{I don't know the key `/tm/dot options/\tm@unknown@key'. Perhaps you misspelled it.}
+    \fi
   },
   %
   accidental options/.is family,
@@ -150,6 +151,10 @@
   accidental options/shift/.code={
     \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
     \pgfkeys{/tm/accidental options/.cd,xshift/.expanded=\tm@x,yshift/.expanded=\tm@y}
+  },
+  accidental options/.unknown/.code={
+    \edef\tm@unknown@key{\pgfkeyscurrentname}
+    \tm@error{I don't know the key `/tm/accidental options/\tm@unknown@key'. Perhaps you misspelled it.}
   },
   %
   % LINES
@@ -180,6 +185,8 @@
   % Detect color if key is unknown
   .unknown/.code={
     \edef\tm@unknown@key{\pgfkeyscurrentname}
-    \pgfkeysalso{color/.expand once=\tm@unknown@key,line color/.expand once=\tm@unknown@key}
+    \pgfutil@doifcolorelse{\tm@unknown@key}{
+      \pgfkeysalso{color/.expand once=\tm@unknown@key,line color/.expand once=\tm@unknown@key}
+    }{\tm@error{I don't know the key `/tm/\tm@unknown@key'. Perhaps you misspelled it.}}
   },
 }
