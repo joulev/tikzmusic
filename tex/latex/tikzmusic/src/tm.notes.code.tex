@@ -220,14 +220,14 @@
   \foreach \tm@i in {1,...,#2} {
     \pgfmathsetmacro\tm@insert@flag@shift@amount{-3mm+1.5mm*\tm@i}
     \pic[color/.expanded=\tm@color] 
-      at ([yshift=\tm@insert@flag@shift@amount]#1-tail) {tm-note-flag-up};
+      at ([yshift=\tm@insert@flag@shift@amount*\tm@scale]#1-tail) {tm-note-flag-up};
   }
 }
 \def\tm@insert@flag@down#1#2{
   \foreach \tm@i in {1,...,#2} {
     \pgfmathsetmacro\tm@insert@flag@shift@amount{3mm-1.5mm*\tm@i}
     \pic[color/.expanded=\tm@color] 
-      at ([yshift=\tm@insert@flag@shift@amount]#1-tail) {tm-note-flag-down};
+      at ([yshift=\tm@insert@flag@shift@amount*\tm@scale]#1-tail) {tm-note-flag-down};
   }
 }
 
