@@ -32,9 +32,11 @@ them.
   \item If the key is with \meta{value}, option \meta{key}
   is processed, with its value being \meta{value}.
   \item Otherwise, the command will check whether \meta{key} is a defined key. 
-  If it is defined, option \meta{key} is processed. 
-  Otherwise, it will be processed as the value for both |line color| and |color| 
+  If it is defined, option \meta{key} is processed.
+  \item Otherwise, the package will see if the \meta{key} is a valid color. If 
+  so, it will be processed as the value for both |line color| and |color| 
   (see section \ref{sec:custom:color}).
+  \item If it is not a valid color, the package will return an error.
 \end{itemize}
 
 If you want to learn deeper about this, you can read section 88 of the PGF 
