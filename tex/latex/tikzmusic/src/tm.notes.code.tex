@@ -61,12 +61,15 @@
   \endgroup
 }
 
+\def\tm@note@currentnote{}
 \def\tm@note@testargument{\@ifnextchar[\tm@note@testargument@yes\tm@note@testargument@no}
 \def\tm@note@testargument@yes[#1]#2><#3>{
+  \def\tm@note@currentnote{#2}
   \tm@note@getnumber<#2>
   \tmset{#1}
 }
 \def\tm@note@testargument@no#1><#2>{
+  \def\tm@note@currentnote{#1}
   \tm@note@getnumber<#1>
   \tmset{#2}
 }
@@ -84,7 +87,7 @@
       \global\let\tm@note@max\pgfmathresult
     \fi
     \csname tm@#5@head\endcsname[\tm@note@relativepos]{#2}{\tm@note@diff}
-    \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
+    \coordinate (#4-\tm@note@currentnote) at (#2,.1*\tm@note@diff);
   }
   \coordinate (#4-center) at (#2,0);
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
@@ -336,14 +339,16 @@
   \begingroup
     \tmset{#1}
     \foreach \tm@i in {#3} {
-      \expandafter\tm@note@getnumber\expandafter<\tm@i>
+      \expandafter\tm@note@testargument\tm@i><#1>
       \pgfmathtruncatemacro\tm@note@diff{\tm@note@getnumber@result-\tm@note@mid@clef}
-      \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
-      \global\let\tm@note@min\pgfmathresult
-      \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
-      \global\let\tm@note@max\pgfmathresult
+      \ifx\tm@note@relativepos\tm@string@center
+        \pgfmathparse{min(\tm@note@min,\tm@note@getnumber@result)}
+        \global\let\tm@note@min\pgfmathresult
+        \pgfmathparse{max(\tm@note@max,\tm@note@getnumber@result)}
+        \global\let\tm@note@max\pgfmathresult
+      \fi
       \tm@quarter@head[\tm@note@relativepos]{#2}{\tm@note@diff}
-      \coordinate (#4-\tm@i) at (#2,.1*\tm@note@diff);
+      \coordinate (#4-\tm@note@currentnote) at (#2,.1*\tm@note@diff);
     }
     \coordinate (#4-center) at (#2,0);
     \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
