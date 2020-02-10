@@ -5,7 +5,7 @@
       \def\tm@color{\@nameuse{tm@note@\detokenize{#2}@clr}}
     \fi
     \tm@note@getnote{#2}
-    \draw[xshift=-4mm,decorate,decoration=tm@trillline,color/.expanded=\tm@color] 
+    \draw[xshift=-3mm,decorate,decoration=tm@trillline,color/.expanded=\tm@color] 
       ([yshift/.evaluated=-1mm+\tm@shift@start@y,xshift=\tm@shift@start@x]\tm@note@pos,\tm@note@min@diff*.1) -- 
       ([yshift/.evaluated=2mm+\tm@shift@end@y,xshift=\tm@shift@end@x]\tm@note@pos,\tm@note@max@diff*.1);
   \endgroup
