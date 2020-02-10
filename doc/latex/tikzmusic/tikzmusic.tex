@@ -10,14 +10,18 @@
 \usepackage[libertine]{newtxmath}
 \usepackage[oldstyle]{libertine}
 \usepackage{fontspec}
-\setmonofont[Scale=0.8]{MesloLGS-Regular.ttf}[
-  BoldFont=MesloLGS-Bold.ttf,
-  ItalicFont=MesloLGS-Italic.ttf,
-  BoldItalicFont=MesloLGS-BoldItalic.ttf
+\setmonofont[Scale=0.8]{MesloLGS}[
+  Path=fonts/,
+  Extension=.ttf,
+  UprightFont=*-Regular,
+  BoldFont=*-Bold,
+  ItalicFont=*-Italic,
+  BoldItalicFont=*-BoldItalic
 ]
 
 \usepackage{imakeidx}
 \usepackage{tikzmusic}
+\usepackage{pdfpages}
 
 \setlength\parindent{0pt}
 

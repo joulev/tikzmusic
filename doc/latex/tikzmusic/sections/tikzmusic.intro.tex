@@ -1,7 +1,8 @@
 \section{Introduction}\label{sec:intro}
 \subsection{What it can do}\label{sec:intro:intro}
 This package provides commands and syntaxes to help you draw musical notations in 
-a \LaTeX\ document, based on the \tikzname\ package.
+a \LaTeX\ document, based on the \tikzname\ package. You can see next page of 
+this manual for a demo of it.
 
 Note that this package is still \emph{very} experimental.
 \subsection{Current limitations}\label{sec:intro:limitations}
@@ -10,10 +11,11 @@ the future an easy-to-use front-end is necessary and should be implemented.
 
 The speed is also an issue, as it requires time to draw many complex notations. 
 For instance, the treble clef, |tm-g-clef|, takes $0.03$ seconds (in my machine) 
-alone.\footnote{Thanks to the \pkg{l3benchmark} package.} This has no easy fix 
-though, as efficiency and beauty, in these cases, can't live under the same roof. 
-If you need high speed, you can externalize your sheet music and include them as 
-PDFs in your document.
+alone.\footnote{Thanks to the \pkg{l3benchmark} package.} The first page of 
+\emph{F\"ur Elise}, displayed on the next page, takes about $10$ seconds for each 
+PDF\LaTeX\ run. This has no easy fix though, as efficiency and beauty, in these 
+cases, can't live under the same roof. If you need high speed, you can 
+externalize your sheet music and include them as PDFs in your document.
 
 There are many notations which are so advanced that I can't be confident enough 
 to add them to the package. If you need them, feel free to submit a feature 
@@ -52,3 +54,5 @@ helped me in writing this package:
   some about music notations, that was too little for the package. I have used 
   MuseScore heavily for some ideas about music writing and music notations.
 \end{itemize}
+
+\includepdf{demo/demo-1.pdf}
