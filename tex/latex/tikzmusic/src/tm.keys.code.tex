@@ -108,6 +108,50 @@
   %
   grace strike out/.is if=tm@note@gracestrike,
   grace strike out/.default=true,
+  %
+  dot options/.is family,
+  dot/.code={\pgfkeys{/tm/dot options/.cd,none,#1}},
+  dot options/xshift/.store in=\tm@note@dot@xshift,
+  dot options/xshift/.initial=0pt,
+  dot options/xshift/.get=\tm@note@dot@xshift,
+  dot options/xshift/.value required,
+  dot options/yshift/.store in=\tm@note@dot@yshift,
+  dot options/yshift/.initial=0pt,
+  dot options/yshift/.get=\tm@note@dot@yshift,
+  dot options/yshift/.value required,
+  dot options/shift/.code={
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeys{/tm/dot options/.cd,xshift/.expanded=\tm@x,yshift/.expanded=\tm@y}
+  },
+  % For numbers
+  dot options/number/.code={\def\tm@note@dot@number{#1}},
+  dot options/.unknown/.code={
+    \edef\tm@unknown@key{\pgfkeyscurrentname}
+    % TODO: Add a better error message
+    \ifcat\tm@unknown@key 0\def\tm@note@dot@number{\tm@unknown@key}\else\errmessage{Unknown key}\fi
+  },
+  %
+  accidental options/.is family,
+  accidental/.code={\pgfkeys{/tm/accidental options/.cd,none,#1}},
+  accidental options/sharp/.code={\def\tm@note@accidental{sharp}},
+  accidental options/flat/.code={\def\tm@note@accidental{flat}},
+  accidental options/natural/.code={\def\tm@note@accidental{natural}},
+  accidental options/double sharp/.code={\def\tm@note@accidental{double-sharp}},
+  accidental options/double flat/.code={\def\tm@note@accidental{double-flat}},
+  accidental options/none/.code={\def\tm@note@accidental{none}},
+  accidental options/xshift/.store in=\tm@note@accidental@xshift,
+  accidental options/xshift/.initial=0pt,
+  accidental options/xshift/.get=\tm@note@accidental@xshift,
+  accidental options/xshift/.value required,
+  accidental options/yshift/.store in=\tm@note@accidental@yshift,
+  accidental options/yshift/.initial=0pt,
+  accidental options/yshift/.get=\tm@note@accidental@yshift,
+  accidental options/yshift/.value required,
+  accidental options/shift/.code={
+    \path[overlay] #1; \pgfgetlastxy{\tm@x}{\tm@y}
+    \pgfkeys{/tm/accidental options/.cd,xshift/.expanded=\tm@x,yshift/.expanded=\tm@y}
+  },
+  %
   % LINES
   amplitude/.store in=\tm@amplitude,
   amplitude/.initial=2.5mm,

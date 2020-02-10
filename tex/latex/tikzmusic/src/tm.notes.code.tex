@@ -32,7 +32,7 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SOME EXTRA STUFFS
+% OBSOLETE
 \newcommand\tmappendaccidental[4][]{
   \begingroup
     \tmset{#1}
@@ -73,7 +73,10 @@
   \tm@note@getnumber<#1>
   \tmset{#2}
 }
-
+\def\tm@string@none{none}
+\def\tm@note@accidental{none}
+\def\tm@note@dot@number{0}
+\def\tm@string@zero{0}
 \newcommand\tm@head[5][]{
   \def\tm@note@min{52}
   \def\tm@note@max{1}
@@ -88,6 +91,16 @@
     \fi
     \csname tm@#5@head\endcsname[\tm@note@relativepos]{#2}{\tm@note@diff}
     \coordinate (#4-\tm@note@currentnote) at (#2,.1*\tm@note@diff);
+    \ifx\tm@string@none\tm@note@accidental\else
+      \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=-3mm+\tm@note@accidental@xshift,yshift=\tm@note@accidental@yshift]#4-\tm@note@currentnote) {tm-\tm@note@accidental};
+    \fi
+    \ifx\tm@string@zero\tm@note@dot@number\else
+      \foreach \tm@j in {1,...,\tm@note@dot@number} {
+        \pgfmathsetmacro\tm@note@dot@lshift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
+        \fill[color/.expanded=\tm@color] 
+          ([xshift/.evaluated=2.5mm+\tm@note@dot@xshift,yshift/.evaluated=\tm@note@dot@yshift+\tm@note@dot@lshift]#4-\tm@note@currentnote) ++ ({(\tm@j-1)*.1},0) circle (.4mm);
+      }
+    \fi
   }
   \coordinate (#4-center) at (#2,0);
   \pgfmathtruncatemacro\tm@note@min@diff{\tm@note@min-\tm@note@mid@clef}
@@ -349,6 +362,16 @@
       \fi
       \tm@quarter@head[\tm@note@relativepos]{#2}{\tm@note@diff}
       \coordinate (#4-\tm@note@currentnote) at (#2,.1*\tm@note@diff);
+      \ifx\tm@string@none\tm@note@accidental\else
+        \pic[color/.expanded=\tm@color] at ([xshift/.evaluated=-3mm+\tm@note@accidental@xshift,yshift=\tm@note@accidental@yshift]#4-\tm@note@currentnote) {tm-\tm@note@accidental};
+      \fi
+      \ifx\tm@string@zero\tm@note@dot@number\else
+        \foreach \tm@j in {1,...,\tm@note@dot@number} {
+          \pgfmathsetmacro\tm@note@dot@lshift{ifthenelse(mod(\tm@note@diff,2)==0,1mm,0mm)}
+          \fill[color/.expanded=\tm@color] 
+            ([xshift/.evaluated=2.5mm+\tm@note@dot@xshift,yshift/.evaluated=\tm@note@dot@yshift+\tm@note@dot@lshift]#4-\tm@note@currentnote) ++ ({(\tm@j-1)*.1},0) circle (.4mm);
+        }
+      \fi
     }
     \coordinate (#4-center) at (#2,0);
     \global\@nameedef{tm@note@\detokenize{#4}@clr}{\tm@color}
